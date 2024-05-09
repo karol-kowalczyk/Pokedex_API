@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="./style/pokeball-icon.css" />
     <link rel="stylesheet" href="./style/fonts.css" />
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/remoteStorage.js"></script>
   </head>
-  <body>
+  <body onload="loadData()">
     <div id="head">
       <div class="pokball">
         <div class="red"></div>
@@ -33,11 +34,14 @@
       </div>
     </div>
 
-    <div class="cards">
+    <div id="card" class="cards">
       <p class="number"></p>
-      <p class="name"></p>
-      <img src="" alt="" />
-      <div class="attributes"></div>
+        <div class="name"></div>
+        <img src="" alt="" />
+        <div class="attributes"></div>`;
     </div>
+    <button onclick="increasePositions()">
+      load 100 more Pokemons...
+    </button>
   </body>
 </html>
