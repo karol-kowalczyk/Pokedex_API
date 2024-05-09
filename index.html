@@ -1,11 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokedex - Karol Kowalczyk</title>
-</head>
-<body>
-    
-</body>
+
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/pokeball-icon.css" />
+    <link rel="stylesheet" href="./style/fonts.css" />
+
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div id="head">
+      <div class="pokball">
+        <div class="red"></div>
+
+        <img src="img/pikachu.webp" />
+
+        <div class="line">
+          <div class="center-cir"></div>
+        </div>
+        <div class="black"></div>
+      </div>
+
+      <h1 onclick="reloadSite()">Pokedex</h1>
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Suche"
+        />
+      </div>
+    </div>
+
+    <div class="cards">
+      <p class="number"></p>
+      <p class="name"></p>
+      <img src="" alt="" />
+      <div class="attributes"></div>
+    </div>
+  </body>
 </html>

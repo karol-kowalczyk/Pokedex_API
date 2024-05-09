@@ -1,0 +1,59 @@
+* {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(19, 46, 177) 40%, #000000 100%);
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  font-family: "Pokemon";
+  color: #ffcc00;
+  cursor: pointer;
+  background: none !important;
+  font-size: 160px;
+  font-weight: 100;
+  margin-top: 16px;
+  margin-bottom: 0;
+  margin-left: 164px;
+}
+
+div {
+  background: none;
+}
+
+#head {
+  display: flex;
+  justify-content: space-between;
+  background: none;
+}
+
+.search-bar {
+  font-family: 'Pokemon';
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 56px 152px 56px 0;
+}
+
+
+.search-bar::placeholder {
+  font-family: 'Pokemon';
+}
+
+input {
+  font-family: 'Concert One';
+  font-size: 24px;
+  border: 3px solid #ffcc00;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px;
+  outline: none;
+  color: #ffcc00;
+  background: none;
+  width: 256px;
+}
+
+input:focus {
+  color: #ffcc00;
+}
