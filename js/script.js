@@ -1,7 +1,7 @@
-const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=10500&offset=14";
+const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=20"; // Ändern Sie das Limit auf 20
 
 let pokemons = [];
-let currentOffset = 0;
+let currentOffset = 0; // Track the current offset for fetching more Pokemon
 
 async function loadData() {
   let resp = await fetch(POKE_API);
@@ -11,16 +11,16 @@ async function loadData() {
 }
 
 function showPokemonCards(respAsJsonResults) {
-  for (let index = 0; index < 20; index++) {
+  for (let index = 0; index < 10; index++) {
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(index);
+    addPokemons(pokemons.length - 1); // Pass the index of the last added pokemon
   }
 }
 
 function addPokemons(index) {
   let card = document.getElementById("card-field");
   card.innerHTML += /*html*/ `
-    <div class="card"><p class="number">${pokemons.length}</p>
+    <div class="card"><div class="number">${index + 1}</div>
             <div class="name">${pokemons[index].name}</div>
             <img src="" alt="" />
             <div class="attributes"></div>
@@ -28,7 +28,8 @@ function addPokemons(index) {
 }
 
 function increasePositions() {
-  currentOffset += 5;
+  // Increment the current offset by 10 to fetch the next set of 10 Pokemon
+  currentOffset += 10;
   fetchMorePokemon();
 }
 
@@ -40,12 +41,12 @@ async function fetchMorePokemon() {
 }
 
 function showMorePokemonCards(respAsJsonResults) {
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 10; index++) {
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(index + 20);
+    addPokemons(pokemons.length - 1); // Pass the index of the last added pokemon
   }
 }
 
 function reloadSite() {
-    location.reload();
-  }
+  location.reload();
+}
