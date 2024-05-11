@@ -3,26 +3,37 @@ const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=20"; // Ändern Sie da
 let pokemons = [];
 let currentOffset = 0; // Track the current offset for fetching more Pokemon
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 async function loadData() {
   let resp = await fetch(POKE_API);
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
-  showPokemonCards(respAsJsonResults);
+  let pokemonResp = await fetch(respAsJsonResults[0].url);
+  let pokemonData = await pokemonResp.json();
+  console.log(pokemonData.sprites.other);
+  showPokemonCards(respAsJsonResults, pokemonData); // Gibt die URL des ersten Pokémons aus
+
+  // Um weitere Informationen über das erste Pokémon abzurufen
 }
 
-function showPokemonCards(respAsJsonResults) {
-  for (let index = 0; index < 10; index++) {
+function showPokemonCards(respAsJsonResults, pokemonData) {
+  for (let index = 0; index < 20; index++) {
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(pokemons.length - 1); // Pass the index of the last added pokemon
+    addPokemons(pokemons.length - 1, pokemonData); // Pass the index of the last added pokemon
   }
 }
 
 function addPokemons(index) {
   let card = document.getElementById("card-field");
+  let pokemonName = capitalizeFirstLetter(pokemons[index].name);
+  console.log(pokemons[index].url.sprites);
   card.innerHTML += /*html*/ `
     <div class="card"><div class="number">${index + 1}</div>
-            <div class="name">${pokemons[index].name}</div>
-            <img src="" alt="" />
+            <div class="name">${pokemonName}</div>
+            <img src="${pokemonData.sprites.other}" alt="" />
             <div class="attributes"></div>
             </div>`;
 }
