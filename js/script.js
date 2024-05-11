@@ -40,9 +40,9 @@ async function fetchMorePokemon() {
 }
 
 function showMorePokemonCards(respAsJsonResults) {
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < 5; index++) {
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(index + 20); // Start adding new Pokemon from index 20
+    addPokemons(index + 20);
   }
 }
 
