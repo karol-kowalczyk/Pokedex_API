@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="./style/style.css" />
     <link rel="stylesheet" href="./style/pokeball-icon.css" />
     <link rel="stylesheet" href="./style/fonts.css" />
-
+    <link rel="stylesheet" href="./style/colors.css" />
+    <link rel="icon" type="image/x-icon" href="./src/img/pokeball.ico">
     <script src="js/script.js"></script>
   </head>
   <body onload="loadData()">
@@ -16,7 +17,7 @@
       <div class="pokball">
         <div class="red"></div>
 
-        <img src="img/pikachu.webp" />
+        <img src="./src/img/pikachu.webp" />
 
         <div class="line">
           <div class="center-cir"></div>
@@ -27,20 +28,21 @@
       <h1 onclick="reloadSite()">Pokedex</h1>
       <div class="search-bar">
         <input
-          type="text"
+          type="text" 
           placeholder="Suche"
         />
       </div>
     </div>
 
     <div id="card-field">
-      <p class="number"></p>
-        <div class="name"></div>
-        <img src="" alt="" />
-        <div class="attributes"></div>`;
+
     </div>
-    <button onclick="increasePositions()">
-      load more Pokemons...
+    <button onclick="loadFiveMore()">
+      load 5x more Pokemons...
+    </button>
+    <button onclick="loadTwentyMore()">
+      load 20x more Pokemons...
     </button>
   </body>
 </html>
+`

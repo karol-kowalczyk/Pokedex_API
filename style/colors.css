@@ -1,0 +1,191 @@
+.water {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(19, 46, 177) 40%, #000000 100%);
+}
+
+.water1 {
+  background: blue;
+}
+
+.ice {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(19, 116, 177) 40%, #000000 100%);
+}
+
+.ice1 {
+  background: rgb(0, 204, 255);
+}
+
+.box,
+.fighting {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(172, 4, 4) 40%, #000000 100%);
+}
+
+.box1,
+.fighting1 {
+  background: rgb(164, 96, 96);
+}
+
+.fire1 {
+  background: red;
+}
+
+.fire {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(255, 1, 1) 40%, #000000 100%);
+}
+
+.grass {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(45, 177, 19) 40%, #000000 100%);
+}
+
+.grass1 {
+  background: green;
+}
+
+.poison1,
+.flying {
+  background: rgb(164, 107, 211);
+}
+
+.poison {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(164, 107, 211) 40%, #000000 100%);
+}
+
+.flying {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(227, 117, 233) 40%, #000000 100%);
+}
+
+.flash1 {
+  background: rgb(249, 220, 0);
+}
+
+.flash {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(249, 220, 0) 40%, #000000 100%);
+}
+
+.rock {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(131, 145, 81) 40%, #000000 100%);
+}
+
+.rock1 {
+  background: rgb(131, 145, 81);
+}
+
+.normal {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(
+    circle,
+    rgba(227, 98, 98, 0.927) 40%,
+    #000000 100%
+  );
+}
+
+.normal1 {
+  background: rgba(227, 98, 98, 0.927);
+}
+
+.ground1 {
+  background: rgb(210, 207, 161);
+}
+
+.ground {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(210, 207, 161) 40%, #000000 100%);
+}
+
+.stone {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(159, 159, 155) 40%, #000000 100%);
+}
+
+.stone1 {
+  background: rgb(159, 159, 155);
+}
+
+.flying {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(204, 207, 212) 40%, #000000 100%);
+}
+
+.flying1 {
+  background: rgb(204, 207, 212);
+}
+
+.futureball {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(140, 100, 140) 40%, #000000 100%);
+}
+
+.futureball1 {
+  background: rgb(140, 100, 140);
+}
+
+.electric {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(255, 217, 0) 40%, #000000 100%);
+}
+
+.electric1 {
+  background: rgb(255, 217, 0);
+}
+
+.fairy1 {
+  background: rgb(115, 79, 199);
+}
+
+.fairy {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(115, 79, 199) 40%, #000000 100%);
+}
+
+.psychic1 {
+  background: rgb(165, 11, 236);
+}
+
+.psychic {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(165, 11, 236) 40%, #000000 100%);
+}
+
+.ghost1 {
+  background: rgb(192, 169, 202);
+}
+
+.ghost {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(192, 169, 202) 40%, #000000 100%);
+}
+
+.steel1 {
+  background: rgb(120, 107, 109);
+}
+
+.steel {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(120, 107, 109) 40%, #000000 100%);
+}
+
+.dragon1 {
+  background: rgb(218, 5, 37);
+}
+
+.dragon {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(218, 5, 37) 40%, #000000 100%);
+}
+
+.bug1 {
+  background: rgb(185, 68, 18);
+}
+
+.bug {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgb(185, 68, 18) 40%, #000000 100%);
+}
