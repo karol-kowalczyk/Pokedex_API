@@ -116,7 +116,7 @@ function addPokemons(index, pokemonData) {
   let pokemonCardClass = pokemonTypes[0].type.name + "1";
 
   card.innerHTML += /*html*/ `
-    <div class="card ${pokemonCardClass}"> <!-- Add pokemon type class -->
+    <div onclick="showDetails()" class="card ${pokemonCardClass}"> <!-- Add pokemon type class -->
       <div class="header">
         <div class="number">#${index + 1}</div>
         <div class="name">${pokemonName}</div>
@@ -129,7 +129,6 @@ function addPokemons(index, pokemonData) {
       </div>
     </div>`;
 }
-
 
 function loadFiveMore() {
   currentOffset += 5;
@@ -159,13 +158,12 @@ async function fetchAdditionalPokemon(numPokemons) {
 }
 
 async function showPokemonCards(respAsJsonResults) {
-
-    for (let index = 0; index < 1; index++) {
-      let pokemonResp = await fetch(respAsJsonResults[index].url);
-      let pokemonData = await pokemonResp.json();
-      pokemons.push(respAsJsonResults[index]);
-      addPokemons(pokemons.length - 1, pokemonData); // Pass the index and pokemonData
-    }
+  for (let index = 0; index < 20; index++) {
+    let pokemonResp = await fetch(respAsJsonResults[index].url);
+    let pokemonData = await pokemonResp.json();
+    pokemons.push(respAsJsonResults[index]);
+    addPokemons(pokemons.length - 1, pokemonData); // Pass the index and pokemonData
+  }
 }
 
 async function loadAllPokemons() {
@@ -174,4 +172,14 @@ async function loadAllPokemons() {
 }
 function reloadSite() {
   location.reload();
+}
+
+function showDetails() {
+  let content = document.getElementById("content");
+  content.innerHTML = /*html*/ `<div onlick="closeDetails()" id="popUp-div" class="popUp-div"><div class="popUp"></div></div>`;
+}
+
+function closeDetails() {
+  let popUp = document.getElementById('popUp-div');
+  popUp.style.display = none;
 }

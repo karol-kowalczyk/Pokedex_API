@@ -1,0 +1,13 @@
+.popUp-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popUp {
+  cursor: pointer;
+  border: 16px solid #ffcc01;
+  border-radius: 10px;
+  height: 420px;
+  width: 280px;
+}
