@@ -182,3 +182,7 @@ function closeDetails() {
   let popUp = document.getElementById("popUp");
   popUp.classList.add("d-none");
 }
+
+function stopPropagationFunction(event) {
+  event.stopPropagation();
+}
