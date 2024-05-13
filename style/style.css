@@ -1,7 +1,7 @@
 * {
   margin: 0;
-  background: rgb(2, 0, 36);
-  background: radial-gradient(circle, rgb(19, 46, 177) 40%, #000000 100%);
+  background: rgb(7, 2, 103);
+  background: radial-gradient(circle, rgb(19, 46, 177) 40%, #07216e 100%);
 }
 
 h1 {
@@ -164,4 +164,8 @@ input:focus {
   height: 240px;
   width: 280px;
   background: none;
+}
+
+.d-none {
+  display: none;
 }

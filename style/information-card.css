@@ -1,13 +1,24 @@
-.popUp-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.popUpDiv {
+  height: 100%;
+  width: 100%;
+  background:rgba(1,1,1,0.5);
+  position: absolute;
+  top: 50%;
+  left:50%;
+  Transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 .popUp {
   cursor: pointer;
-  border: 16px solid #ffcc01;
+  border: 16px solid #ff0101;
   border-radius: 10px;
   height: 420px;
   width: 280px;
+
+  position: absolute;
+  top: 50%;
+  left:50%;
+  Transform: translate(-50%, -50%);
+  
 }

@@ -2,7 +2,6 @@ const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=20"; // Ändern Sie da
 
 let pokemons = [];
 let currentOffset = 0; // Track the current offset for fetching more Pokemon
-let allPokemonsLoaded = false;
 
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -175,11 +174,11 @@ function reloadSite() {
 }
 
 function showDetails() {
-  let content = document.getElementById("content");
-  content.innerHTML = /*html*/ `<div onlick="closeDetails()" id="popUp-div" class="popUp-div"><div class="popUp"></div></div>`;
+  let popUp = document.getElementById("popUp");
+  popUp.classList.remove("d-none");
 }
 
 function closeDetails() {
-  let popUp = document.getElementById('popUp-div');
-  popUp.style.display = none;
+  let popUp = document.getElementById("popUp");
+  popUp.classList.add("d-none");
 }
