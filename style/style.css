@@ -169,3 +169,12 @@ input:focus {
 .d-none {
   display: none;
 }
+
+.d-block {
+  display: block !important;
+}
+
+.disable-scrolling {
+  height: 100%;
+  overflow: hidden;
+}

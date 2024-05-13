@@ -176,11 +176,19 @@ function reloadSite() {
 function showDetails() {
   let popUp = document.getElementById("popUp");
   popUp.classList.remove("d-none");
+  let shadowBox = document.getElementById("shadowBox");
+  shadowBox.classList.remove("d-none");
+  shadowBox.classList.add("d-block");
+  document.body.classList.add("disable-scrolling");
 }
 
 function closeDetails() {
   let popUp = document.getElementById("popUp");
   popUp.classList.add("d-none");
+  let shadowBox = document.getElementById("shadowBox");
+  shadowBox.classList.remove("d-block");
+  shadowBox.classList.add("d-none");
+  document.body.classList.remove("disable-scrolling")
 }
 
 function stopPropagationFunction(event) {
