@@ -74,7 +74,8 @@ function generateAbilityHTML(abilities) {
 function addPokemons(index, pokemonData) {
   let card = document.getElementById("card-field");
   let pokemonName = capitalizeFirstLetter(pokemons[index].name);
-  let pokemonImg = pokemonData.sprites.other['official-artwork']['front_default'];
+  let pokemonImg =
+    pokemonData.sprites.other["official-artwork"]["front_default"];
   let pokemonTypes = pokemonData.types;
   let pokemonWeight = pokemonData.weight;
   let pokemonAbilities = pokemonData.abilities;
@@ -115,7 +116,7 @@ function addPokemons(index, pokemonData) {
   let pokemonCardClass = pokemonTypes[0].type.name + "1";
 
   card.innerHTML += /*html*/ `
-  <div onclick="showDetails('${pokemonImg}', '${[index]}', '${pokemonName}')" class="card ${pokemonCardClass}">
+  <div onclick="showDetails('${pokemonImg}', '${index}', '${pokemonName}', '${pokemonCardClass}')" class="card ${pokemonCardClass}">
       <div class="header">
         <div class="number">#${index + 1}</div>
         <div class="name">${pokemonName}</div>
@@ -173,22 +174,29 @@ function reloadSite() {
   location.reload();
 }
 
-function showDetails(pokemonImg, index, pokemonName) {
+function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   let popUp = document.getElementById("popUp");
   popUp.classList.remove("d-none");
   let shadowBox = document.getElementById("shadowBox");
   shadowBox.classList.remove("d-none");
   shadowBox.classList.add("d-block");
   document.body.classList.add("disable-scrolling");
+  let leftArrow = document.getElementById('leftArrow');
+  let rightArrow = document.getElementById('rightArrow');
+  leftArrow.classList.remove("d-none");
+  rightArrow.classList.remove("d-none");
 
   let indexNum = parseInt(index);
+  console.log(pokemonCardClass);
 
   shadowBox.innerHTML = /*html*/ `
-  <div class="header">
-  <div class="number-popup">#${indexNum +1}</div>
+<div class="header-popup">
+  <div class="number-popup">#${indexNum + 1}</div>
   <div class="name-popup">${pokemonName}</div>
 </div>
     <img class="popUp-img" src="${pokemonImg}" />
+    <div class="${pokemonCardClass} background-info-div" id="background-info-div"></div>
+
   `;
 }
 
@@ -199,6 +207,10 @@ function closeDetails() {
   shadowBox.classList.remove("d-block");
   shadowBox.classList.add("d-none");
   document.body.classList.remove("disable-scrolling");
+  let leftArrow = document.getElementById('leftArrow');
+  let rightArrow = document.getElementById('rightArrow');
+  leftArrow.classList.add("d-none");
+  rightArrow.classList.add("d-none");
 }
 
 function stopPropagationFunction(event) {

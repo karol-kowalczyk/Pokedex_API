@@ -16,6 +16,7 @@ h1 {
   margin-top: 16px;
   margin-bottom: 0;
   margin-left: 164px;
+  -webkit-text-stroke: 4px black;
 }
 
 div {
@@ -63,6 +64,7 @@ input:focus {
   font-family: "pokemon";
   color: white;
   background: none;
+  -webkit-text-stroke: 3px black;
 }
 
 #card-field {
@@ -153,7 +155,7 @@ input:focus {
 
 .one-ability-thiner-margin {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
   gap: 16px;
   margin: 0 40px 0 32px;
   align-items: center;

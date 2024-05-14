@@ -9,7 +9,7 @@
 
 .popUp {
   cursor: pointer;
-  border: 16px solid #ff0101;
+  border: 16px solid #ffcc00;
   border-radius: 10px;
   width: 480px;
   height: 744px;
@@ -33,8 +33,10 @@
 .popUp-img {
   height: 370px;
   width: 370px;
+  border: 3px solid black;
   z-index: 3;
   position: absolute;
+  margin-top: 8px;
   top: 36%;
   left:49.5%;
   Transform: translate(-50%, -50%);
@@ -53,26 +55,68 @@
   }
 }
 
-.header-popup {
-
-}
-
 .number-popup {
   font-family: "pokemon";
   color: white;
-  background: none;
   z-index: 3;
-  position: absolute;
-  top: 8%;
-  left: 35.5%;
+  -webkit-text-stroke: 3px black;
 }
 
 .name-popup {
   font-family: "pokemon";
   color: white;
-  background: none;
   z-index: 3;
+  -webkit-text-stroke: 3px black;
+}
+
+.header-popup {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 120px;
+  gap: 48px;
+  font-size: 40px;
+}
+
+.background-info-div {
+  width: 480px;
+  height: 744px;
   position: absolute;
-  top: 8%;
-  left: 50.5%;
+  top: 50%;
+  left: 50%;
+  Transform: translate(-50%, -50%);
+}
+
+.arrow-btn-left {
+  top: 50%;
+  left: 14.5%;
+  Transform: translate(-50%, -50%);
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: none;
+  z-index: 4;
+  opacity: 0.8;
+}
+
+.arrow-btn-right {
+  top: 50%;
+  left: 85.5%;
+  Transform: translate(-50%, -50%);
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: none;
+  z-index: 4;
+  opacity: 0.8;
+}
+
+.arrow-btn-right:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.arrow-btn-left:hover {
+  opacity: 1;
+  cursor: pointer;
 }
