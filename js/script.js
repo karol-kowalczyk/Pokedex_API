@@ -1,18 +1,8 @@
-const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=20"; // Ändern Sie das Limit auf 20
+const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit="; // Ändern Sie das Limit auf 20
 
 let pokemons = [];
 let currentOffset = 0; // Track the current offset for fetching more Pokemon
 let currentPokemonIndex = 0;
-
-function loadFiveMore() {
-  currentOffset += 5;
-  fetchAdditionalPokemon(5);
-}
-
-function loadTwentyMore() {
-  currentOffset += 20; 
-  fetchAdditionalPokemon(20); 
-}
 
 async function loadAllPokemons() {
   // Berechne die Anzahl der bereits geladenen Pokémon
@@ -24,23 +14,17 @@ async function loadAllPokemons() {
   // Berechne die Anzahl der fehlenden Pokémon, die geladen werden sollen
   const remainingPokemons = 800 - numLoadedPokemons; // Annahme: Maximal 1000 Pokémon
 
-  // Lade die restlichen Pokémon
-  await fetchAdditionalPokemon(remainingPokemons);
-  console.log(remainingPokemons);
+  // Lade die restlichen Pokémon, nur wenn noch nicht alle geladen sind
+  if (remainingPokemons > 0) {
+    await fetchAdditionalPokemon(remainingPokemons);
 
-  // Zeige die neu geladenen Pokémon-Karten an
-  const resp = await fetch(`${POKE_API}&offset=${currentOffset}`);
-  const respAsJson = await resp.json();
-  const respAsJsonResults = respAsJson.results;
-  const pokemonDataArray = await Promise.all(respAsJsonResults.map(async (pokemon) => {
-    const pokemonResp = await fetch(pokemon.url);
-    return pokemonResp.json();
-  }));
-  showPokemonCards(respAsJsonResults, pokemonDataArray);
-
-  if(remainingPokemons > 0) {
     loadAllPokemons();
-  }   
+  }
+}
+
+function loadTwentyMore() {
+  currentOffset += 20;
+  fetchAdditionalPokemon(20);
 }
 
 function capitalizeFirstLetter(str) {
@@ -51,20 +35,35 @@ async function loadData() {
   let resp = await fetch(POKE_API);
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
-  let pokemonResp = await fetch(respAsJsonResults[0].url);
-  let pokemonData = await pokemonResp.json();
-  showPokemonCards(respAsJsonResults, pokemonData); 
 
+  // Überprüfe, ob die Pokemon bereits geladen wurden, bevor du sie der Seite hinzufügst
+  for (let index = 0; index < respAsJsonResults.length; index++) {
+    let pokemonUrl = respAsJsonResults[index].url;
+    if (!pokemons.some((pokemon) => pokemon.url === pokemonUrl)) {
+      let pokemonResp = await fetch(pokemonUrl);
+      let pokemonData = await pokemonResp.json();
+      pokemons.push(respAsJsonResults[index]);
+      addPokemons(pokemons.length - 1, pokemonData);
+    }
+  }
 }
 
-function showPokemonCards(respAsJsonResults, pokemonData) {
+function showPokemonCards(respAsJsonResults, pokemonDataArray) {
   const startIndex = pokemons.length; // Startindex für das Hinzufügen neuer Pokémon
 
   for (let index = 0; index < respAsJsonResults.length; index++) {
     const pokemonIndex = startIndex + index;
-    const pokemonImg = pokemonData.sprites.other["official-artwork"]["front_default"];
-    pokemons.push(respAsJsonResults[index]);
-    addPokemons(pokemonIndex, pokemonData); // Pass the index of the newly added pokemon
+    const pokemonId = respAsJsonResults[index].id; // Eindeutige ID des Pokémons aus den API-Daten
+
+    // Überprüfe, ob das Pokémon bereits in der Liste pokemons vorhanden ist
+    if (pokemons.findIndex((pokemon) => pokemon.id === pokemonId) === -1) {
+      const pokemonImg =
+        pokemonDataArray[index].sprites.other["official-artwork"][
+          "front_default"
+        ];
+      pokemons.push(respAsJsonResults[index]);
+      addPokemons(pokemonIndex, pokemonDataArray[index]); // Pass the index of the newly added pokemon
+    }
   }
 }
 
@@ -97,7 +96,7 @@ function generateTypeHTML(types) {
   let typesHTML = "";
   for (let i = 0; i < types.length; i++) {
     let typeName = types[i].type.name;
-    let typeImgSrc = typeImg[typeName]; 
+    let typeImgSrc = typeImg[typeName];
     typesHTML += `<div class="types"><div class="type-name">${typeName}</div> <img class="img-types" src="./src/img/${typeImgSrc}.png"/></div>`;
   }
   return typesHTML;
@@ -171,12 +170,18 @@ async function fetchAdditionalPokemon(numPokemons) {
   let resp = await fetch(`${POKE_API}&offset=${currentOffset}`);
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
+
   for (let index = 0; index < numPokemons; index++) {
     if (respAsJsonResults[index]) {
-      let pokemonResp = await fetch(respAsJsonResults[index].url);
-      let pokemonData = await pokemonResp.json();
-      pokemons.push(respAsJsonResults[index]);
-      addPokemons(pokemons.length - 1, pokemonData);
+      let pokemonUrl = respAsJsonResults[index].url;
+
+      // Überprüfen, ob das Pokémon bereits geladen wurde
+      if (!pokemons.some((pokemon) => pokemon.url === pokemonUrl)) {
+        let pokemonResp = await fetch(pokemonUrl);
+        let pokemonData = await pokemonResp.json();
+        pokemons.push(respAsJsonResults[index]);
+        addPokemons(pokemons.length - 1, pokemonData);
+      }
     } else {
       break;
     }
@@ -188,7 +193,7 @@ async function showPokemonCards(respAsJsonResults) {
     let pokemonResp = await fetch(respAsJsonResults[index].url);
     let pokemonData = await pokemonResp.json();
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(pokemons.length - 1, pokemonData); 
+    addPokemons(pokemons.length - 1, pokemonData);
   }
 }
 
@@ -205,17 +210,29 @@ function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   shadowBox.classList.remove("d-none");
   shadowBox.classList.add("d-block");
   document.body.classList.add("disable-scrolling");
-  let leftArrow = document.getElementById('leftArrow');
-  let rightArrow = document.getElementById('rightArrow');
+  let leftArrow = document.getElementById("leftArrow");
+  let rightArrow = document.getElementById("rightArrow");
   leftArrow.classList.remove("d-none");
   rightArrow.classList.remove("d-none");
-  rightArrow.onclick = function() {
-    nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
-  }
+  rightArrow.onclick = function () {
+    nextPokemon(
+      pokemonImg,
+      index,
+      pokemonName,
+      pokemonCardClass,
+      currentPokemonIndex
+    );
+  };
 
-  leftArrow.onclick = function() {
-    previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
-  }
+  leftArrow.onclick = function () {
+    previousPokemon(
+      pokemonImg,
+      index,
+      pokemonName,
+      pokemonCardClass,
+      currentPokemonIndex
+    );
+  };
 
   shadowBox.innerHTML = /*html*/ `
 <div class="header-popup">
@@ -235,8 +252,8 @@ function closeDetails() {
   shadowBox.classList.remove("d-block");
   shadowBox.classList.add("d-none");
   document.body.classList.remove("disable-scrolling");
-  let leftArrow = document.getElementById('leftArrow');
-  let rightArrow = document.getElementById('rightArrow');
+  let leftArrow = document.getElementById("leftArrow");
+  let rightArrow = document.getElementById("rightArrow");
   leftArrow.classList.add("d-none");
   rightArrow.classList.add("d-none");
   currentPokemonIndex = 0;
@@ -246,22 +263,43 @@ function stopPropagationFunction(event) {
   event.stopPropagation();
 }
 
-async function nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
+async function nextPokemon(
+  pokemonImg,
+  index,
+  pokemonName,
+  pokemonCardClass,
+  currentPokemonIndex
+) {
   if (currentPokemonIndex < pokemons.length) {
-    let nextPokemonIndex = currentPokemonIndex; 
+    let nextPokemonIndex = currentPokemonIndex;
     let nextPokemonData = await fetchPokemonData(nextPokemonIndex);
-    let nextPokemonCardClass = nextPokemonData.types[0].type.name + "1"; 
-    showDetails(nextPokemonData.sprites.other["official-artwork"]["front_default"], nextPokemonIndex, capitalizeFirstLetter(nextPokemonData.name), nextPokemonCardClass);
+    let nextPokemonCardClass = nextPokemonData.types[0].type.name + "1";
+    showDetails(
+      nextPokemonData.sprites.other["official-artwork"]["front_default"],
+      nextPokemonIndex,
+      capitalizeFirstLetter(nextPokemonData.name),
+      nextPokemonCardClass
+    );
   }
 }
 
-
-async function previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
+async function previousPokemon(
+  pokemonImg,
+  index,
+  pokemonName,
+  pokemonCardClass,
+  currentPokemonIndex
+) {
   if (currentPokemonIndex > 1) {
     let previousPokemonIndex = currentPokemonIndex - 2;
     let previousPokemonData = await fetchPokemonData(previousPokemonIndex);
-    let previousPokemonCardClass = previousPokemonData.types[0].type.name + "1"; 
-    showDetails(previousPokemonData.sprites.other["official-artwork"]["front_default"], previousPokemonIndex, capitalizeFirstLetter(previousPokemonData.name), previousPokemonCardClass);
+    let previousPokemonCardClass = previousPokemonData.types[0].type.name + "1";
+    showDetails(
+      previousPokemonData.sprites.other["official-artwork"]["front_default"],
+      previousPokemonIndex,
+      capitalizeFirstLetter(previousPokemonData.name),
+      previousPokemonCardClass
+    );
   }
 }
 
@@ -272,15 +310,19 @@ async function fetchPokemonData(index) {
 }
 
 function searchPokemon() {
-  let searchTerm = document.getElementById('searchPokemons').value.toLowerCase(); // Suchbegriff in Kleinbuchstaben konvertieren
-  let cards = document.getElementsByClassName('card');
+  let searchTerm = document
+    .getElementById("searchPokemons")
+    .value.toLowerCase(); // Suchbegriff in Kleinbuchstaben konvertieren
+  let cards = document.getElementsByClassName("card");
 
   for (let i = 0; i < cards.length; i++) {
-    let pokemonName = cards[i].getElementsByClassName('name')[0].innerText.toLowerCase(); // Pokémon-Namen aus der Karte extrahieren und in Kleinbuchstaben konvertieren
+    let pokemonName = cards[i]
+      .getElementsByClassName("name")[0]
+      .innerText.toLowerCase(); // Pokémon-Namen aus der Karte extrahieren und in Kleinbuchstaben konvertieren
     if (pokemonName.startsWith(searchTerm)) {
-      cards[i].style.display = 'block'; // Karte anzeigen, wenn der Pokémon-Name mit dem Suchbegriff beginnt
+      cards[i].style.display = "block"; // Karte anzeigen, wenn der Pokémon-Name mit dem Suchbegriff beginnt
     } else {
-      cards[i].style.display = 'none'; // Ansonsten Karte ausblenden
+      cards[i].style.display = "none"; // Ansonsten Karte ausblenden
     }
   }
 }
