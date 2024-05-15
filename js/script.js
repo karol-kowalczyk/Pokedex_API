@@ -2,6 +2,7 @@ const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=20"; // Ändern Sie da
 
 let pokemons = [];
 let currentOffset = 0; // Track the current offset for fetching more Pokemon
+let currentPokemonIndex = 0;
 
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -56,7 +57,7 @@ function generateTypeHTML(types) {
   for (let i = 0; i < types.length; i++) {
     let typeName = types[i].type.name;
     let typeImgSrc = typeImg[typeName]; // Bildpfad aus dem typeImg-Objekt abrufen
-    typesHTML += `<div class="types"><div class="type-name"> ${typeName}</div> <img class="img-types" src="./src/img/${typeImgSrc}.png"/></div>`;
+    typesHTML += `<div class="types"><div class="type-name">${typeName}</div> <img class="img-types" src="./src/img/${typeImgSrc}.png"/></div>`;
   }
   return typesHTML;
 }
@@ -166,15 +167,13 @@ async function showPokemonCards(respAsJsonResults) {
   }
 }
 
-async function loadAllPokemons() {
-  currentOffset += 30; // Aktualisiere currentOffset um 100
-  await fetchMorePokemon(); // Lade weitere Pokemons
-}
 function reloadSite() {
   location.reload();
 }
 
 function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
+  let indexNum = parseInt(index);
+  currentPokemonIndex = indexNum + 1;
   let popUp = document.getElementById("popUp");
   popUp.classList.remove("d-none");
   let shadowBox = document.getElementById("shadowBox");
@@ -185,13 +184,19 @@ function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   let rightArrow = document.getElementById('rightArrow');
   leftArrow.classList.remove("d-none");
   rightArrow.classList.remove("d-none");
+  rightArrow.onclick = function() {
+    nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
+  }
 
-  let indexNum = parseInt(index);
-  console.log(pokemonCardClass);
+  leftArrow.onclick = function() {
+    previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
+  }
+
+
 
   shadowBox.innerHTML = /*html*/ `
 <div class="header-popup">
-  <div class="number-popup">#${indexNum + 1}</div>
+  <div class="number-popup">#${currentPokemonIndex}</div>
   <div class="name-popup">${pokemonName}</div>
 </div>
     <img class="popUp-img" src="${pokemonImg}" />
@@ -211,8 +216,34 @@ function closeDetails() {
   let rightArrow = document.getElementById('rightArrow');
   leftArrow.classList.add("d-none");
   rightArrow.classList.add("d-none");
+  currentPokemonIndex = 0;
 }
 
 function stopPropagationFunction(event) {
   event.stopPropagation();
+}
+
+async function nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
+  if (currentPokemonIndex < pokemons.length) {
+    let nextPokemonIndex = currentPokemonIndex; // Den Index des nächsten Pokémons berechnen
+    let nextPokemonData = await fetchPokemonData(nextPokemonIndex);
+    let nextPokemonCardClass = nextPokemonData.types[0].type.name + "1"; // Klasse aus den Daten des nächsten Pokémons extrahieren
+    showDetails(nextPokemonData.sprites.other["official-artwork"]["front_default"], nextPokemonIndex, capitalizeFirstLetter(nextPokemonData.name), nextPokemonCardClass);
+  }
+}
+
+
+async function previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
+  if (currentPokemonIndex > 1) {
+    let previousPokemonIndex = currentPokemonIndex - 2;
+    let previousPokemonData = await fetchPokemonData(previousPokemonIndex);
+    let previousPokemonCardClass = previousPokemonData.types[0].type.name + "1"; // Klasse aus den Daten des vorherigen Pokémons extrahieren
+    showDetails(previousPokemonData.sprites.other["official-artwork"]["front_default"], previousPokemonIndex, capitalizeFirstLetter(previousPokemonData.name), previousPokemonCardClass);
+  }
+}
+
+async function fetchPokemonData(index) {
+  let pokemonUrl = pokemons[index].url;
+  let pokemonResp = await fetch(pokemonUrl);
+  return await pokemonResp.json();
 }
