@@ -4,6 +4,45 @@ let pokemons = [];
 let currentOffset = 0; // Track the current offset for fetching more Pokemon
 let currentPokemonIndex = 0;
 
+function loadFiveMore() {
+  currentOffset += 5;
+  fetchAdditionalPokemon(5);
+}
+
+function loadTwentyMore() {
+  currentOffset += 20; 
+  fetchAdditionalPokemon(20); 
+}
+
+async function loadAllPokemons() {
+  // Berechne die Anzahl der bereits geladenen Pokémon
+  const numLoadedPokemons = pokemons.length;
+
+  // Setze den Offset so, dass die nächste Charge von Pokémon geladen wird
+  currentOffset = numLoadedPokemons;
+
+  // Berechne die Anzahl der fehlenden Pokémon, die geladen werden sollen
+  const remainingPokemons = 800 - numLoadedPokemons; // Annahme: Maximal 1000 Pokémon
+
+  // Lade die restlichen Pokémon
+  await fetchAdditionalPokemon(remainingPokemons);
+  console.log(remainingPokemons);
+
+  // Zeige die neu geladenen Pokémon-Karten an
+  const resp = await fetch(`${POKE_API}&offset=${currentOffset}`);
+  const respAsJson = await resp.json();
+  const respAsJsonResults = respAsJson.results;
+  const pokemonDataArray = await Promise.all(respAsJsonResults.map(async (pokemon) => {
+    const pokemonResp = await fetch(pokemon.url);
+    return pokemonResp.json();
+  }));
+  showPokemonCards(respAsJsonResults, pokemonDataArray);
+
+  if(remainingPokemons > 0) {
+    loadAllPokemons();
+  }   
+}
+
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -19,10 +58,13 @@ async function loadData() {
 }
 
 function showPokemonCards(respAsJsonResults, pokemonData) {
-  for (let index = 0; index < 20; index++) {
-    console.log(pokemonImg);
+  const startIndex = pokemons.length; // Startindex für das Hinzufügen neuer Pokémon
+
+  for (let index = 0; index < respAsJsonResults.length; index++) {
+    const pokemonIndex = startIndex + index;
+    const pokemonImg = pokemonData.sprites.other["official-artwork"]["front_default"];
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(pokemons.length - 1, pokemonData); 
+    addPokemons(pokemonIndex, pokemonData); // Pass the index of the newly added pokemon
   }
 }
 
@@ -48,6 +90,7 @@ let typeImg = {
   steel: "steel",
   ice: "ice",
   dragon: "dragon",
+  dark: "dark",
 };
 
 function generateTypeHTML(types) {
@@ -122,21 +165,6 @@ function addPokemons(index, pokemonData) {
         <div class="weight">weight: ${pokemonWeight}kg</div>
       </div>
     </div>`;
-}
-
-function loadFiveMore() {
-  currentOffset += 5;
-  fetchAdditionalPokemon(5);
-}
-
-function loadTwentyMore() {
-  currentOffset += 20; 
-  fetchAdditionalPokemon(20); 
-}
-
-function loadAllPokemon() {
-  currentOffset += 1000; 
-  fetchAdditionalPokemon(1000);
 }
 
 async function fetchAdditionalPokemon(numPokemons) {
@@ -241,4 +269,18 @@ async function fetchPokemonData(index) {
   let pokemonUrl = pokemons[index].url;
   let pokemonResp = await fetch(pokemonUrl);
   return await pokemonResp.json();
+}
+
+function searchPokemon() {
+  let searchTerm = document.getElementById('searchPokemons').value.toLowerCase(); // Suchbegriff in Kleinbuchstaben konvertieren
+  let cards = document.getElementsByClassName('card');
+
+  for (let i = 0; i < cards.length; i++) {
+    let pokemonName = cards[i].getElementsByClassName('name')[0].innerText.toLowerCase(); // Pokémon-Namen aus der Karte extrahieren und in Kleinbuchstaben konvertieren
+    if (pokemonName.startsWith(searchTerm)) {
+      cards[i].style.display = 'block'; // Karte anzeigen, wenn der Pokémon-Name mit dem Suchbegriff beginnt
+    } else {
+      cards[i].style.display = 'none'; // Ansonsten Karte ausblenden
+    }
+  }
 }
