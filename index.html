@@ -15,6 +15,7 @@
     <script src="js/script.js"></script>
   </head>
   <body onload="loadData()">
+
     <div id="content">
       <div id="head">
         <div class="pokball">
@@ -29,7 +30,7 @@
 
         <h1 onclick="reloadSite()">Pokedex</h1>
         <div class="search-bar">
-          <input type="text" placeholder="Suche" />
+          <input id="searchPokemons" type="text" placeholder="Suche" onkeydown="searchPokemon()" />
         </div>
       </div>
       <div id="shadowBox" class="d-none"></div>

@@ -14,16 +14,15 @@ async function loadData() {
   let respAsJsonResults = respAsJson.results;
   let pokemonResp = await fetch(respAsJsonResults[0].url);
   let pokemonData = await pokemonResp.json();
-  showPokemonCards(respAsJsonResults, pokemonData); // Gibt die URL des ersten Pokémons aus
+  showPokemonCards(respAsJsonResults, pokemonData); 
 
-  // Um weitere Informationen über das erste Pokémon abzurufen
 }
 
 function showPokemonCards(respAsJsonResults, pokemonData) {
   for (let index = 0; index < 20; index++) {
     console.log(pokemonImg);
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(pokemons.length - 1, pokemonData); // Pass the index of the last added pokemon
+    addPokemons(pokemons.length - 1, pokemonData); 
   }
 }
 
@@ -51,22 +50,19 @@ let typeImg = {
   dragon: "dragon",
 };
 
-// Erstelle HTML für Pokemon-Typen
 function generateTypeHTML(types) {
   let typesHTML = "";
   for (let i = 0; i < types.length; i++) {
     let typeName = types[i].type.name;
-    let typeImgSrc = typeImg[typeName]; // Bildpfad aus dem typeImg-Objekt abrufen
+    let typeImgSrc = typeImg[typeName]; 
     typesHTML += `<div class="types"><div class="type-name">${typeName}</div> <img class="img-types" src="./src/img/${typeImgSrc}.png"/></div>`;
   }
   return typesHTML;
 }
 
-// Erstelle HTML für Pokemon-Fähigkeiten
 function generateAbilityHTML(abilities) {
   let abilitiesHTML = "";
   for (let i = 0; i < Math.min(2, abilities.length); i++) {
-    // Änderung hier: Math.min(2, abilities.length)
     abilitiesHTML += `<div class="abilities">${abilities[i].ability.name}</div>`;
   }
   return abilitiesHTML;
@@ -102,18 +98,15 @@ function addPokemons(index, pokemonData) {
     abilitiesHTML = `<div class="abilities one-ability">${pokemonAbilities[0].ability.name}</div>`;
   }
 
-  // Check if the total length of abilities is greater than 22
   if (
     pokemonAbilities.length === 2 &&
     pokemonAbilities[0].ability.name.length +
       pokemonAbilities[1].ability.name.length >
       22
   ) {
-    // If yes, display only the first ability
     abilitiesHTML = `<div class="abilities">${pokemonAbilities[0].ability.name}</div>`;
   }
 
-  // Generate class based on the first type
   let pokemonCardClass = pokemonTypes[0].type.name + "1";
 
   card.innerHTML += /*html*/ `
@@ -137,8 +130,13 @@ function loadFiveMore() {
 }
 
 function loadTwentyMore() {
-  currentOffset += 30;
-  fetchAdditionalPokemon(30);
+  currentOffset += 20; 
+  fetchAdditionalPokemon(20); 
+}
+
+function loadAllPokemon() {
+  currentOffset += 1000; 
+  fetchAdditionalPokemon(1000);
 }
 
 async function fetchAdditionalPokemon(numPokemons) {
@@ -152,7 +150,6 @@ async function fetchAdditionalPokemon(numPokemons) {
       pokemons.push(respAsJsonResults[index]);
       addPokemons(pokemons.length - 1, pokemonData);
     } else {
-      // Wenn keine weiteren Pokemon vorhanden sind, beenden Sie die Schleife
       break;
     }
   }
@@ -163,7 +160,7 @@ async function showPokemonCards(respAsJsonResults) {
     let pokemonResp = await fetch(respAsJsonResults[index].url);
     let pokemonData = await pokemonResp.json();
     pokemons.push(respAsJsonResults[index]);
-    addPokemons(pokemons.length - 1, pokemonData); // Pass the index and pokemonData
+    addPokemons(pokemons.length - 1, pokemonData); 
   }
 }
 
@@ -191,8 +188,6 @@ function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   leftArrow.onclick = function() {
     previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
   }
-
-
 
   shadowBox.innerHTML = /*html*/ `
 <div class="header-popup">
@@ -225,9 +220,9 @@ function stopPropagationFunction(event) {
 
 async function nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
   if (currentPokemonIndex < pokemons.length) {
-    let nextPokemonIndex = currentPokemonIndex; // Den Index des nächsten Pokémons berechnen
+    let nextPokemonIndex = currentPokemonIndex; 
     let nextPokemonData = await fetchPokemonData(nextPokemonIndex);
-    let nextPokemonCardClass = nextPokemonData.types[0].type.name + "1"; // Klasse aus den Daten des nächsten Pokémons extrahieren
+    let nextPokemonCardClass = nextPokemonData.types[0].type.name + "1"; 
     showDetails(nextPokemonData.sprites.other["official-artwork"]["front_default"], nextPokemonIndex, capitalizeFirstLetter(nextPokemonData.name), nextPokemonCardClass);
   }
 }
@@ -237,7 +232,7 @@ async function previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass,
   if (currentPokemonIndex > 1) {
     let previousPokemonIndex = currentPokemonIndex - 2;
     let previousPokemonData = await fetchPokemonData(previousPokemonIndex);
-    let previousPokemonCardClass = previousPokemonData.types[0].type.name + "1"; // Klasse aus den Daten des vorherigen Pokémons extrahieren
+    let previousPokemonCardClass = previousPokemonData.types[0].type.name + "1"; 
     showDetails(previousPokemonData.sprites.other["official-artwork"]["front_default"], previousPokemonIndex, capitalizeFirstLetter(previousPokemonData.name), previousPokemonCardClass);
   }
 }
