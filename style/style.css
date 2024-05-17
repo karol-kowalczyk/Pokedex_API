@@ -190,9 +190,33 @@ input:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(61, 75%, 41%);
+  background: hsl(0, 0%, 0%);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(120 100% 20% / 1);
+  background: hsl(120, 100%, 50%);
+}
+
+.stats {
+  z-index: 3;
+  position: absolute;
+  margin-top: 8px;
+  top: 64%;
+  left: 10.5%;
+  width: 370px;
+}
+
+.stat {
+  display: flex;
+  margin-top: 16px;
+  background: #70705F !important;
+}
+
+.stat-value {
+  width: 100%;
+  background: #70705F  !important;
+}
+
+.stat-name {
+  background: #70705F  !important;
 }

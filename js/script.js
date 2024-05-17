@@ -36,6 +36,7 @@ async function loadData() {
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
 
+
   // Überprüfe, ob die Pokemon bereits geladen wurden, bevor du sie der Seite hinzufügst
   for (let index = 0; index < respAsJsonResults.length; index++) {
     let pokemonUrl = respAsJsonResults[index].url;
@@ -62,7 +63,7 @@ function showPokemonCards(respAsJsonResults, pokemonDataArray) {
           "front_default"
         ];
       pokemons.push(respAsJsonResults[index]);
-      addPokemons(pokemonIndex, pokemonDataArray[index]); // Pass the index of the newly added pokemon
+      addPokemons(pokemonDataArray[index]); // Pass the index of the newly added pokemon
     }
   }
 }
@@ -118,6 +119,7 @@ function addPokemons(index, pokemonData) {
   let pokemonTypes = pokemonData.types;
   let pokemonWeight = pokemonData.weight;
   let pokemonAbilities = pokemonData.abilities;
+
 
   let typesHTML = generateTypeHTML(pokemonTypes);
   let abilitiesHTML = generateAbilityHTML(pokemonAbilities);
@@ -201,7 +203,7 @@ function reloadSite() {
   location.reload();
 }
 
-function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
+async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   let indexNum = parseInt(index);
   currentPokemonIndex = indexNum + 1;
   let popUp = document.getElementById("popUp");
@@ -234,16 +236,30 @@ function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     );
   };
 
+  // Fetch Pokemon data for the selected Pokemon
+  let pokemonData = await fetchPokemonData(indexNum - 1);
+  
+  // Generate stats HTML
+  let statsHTML = "";
+  for (let i = 0; i < pokemonData.stats.length; i++) {
+    let pokemonStatsName = capitalizeFirstLetter(pokemonData.stats[i].stat.name);
+    let pokemonStats = pokemonData.stats[i].base_stat;
+    statsHTML += /*html*/`<div class="${pokemonCardClass} stat"><span class="${pokemonCardClass} stat-name">${pokemonStatsName}</span><span class="stat-value ${pokemonCardClass}">${pokemonStats}</span></div>`;
+  }
+
   shadowBox.innerHTML = /*html*/ `
 <div class="header-popup">
   <div class="number-popup">#${currentPokemonIndex}</div>
   <div class="name-popup">${pokemonName}</div>
 </div>
     <img class="popUp-img" src="${pokemonImg}" />
-    <div class="${pokemonCardClass} background-info-div" id="background-info-div"></div>
+    <div class="${pokemonCardClass} background-info-div" id="background-info-div">
+      <div class="stats">${statsHTML}</div>
+    </div>
     <div></div>
   `;
 }
+
 
 function closeDetails() {
   let popUp = document.getElementById("popUp");
