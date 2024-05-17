@@ -180,3 +180,19 @@ input:focus {
   height: 100%;
   overflow: hidden;
 }
+
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(59, 100%, 50%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(61, 75%, 41%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(120 100% 20% / 1);
+}

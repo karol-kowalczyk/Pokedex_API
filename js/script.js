@@ -241,7 +241,7 @@ function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
 </div>
     <img class="popUp-img" src="${pokemonImg}" />
     <div class="${pokemonCardClass} background-info-div" id="background-info-div"></div>
-
+    <div></div>
   `;
 }
 
