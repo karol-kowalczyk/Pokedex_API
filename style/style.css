@@ -155,14 +155,15 @@ input:focus {
 
 .one-ability-thiner-margin {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   gap: 16px;
   margin: 0 40px 0 32px;
   align-items: center;
 }
 
 .pokemon-images {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   height: 240px;
   width: 280px;
   background: none;
@@ -201,22 +202,46 @@ input:focus {
   z-index: 3;
   position: absolute;
   margin-top: 8px;
-  top: 64%;
+  top: 60%;
   left: 10.5%;
-  width: 370px;
+  width: 380px;
 }
 
 .stat {
-  display: flex;
   margin-top: 16px;
-  background: #70705F !important;
+  display: flex;
+  justify-content: space-between;
 }
 
 .stat-value {
-  width: 100%;
-  background: #70705F  !important;
+  display: flex;
 }
 
 .stat-name {
-  background: #70705F  !important;
+  display: flex;
+  align-items: center;
+  font-family: "pokemon";
+  color: white;
+  -webkit-text-stroke: 1px black;
+  font-size: 16px;
+
+}
+
+.progressbar {
+  background: #333;
+  border-radius: 13px;
+  height: 20px;
+  width: 200px;
+  padding: 3px;
+}
+
+.progressbar:after {
+  content: "";
+  display: block;
+  /* background: #ffcc00; */
+  background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+  background-size: 300% 300%;
+  animation: rainbowAnimation 5s infinite;
+  height: 100%;
+  border-radius: 9px;
 }

@@ -237,27 +237,38 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   };
 
   // Fetch Pokemon data for the selected Pokemon
-  let pokemonData = await fetchPokemonData(indexNum - 1);
+  let pokemonData = await fetchPokemonData(indexNum);
   
   // Generate stats HTML
   let statsHTML = "";
   for (let i = 0; i < pokemonData.stats.length; i++) {
     let pokemonStatsName = capitalizeFirstLetter(pokemonData.stats[i].stat.name);
     let pokemonStats = pokemonData.stats[i].base_stat;
-    statsHTML += /*html*/`<div class="${pokemonCardClass} stat"><span class="${pokemonCardClass} stat-name">${pokemonStatsName}</span><span class="stat-value ${pokemonCardClass}">${pokemonStats}</span></div>`;
+    let progressBarId = `progressbar-${i}`;
+    statsHTML += /*html*/`
+    <div class="${pokemonCardClass} stat">
+      <span class="${pokemonCardClass} stat-name">${pokemonStatsName}: ${pokemonStats}</span>
+      <span id="${progressBarId}" class="progressbar"></span>
+    </div>`;
   }
 
   shadowBox.innerHTML = /*html*/ `
-<div class="header-popup">
-  <div class="number-popup">#${currentPokemonIndex}</div>
-  <div class="name-popup">${pokemonName}</div>
-</div>
-    <img class="popUp-img" src="${pokemonImg}" />
-    <div class="${pokemonCardClass} background-info-div" id="background-info-div">
-      <div class="stats">${statsHTML}</div>
-    </div>
-    <div></div>
+  <div class="header-popup">
+    <div class="number-popup">#${currentPokemonIndex}</div>
+    <div class="name-popup">${pokemonName}</div>
+  </div>
+  <img class="popUp-img" src="${pokemonImg}" />
+  <div class="${pokemonCardClass} background-info-div" id="background-info-div">
+    <div class="stats">${statsHTML}</div>
+  </div>
   `;
+
+  // Set the width of the progress bars
+  for (let i = 0; i < pokemonData.stats.length; i++) {
+    let progressBar = document.getElementById(`progressbar-${i}`);
+    let widthPercentage = (pokemonData.stats[i].base_stat / 200) * 100;
+    progressBar.style.width = `${widthPercentage}%`;
+  }
 }
 
 
