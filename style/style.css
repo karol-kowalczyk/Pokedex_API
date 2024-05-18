@@ -79,7 +79,7 @@ input:focus {
   cursor: pointer;
   border: 16px solid #ffcc01;
   border-radius: 10px;
-  height: 400px;
+  height: 390px;
   width: 280px;
 }
 
@@ -94,7 +94,7 @@ input:focus {
   font-family: "pokemon";
   color: white;
   -webkit-text-stroke: 1.5px black;
-  font-size: 18px;
+  font-size: 20.5px;
   height: 27.5%;
 }
 
@@ -108,8 +108,10 @@ input:focus {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin: 8px 60px 0 32px;
-  gap: 16px;
+  margin-top: 8px;
+  margin-right: 24px;
+  margin-left: 16px;
+  gap: 8px;
 }
 
 .weight {
