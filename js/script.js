@@ -104,11 +104,11 @@ function generateTypeHTML(types) {
 }
 
 function generateAbilityHTML(abilities) {
-  let abilitiesHTML = "";
-  for (let i = 0; i < Math.min(2, abilities.length); i++) {
-    abilitiesHTML += `<div class="abilities">${abilities[i].ability.name}</div>`;
+  if (abilities.length > 0) {
+    return `<div class="abilities">${abilities[0].ability.name}</div>`;
+  } else {
+    return ""; // Return an empty string if no abilities are available
   }
-  return abilitiesHTML;
 }
 
 function addPokemons(index, pokemonData) {
@@ -162,8 +162,11 @@ function addPokemons(index, pokemonData) {
       <img class="pokemon-images" src="${pokemonImg}" alt="" />
       <div class="properties">
         <div class="${typesDivClass}"> <div class="type-div">types:</div> ${typesHTML} </div>
-        <div class="${abilitiesDivClass}"><div class="abilities-div">abilities:</div> ${abilitiesHTML} </div>
-        <div class="weight">weight: ${pokemonWeight}kg</div>
+        <div class="pokemon-abilities-div">
+            <div>abilities:</div>
+            <div>${abilitiesHTML}</div>
+        </div>
+    </div>
       </div>
     </div>`;
 }
@@ -243,12 +246,16 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   let statsHTML = "";
   for (let i = 0; i < pokemonData.stats.length; i++) {
     let pokemonStatsName = capitalizeFirstLetter(pokemonData.stats[i].stat.name);
-    
+
     // Replace "special" with "spec"
-    if (pokemonStatsName.toLowerCase().includes("special")) {
-      pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
+    pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
+
+    // Abbreviate "attack" and "defense" only if "spec" is before them
+    if (pokemonStatsName.includes("Spec")) {
+      pokemonStatsName = pokemonStatsName.replace(/Attack/i, "Atk.");
+      pokemonStatsName = pokemonStatsName.replace(/Defense/i, "Def.");
     }
-    
+
     let pokemonStats = pokemonData.stats[i].base_stat;
     let progressBarId = `progressbar-${i}`;
     statsHTML += /*html*/`
@@ -265,6 +272,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   </div>
   <img class="popUp-img" src="${pokemonImg}" />
   <div class="${pokemonCardClass} background-info-div" id="background-info-div">
+  </label>
     <div class="stats">${statsHTML}</div>
   </div>
   `;
@@ -276,6 +284,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     progressBar.style.width = `${widthPercentage}%`;
   }
 }
+
 
 
 
