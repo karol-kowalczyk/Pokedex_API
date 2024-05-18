@@ -238,11 +238,17 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
 
   // Fetch Pokemon data for the selected Pokemon
   let pokemonData = await fetchPokemonData(indexNum);
-  
+
   // Generate stats HTML
   let statsHTML = "";
   for (let i = 0; i < pokemonData.stats.length; i++) {
     let pokemonStatsName = capitalizeFirstLetter(pokemonData.stats[i].stat.name);
+    
+    // Replace "special" with "spec"
+    if (pokemonStatsName.toLowerCase().includes("special")) {
+      pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
+    }
+    
     let pokemonStats = pokemonData.stats[i].base_stat;
     let progressBarId = `progressbar-${i}`;
     statsHTML += /*html*/`
@@ -270,6 +276,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     progressBar.style.width = `${widthPercentage}%`;
   }
 }
+
 
 
 function closeDetails() {
