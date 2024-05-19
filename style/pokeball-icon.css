@@ -93,7 +93,7 @@
   margin-top: -3px;
   background: black;
   border-radius: 1px;
-  z-index: 9;
+  z-index: 0;
   backface-visibility: hidden;
 }
 

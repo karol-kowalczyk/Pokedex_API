@@ -1,30 +1,33 @@
-const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit="; 
+const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=";
 
 let pokemons = [];
-let currentOffset = 0; // Track the current offset for fetching more Pokemon
+let currentOffset = 0;
 let currentPokemonIndex = 0;
 
 async function loadAllPokemons() {
-
+  hideButtons();
+  let loadingAllPokemon = document.getElementById("loadingAllPokemon");
+  loadingAllPokemon.classList.remove("d-none");
+  let scrollBar = document.body;
+  scrollBar.classList.add("overflow-hidden");
   const numLoadedPokemons = pokemons.length;
-
-
   currentOffset = numLoadedPokemons;
-
-
-  const remainingPokemons = 800 - numLoadedPokemons; 
-
-
+  const remainingPokemons = 800 - numLoadedPokemons;
   if (remainingPokemons > 0) {
     await fetchAdditionalPokemon(remainingPokemons);
-
     loadAllPokemons();
+  } else {
+    loadingAllPokemon.classList.add("d-none");
+    scrollBar.classList.remove("overflow-hidden");
   }
 }
 
 function loadTwentyMore() {
+  showLoading();
   currentOffset += 20;
-  fetchAdditionalPokemon(20);
+  fetchAdditionalPokemon(20).then(() => {
+    hideLoading();
+  });
 }
 
 function capitalizeFirstLetter(str) {
@@ -32,9 +35,14 @@ function capitalizeFirstLetter(str) {
 }
 
 async function loadData() {
-  let resp = await fetch(POKE_API);
+  let loadAllBttn = document.getElementById("loadAllButton");
+  let load20Btn = document.getElementById("loadTwentyMoreButton");
+  showLoading();
+  let resp = await fetch(`${POKE_API}20`);
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
+
+  let temporaryPokemonDataArray = [];
 
   for (let index = 0; index < respAsJsonResults.length; index++) {
     let pokemonUrl = respAsJsonResults[index].url;
@@ -42,17 +50,29 @@ async function loadData() {
       let pokemonResp = await fetch(pokemonUrl);
       let pokemonData = await pokemonResp.json();
       pokemons.push(respAsJsonResults[index]);
-      addPokemons(pokemons.length - 1, pokemonData);
+      temporaryPokemonDataArray.push(pokemonData);
     }
   }
+
+  // Now render all Pokémon cards at once
+  temporaryPokemonDataArray.forEach((pokemonData, index) => {
+    addPokemons(
+      pokemons.length - temporaryPokemonDataArray.length + index,
+      pokemonData
+    );
+  });
+
+  hideLoading();
+  loadAllBttn.classList.remove("d-none");
+  load20Btn.classList.remove("d-none");
 }
 
 function showPokemonCards(respAsJsonResults, pokemonDataArray) {
-  const startIndex = pokemons.length; 
+  const startIndex = pokemons.length;
 
   for (let index = 0; index < respAsJsonResults.length; index++) {
     const pokemonIndex = startIndex + index;
-    const pokemonId = respAsJsonResults[index].id; 
+    const pokemonId = respAsJsonResults[index].id;
 
     if (pokemons.findIndex((pokemon) => pokemon.id === pokemonId) === -1) {
       const pokemonImg =
@@ -60,7 +80,7 @@ function showPokemonCards(respAsJsonResults, pokemonDataArray) {
           "front_default"
         ];
       pokemons.push(respAsJsonResults[index]);
-      addPokemons(pokemonDataArray[index]); // Pass the index of the newly added pokemon
+      addPokemons(pokemonDataArray[index]);
     }
   }
 }
@@ -173,6 +193,8 @@ async function fetchAdditionalPokemon(numPokemons) {
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
 
+  let temporaryPokemonDataArray = [];
+
   for (let index = 0; index < numPokemons; index++) {
     if (respAsJsonResults[index]) {
       let pokemonUrl = respAsJsonResults[index].url;
@@ -181,12 +203,20 @@ async function fetchAdditionalPokemon(numPokemons) {
         let pokemonResp = await fetch(pokemonUrl);
         let pokemonData = await pokemonResp.json();
         pokemons.push(respAsJsonResults[index]);
-        addPokemons(pokemons.length - 1, pokemonData);
+        temporaryPokemonDataArray.push(pokemonData);
       }
     } else {
       break;
     }
   }
+
+  // Now render all Pokémon cards at once
+  temporaryPokemonDataArray.forEach((pokemonData, index) => {
+    addPokemons(
+      pokemons.length - temporaryPokemonDataArray.length + index,
+      pokemonData
+    );
+  });
 }
 
 async function showPokemonCards(respAsJsonResults) {
@@ -350,18 +380,47 @@ async function fetchPokemonData(index) {
 function searchPokemon() {
   let searchTerm = document
     .getElementById("searchPokemons")
-    .value.toLowerCase(); 
+    .value.toLowerCase();
   let cards = document.getElementsByClassName("card");
+  let cardField = document.getElementById("card-field");
+  let loadAllBtn = document.getElementById("loadAllButton");
+  let load20Btn = document.getElementById("loadTwentyMoreButton");
+  let found = false;
+
+  // Verstecke die Load-Buttons während der Suche
+  loadAllBtn.style.display = "none";
+  load20Btn.style.display = "none";
 
   for (let i = 0; i < cards.length; i++) {
     let pokemonName = cards[i]
       .getElementsByClassName("name")[0]
-      .innerText.toLowerCase(); 
+      .innerText.toLowerCase();
     if (pokemonName.startsWith(searchTerm)) {
-      cards[i].style.display = "block"; 
+      cards[i].style.display = "block";
+      found = true;
     } else {
-      cards[i].style.display = "none"; 
+      cards[i].style.display = "none";
     }
+  }
+
+  let noPokemonMessage = document.querySelector(".no-pokemon");
+  if (!found) {
+    if (!noPokemonMessage) {
+      let message = document.createElement("div");
+      message.className = "no-pokemon";
+      message.innerText = "No Pokémon found ...";
+      cardField.appendChild(message);
+    }
+  } else {
+    if (noPokemonMessage) {
+      noPokemonMessage.remove();
+    }
+  }
+
+  // Zeige die Load-Buttons wieder an, wenn das Suchfeld leer ist
+  if (searchTerm === "") {
+    loadAllBtn.style.display = "block";
+    load20Btn.style.display = "block";
   }
 }
 
@@ -376,3 +435,17 @@ function handleResize() {
 
 window.addEventListener("resize", handleResize);
 
+function showLoading() {
+  let loading = document.getElementById("loading");
+  loading.style.display = "flex";
+}
+
+function hideLoading() {
+  let loading = document.getElementById("loading");
+  loading.style.display = "none";
+}
+
+function hideButtons() {
+  document.getElementById("loadAllButton").classList.add("d-none");
+  document.getElementById("loadTwentyMoreButton").classList.add("d-none");
+}
