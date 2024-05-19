@@ -449,3 +449,24 @@ function hideButtons() {
   document.getElementById("loadAllButton").classList.add("d-none");
   document.getElementById("loadTwentyMoreButton").classList.add("d-none");
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const tooltip = document.getElementById('tooltip');
+
+  document.querySelectorAll('[data-tooltip]').forEach(element => {
+      element.addEventListener('mouseenter', function(event) {
+          tooltip.innerText = event.target.getAttribute('data-tooltip');
+          tooltip.style.opacity = '1';
+      });
+
+      element.addEventListener('mousemove', function(event) {
+          tooltip.style.left = event.pageX + 10 + 'px';
+          tooltip.style.top = event.pageY + 10 + 'px';
+      });
+
+      element.addEventListener('mouseleave', function() {
+          tooltip.style.opacity = '0';
+      });
+  });
+});
+

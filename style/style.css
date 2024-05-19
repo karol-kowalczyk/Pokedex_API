@@ -382,15 +382,6 @@ h1:hover {
   -webkit-text-stroke: 2px black;
 }
 
-.hide {
-  display: none;
-}
-
-.loading:hover + .hide {
-  display: block;
-  color: red;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -616,4 +607,16 @@ h1:hover {
     width: 400px;
     font-size: 40px;
   }
+}
+
+#tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1000;
 }

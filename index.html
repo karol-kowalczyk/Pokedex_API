@@ -1,71 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokedex - Karol Kowalczyk</title>
 
-    <link rel="stylesheet" href="./style/style.css" />
-    <link rel="stylesheet" href="./style/pokeball-icon.css" />
-    <link rel="stylesheet" href="./style/fonts.css" />
-    <link rel="stylesheet" href="./style/colors.css" />
-    <link rel="stylesheet" href="./style/information-card.css" />
+    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style/pokeball-icon.css">
+    <link rel="stylesheet" href="./style/fonts.css">
+    <link rel="stylesheet" href="./style/colors.css">
+    <link rel="stylesheet" href="./style/information-card.css">
 
-    <link rel="icon" type="image/x-icon" href="./src/img/pokeball.ico" />
+    <link rel="icon" type="image/x-icon" href="./src/img/pokeball.ico">
     <script src="js/script.js"></script>
-  </head>
-  <body onload="loadData(), handleResize()">
+</head>
+<body onload="loadData(), handleResize()">
     <div id="content">
-      <div id="head">
-        <div class="pokball" id="pokeball">
-          <div class="red"></div>
-          <img src="./src/img/pikachu.webp" />
-          <div class="line">
-            <div class="center-cir"></div>
-          </div>
-          <div class="black"></div>
+        <div id="head">
+            <div class="pokball" id="pokeball">
+                <div class="red"></div>
+                <img src="./src/img/pikachu.webp" />
+                <div class="line">
+                    <div class="center-cir"></div>
+                </div>
+                <div class="black"></div>
+            </div>
+
+            <h1 onclick="reloadSite()">Pokedex</h1>
+            <div class="search-bar">
+                <input id="searchPokemons" type="text" placeholder="Search" onkeydown="searchPokemon()">
+            </div>
+        </div>
+        <div id="shadowBox" class="d-none"></div>
+        <div onclick="closeDetails()" id="popUp" class="popUpDiv d-none">
+            <div onclick="stopPropagationFunction(event)" class="popUp"></div>
+        </div>
+        <img id="leftArrow" class="arrow-btn-left d-none" src="src/img/arrowButtonLeft.png">
+        <img id="rightArrow" class="arrow-btn-right d-none" src="src/img/arrowButtonRight.png">
+
+        <div id="loadingAllPokemon" class="d-none loading">
+            <div data-tooltip="It may take up to two minutes to load." class="loaderAllPokemon loader"></div>
+            <p data-tooltip="It may take up to two minutes to load."  class="loading-sentence loading-sentence-all-pokemon">Loading ...</p>
         </div>
 
-        <h1 onclick="reloadSite()">Pokedex</h1>
-        <div class="search-bar">
-          <input
-            id="searchPokemons"
-            type="text"
-            placeholder="Suche"
-            onkeydown="searchPokemon()"
-          />
+        <!-- Tooltip-Element -->
+        <div id="tooltip"></div>
+
+        <div id="card-field"></div>
+
+        <div id="loading">
+            <div class="loader"></div>
+            <p class="loading-sentence">Loading ...</p>
         </div>
-      </div>
-      <div id="shadowBox" class="d-none"></div>
-      <div onclick="closeDetails()" id="popUp" class="popUpDiv d-none">
-        <div onclick="stopPropagationFunction(event)" class="popUp"></div>
-      </div>
-      <img
-        id="leftArrow"
-        class="arrow-btn-left d-none"
-        src="src/img/arrowButtonLeft.png"
-      />
-      <img
-        id="rightArrow"
-        class="arrow-btn-right d-none"
-        src="src/img/arrowButtonRight.png"
-      />
-
-      <div id="loadingAllPokemon" class="d-none" class="loading">
-        <div class="loaderAllPokemon loader"></div>
-        <p class="loading-sentence loading-sentence-all-pokemon">Loading ...</p>
-      </div>
-      <div class="hide loading-sentence">I am shown when someone hovers over the div above.</div>
-      <div id="card-field"></div>
-
-      <div id="loading">
-        <div class="loader"></div>
-        <p class="loading-sentence">Loading ...</p>
-      </div>
-      <div id="button-div">
-        <button id="loadTwentyMoreButton" class="d-none" onclick="loadTwentyMore()">load 20x more Pokemons...</button>
-        <button id="loadAllButton" class="d-none" onclick="loadAllPokemons()">load all Pokemons...</button>
-      </div>
+        <div id="button-div">
+            <button id="loadTwentyMoreButton" class="d-none" onclick="loadTwentyMore()">load 20x more Pokemons...</button>
+            <button id="loadAllButton" class="d-none" onclick="loadAllPokemons()">load all Pokemons...</button>
+        </div>
     </div>
-  </body>
+</body>
 </html>
