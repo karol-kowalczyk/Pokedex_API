@@ -15,14 +15,13 @@
     <script src="js/script.js"></script>
 
   </head>
-  <body onload="loadData()">
+  <body onload="loadData(), handleResize()">
 
     <div id="content">
       <div id="head">
-        <div class="pokball">
+        <div class="pokball" id="pokeball">
           <div class="red"></div>
           <img src="./src/img/pikachu.webp" />
-
           <div class="line">
             <div class="center-cir"></div>
           </div>
@@ -42,8 +41,10 @@
      <div id="card-field">
 
       </div>
-      <button onclick="loadTwentyMore()">load 20x more Pokemons...</button>
-      <button onclick="loadAllPokemons()">load all Pokemons...</button>
+      <div id="button-div">
+        <button onclick="loadTwentyMore()">load 20x more Pokemons...</button>
+        <button onclick="loadAllPokemons()">load all Pokemons...</button>
+      </div>
     </div>
   </body>
 </html>

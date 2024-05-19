@@ -16,7 +16,8 @@ h1 {
   margin-top: 16px;
   margin-bottom: 0;
   margin-left: 164px;
-  -webkit-text-stroke: 4px black;
+  -webkit-text-stroke: 4px rgb(0, 0, 0);
+  text-shadow: -16px 4px 3px #CE5937;
 }
 
 div {
@@ -109,8 +110,8 @@ input:focus {
   justify-content: space-evenly;
   align-items: center;
   margin-top: 8px;
-  margin-right: 24px;
-  margin-left: 16px;
+  margin-right: 16px;
+  margin-left: 12px;
   gap: 8px;
 }
 
@@ -191,25 +192,24 @@ input:focus {
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(59, 100%, 50%);
+  background: #FFCC00;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(0, 0%, 0%);
+  background: #082276;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(120, 100%, 50%);
+  background: #FFCC01;
 }
 
 .stats {
   z-index: 3;
   position: absolute;
   margin-top: 8px;
-  top: 60%;
+  top: 61%;
   left: 10.5%;
   width: 380px;
-  margin-top: 0;
 }
 
 .stat {
@@ -265,4 +265,71 @@ table {
 
 tr {
   width: 100%;
+}
+
+#button-div {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+button {
+  height: 80px;
+  width: 152px;
+  border: 2px solid #000000;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #ffcc01;
+  font-family: 'pokemon';
+  font-size: 16px;
+  font-weight: 100;
+}
+
+button:hover {
+  background-color: yellow;
+}
+
+.card:hover {
+  border-color: yellow;
+}
+
+@media (max-width: 1230px) {
+  #head {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+    margin-left: 0;
+    margin-top: 16px;
+  }
+
+  .search-bar {
+    margin: 16px 32px 32px;
+  }
+}
+
+@media (max-width: 670px) {
+  h1 {
+    font-size: 120px;
+  }
+
+  .card {
+    width: 240px;
+    height: 320px;
+  }
+
+  .pokemon-images {
+    width: 235px;
+    height: 260px;
+    box-shadow: none;
+  }
+
+  .properties {
+    display: none;
+  }
+
+  .header {
+    font-size: 28px;
+  }
 }

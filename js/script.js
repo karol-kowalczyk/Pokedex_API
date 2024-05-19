@@ -1,20 +1,20 @@
-const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit="; // Ändern Sie das Limit auf 20
+const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit="; 
 
 let pokemons = [];
 let currentOffset = 0; // Track the current offset for fetching more Pokemon
 let currentPokemonIndex = 0;
 
 async function loadAllPokemons() {
-  // Berechne die Anzahl der bereits geladenen Pokémon
+
   const numLoadedPokemons = pokemons.length;
 
-  // Setze den Offset so, dass die nächste Charge von Pokémon geladen wird
+
   currentOffset = numLoadedPokemons;
 
-  // Berechne die Anzahl der fehlenden Pokémon, die geladen werden sollen
-  const remainingPokemons = 800 - numLoadedPokemons; // Annahme: Maximal 1000 Pokémon
 
-  // Lade die restlichen Pokémon, nur wenn noch nicht alle geladen sind
+  const remainingPokemons = 800 - numLoadedPokemons; 
+
+
   if (remainingPokemons > 0) {
     await fetchAdditionalPokemon(remainingPokemons);
 
@@ -36,8 +36,6 @@ async function loadData() {
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
 
-
-  // Überprüfe, ob die Pokemon bereits geladen wurden, bevor du sie der Seite hinzufügst
   for (let index = 0; index < respAsJsonResults.length; index++) {
     let pokemonUrl = respAsJsonResults[index].url;
     if (!pokemons.some((pokemon) => pokemon.url === pokemonUrl)) {
@@ -50,13 +48,12 @@ async function loadData() {
 }
 
 function showPokemonCards(respAsJsonResults, pokemonDataArray) {
-  const startIndex = pokemons.length; // Startindex für das Hinzufügen neuer Pokémon
+  const startIndex = pokemons.length; 
 
   for (let index = 0; index < respAsJsonResults.length; index++) {
     const pokemonIndex = startIndex + index;
-    const pokemonId = respAsJsonResults[index].id; // Eindeutige ID des Pokémons aus den API-Daten
+    const pokemonId = respAsJsonResults[index].id; 
 
-    // Überprüfe, ob das Pokémon bereits in der Liste pokemons vorhanden ist
     if (pokemons.findIndex((pokemon) => pokemon.id === pokemonId) === -1) {
       const pokemonImg =
         pokemonDataArray[index].sprites.other["official-artwork"][
@@ -120,7 +117,6 @@ function addPokemons(index, pokemonData) {
   let pokemonWeight = pokemonData.weight;
   let pokemonAbilities = pokemonData.abilities;
 
-
   let typesHTML = generateTypeHTML(pokemonTypes);
   let abilitiesHTML = generateAbilityHTML(pokemonAbilities);
 
@@ -165,6 +161,7 @@ function addPokemons(index, pokemonData) {
         <div class="pokemon-abilities-div">
             <div>abilities:</div>
             <div>${abilitiesHTML}</div>
+            <div></div>
         </div>
     </div>
       </div>
@@ -180,7 +177,6 @@ async function fetchAdditionalPokemon(numPokemons) {
     if (respAsJsonResults[index]) {
       let pokemonUrl = respAsJsonResults[index].url;
 
-      // Überprüfen, ob das Pokémon bereits geladen wurde
       if (!pokemons.some((pokemon) => pokemon.url === pokemonUrl)) {
         let pokemonResp = await fetch(pokemonUrl);
         let pokemonData = await pokemonResp.json();
@@ -245,7 +241,9 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   // Generate stats HTML
   let statsHTML = "";
   for (let i = 0; i < pokemonData.stats.length; i++) {
-    let pokemonStatsName = capitalizeFirstLetter(pokemonData.stats[i].stat.name);
+    let pokemonStatsName = capitalizeFirstLetter(
+      pokemonData.stats[i].stat.name
+    );
 
     // Replace "special" with "spec"
     pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
@@ -258,7 +256,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
 
     let pokemonStats = pokemonData.stats[i].base_stat;
     let progressBarId = `progressbar-${i}`;
-    statsHTML += /*html*/`
+    statsHTML += /*html*/ `
     <div class="${pokemonCardClass} stat">
       <span class="${pokemonCardClass} stat-name">${pokemonStatsName}: ${pokemonStats}</span>
       <span id="${progressBarId}" class="progressbar"></span>
@@ -284,9 +282,6 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     progressBar.style.width = `${widthPercentage}%`;
   }
 }
-
-
-
 
 function closeDetails() {
   let popUp = document.getElementById("popUp");
@@ -355,17 +350,29 @@ async function fetchPokemonData(index) {
 function searchPokemon() {
   let searchTerm = document
     .getElementById("searchPokemons")
-    .value.toLowerCase(); // Suchbegriff in Kleinbuchstaben konvertieren
+    .value.toLowerCase(); 
   let cards = document.getElementsByClassName("card");
 
   for (let i = 0; i < cards.length; i++) {
     let pokemonName = cards[i]
       .getElementsByClassName("name")[0]
-      .innerText.toLowerCase(); // Pokémon-Namen aus der Karte extrahieren und in Kleinbuchstaben konvertieren
+      .innerText.toLowerCase(); 
     if (pokemonName.startsWith(searchTerm)) {
-      cards[i].style.display = "block"; // Karte anzeigen, wenn der Pokémon-Name mit dem Suchbegriff beginnt
+      cards[i].style.display = "block"; 
     } else {
-      cards[i].style.display = "none"; // Ansonsten Karte ausblenden
+      cards[i].style.display = "none"; 
     }
   }
 }
+
+function handleResize() {
+  let pokball = document.getElementById("pokeball");
+  if (window.innerWidth <= 1456) {
+    pokball.classList.add("d-none");
+  } else {
+    pokball.classList.remove("d-none");
+  }
+}
+
+window.addEventListener("resize", handleResize);
+
