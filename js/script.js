@@ -505,6 +505,14 @@ async function nextPokemonVersion() {
     previousPokemonImg = previousPokemonData.sprites.other["official-artwork"]["front_default"];
   }
 
+  // Find the third generation Pokemon in the pokemons array
+  const thirdGenerationPokemonData = pokemons.find(pokemon => pokemon.name === thirdGenerationPokemon);
+  let thirdGenerationPokemonImg = '';
+  if (thirdGenerationPokemonData) {
+    const thirdGenerationData = await fetchPokemonData(pokemons.indexOf(thirdGenerationPokemonData));
+    thirdGenerationPokemonImg = thirdGenerationData.sprites.other["official-artwork"]["front_default"];
+  }
+
   let popUpCard = document.getElementById("popupCard");
   popUpCard.innerHTML = /*html*/ `
     <div class="popUp">
@@ -521,10 +529,9 @@ async function nextPokemonVersion() {
         </div>
         <div class="third-pokemon-generation-div">
           <div class="previous-pokemon-name">${thirdGenerationPokemon}</div>
-          <img class="previous-pokemon-img" src="${previousPokemonImg}">
-        <img src="src/img/down.png">
-      </div>
-      </div>
+          <img class="previous-pokemon-img" src="${thirdGenerationPokemonImg}">
+          <img src="src/img/down.png">
+        </div>
       </div>
     </div>
   `;
@@ -532,6 +539,7 @@ async function nextPokemonVersion() {
   const tooltip = document.getElementById("tooltip");
   tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
 }
+
 
 // Helper function to fetch JSON data from a given URL
 async function fetchJsonData(url) {
