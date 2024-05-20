@@ -476,10 +476,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Helper function to capitalize the first letter of a string
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 async function nextPokemonVersion() {
-  const pokemonData = await fetchPokemonData(currentPokemonIndex - 1); // -1 because the index is 1-based in your code
+  const currentPokemonIndexZeroBased = currentPokemonIndex - 1; // -1 because the index is 1-based in your code
+  const pokemonData = await fetchPokemonData(currentPokemonIndexZeroBased);
   const pokemonType = pokemonData.types[0].type.name + '1';
   const pokemonDataUrl = pokemonData.species.url;
+
+  // Current Pokemon info
+  const currentPokemon = pokemons[currentPokemonIndexZeroBased];
+  const currentPokemonName = capitalizeFirstLetter(currentPokemon.name);
+  const currentPokemonImg = pokemonData.sprites.other["official-artwork"]["front_default"];
 
   // Fetch the JSON data from the pokemonDataUrl
   const nextGenerPokemonUrl = await fetchJsonData(pokemonDataUrl);
@@ -488,12 +499,14 @@ async function nextPokemonVersion() {
   // Fetch the evolution chain JSON data
   const evolutionChainUrl = nextGenerPokemonUrl.evolution_chain.url;
   const evolutionChain = await fetchJsonData(evolutionChainUrl);
-  const thirdGenerationPokemon = evolutionChain.chain.evolves_to[0].evolves_to[0].species.name;
-  console.log(thirdGenerationPokemon); // Ausgabe des evolutionChain JSON-Objekts
-  // console.log(evolutionChain.chain.evolves_to[0].evolves_to.species.name);
 
   // Safely access the previous evolution species name
   const previousPokeGeneration = nextGenerPokemonUrl.evolves_from_species?.name ?? '';
+  console.log(evolutionChain); // Ausgabe des evolutionChain JSON-Objekts
+
+  // Determine the second and third generation Pokemon
+  const secondGenerationPokemon = evolutionChain.chain.evolves_to[0]?.species.name ?? '';
+  const thirdGenerationPokemon = evolutionChain.chain.evolves_to[0]?.evolves_to[0]?.species.name ?? '';
 
   // Find the previous Pokemon in the pokemons array
   const previousPokemon = pokemons.find(pokemon => pokemon.name === previousPokeGeneration);
@@ -503,6 +516,14 @@ async function nextPokemonVersion() {
   if (previousPokemon) {
     const previousPokemonData = await fetchPokemonData(pokemons.indexOf(previousPokemon));
     previousPokemonImg = previousPokemonData.sprites.other["official-artwork"]["front_default"];
+  }
+
+  // Find the second generation Pokemon in the pokemons array
+  const secondGenerationPokemonData = pokemons.find(pokemon => pokemon.name === secondGenerationPokemon);
+  let secondGenerationPokemonImg = '';
+  if (secondGenerationPokemonData) {
+    const secondGenerationData = await fetchPokemonData(pokemons.indexOf(secondGenerationPokemonData));
+    secondGenerationPokemonImg = secondGenerationData.sprites.other["official-artwork"]["front_default"];
   }
 
   // Find the third generation Pokemon in the pokemons array
@@ -517,27 +538,38 @@ async function nextPokemonVersion() {
   popUpCard.innerHTML = /*html*/ `
     <div class="popUp">
       <div class="${pokemonType} background-info-div">
+        <h3>Evolution Chain</h3>
         <div class="first-pokemon-generation-div">
-          <div class="previous-pokemon-name">${previousPokeGeneration}</div>
-          <img class="previous-pokemon-img" src="${previousPokemonImg}">
-          <img src="src/img/down.png">
+          <div class="previous-pokemon-name">${previousPokeGeneration ? capitalizeFirstLetter(previousPokeGeneration) : currentPokemonName}</div>
+          <img class="previous-pokemon-img" src="${previousPokemonImg ? previousPokemonImg : currentPokemonImg}">
+          ${secondGenerationPokemon ? `<img src="src/img/down.png">` : ''}
         </div>
+        ${secondGenerationPokemon ? `
         <div class="second-pokemon-generation-div">
-          <div class="previous-pokemon-name">${previousPokeGeneration}</div>
-          <img class="previous-pokemon-img" src="${previousPokemonImg}">
-          <img src="src/img/down.png">
-        </div>
+          <div class="previous-pokemon-name">${capitalizeFirstLetter(secondGenerationPokemon)}</div>
+          <img class="previous-pokemon-img" src="${secondGenerationPokemonImg}">
+          ${thirdGenerationPokemon ? `<img src="src/img/down.png">` : ''}
+        </div>` : ''}
+        ${thirdGenerationPokemon ? `
         <div class="third-pokemon-generation-div">
-          <div class="previous-pokemon-name">${thirdGenerationPokemon}</div>
+          <div class="previous-pokemon-name">${capitalizeFirstLetter(thirdGenerationPokemon)}</div>
           <img class="previous-pokemon-img" src="${thirdGenerationPokemonImg}">
-          <img src="src/img/down.png">
-        </div>
+        </div>` : ''}
       </div>
     </div>
   `;
 
   const tooltip = document.getElementById("tooltip");
   tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
+}
+
+// Helper function to fetch JSON data from a given URL
+async function fetchJsonData(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Network response was not ok ' + response.statusText);
+  }
+  return response.json();
 }
 
 
@@ -549,7 +581,6 @@ async function fetchJsonData(url) {
   }
   return response.json();
 }
-
 
 {/* <div class="first-evolution">
 <div class="evolution-name">${firstEvolutionJson.name}</div>
