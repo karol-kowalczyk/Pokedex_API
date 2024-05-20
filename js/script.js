@@ -387,7 +387,6 @@ function searchPokemon() {
   let load20Btn = document.getElementById("loadTwentyMoreButton");
   let found = false;
 
-  // Verstecke die Load-Buttons während der Suche
   loadAllBtn.style.display = "none";
   load20Btn.style.display = "none";
 
@@ -416,8 +415,6 @@ function searchPokemon() {
       noPokemonMessage.remove();
     }
   }
-
-  // Zeige die Load-Buttons wieder an, wenn das Suchfeld leer ist
   if (searchTerm === "") {
     loadAllBtn.style.display = "block";
     load20Btn.style.display = "block";
@@ -450,23 +447,89 @@ function hideButtons() {
   document.getElementById("loadTwentyMoreButton").classList.add("d-none");
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const tooltip = document.getElementById('tooltip');
+document.addEventListener("DOMContentLoaded", function () {
+  const tooltip = document.getElementById("tooltip");
 
-  document.querySelectorAll('[data-tooltip]').forEach(element => {
-      element.addEventListener('mouseenter', function(event) {
-          tooltip.innerText = event.target.getAttribute('data-tooltip');
-          tooltip.style.opacity = '1';
-      });
+  document.querySelectorAll("[data-tooltip]").forEach((element) => {
+    let timer; // Timer variable
 
-      element.addEventListener('mousemove', function(event) {
-          tooltip.style.left = event.pageX + 10 + 'px';
-          tooltip.style.top = event.pageY + 10 + 'px';
-      });
+    element.addEventListener("mouseenter", function (event) {
+      tooltip.innerText = event.target.getAttribute("data-tooltip");
+      tooltip.style.opacity = "1";
 
-      element.addEventListener('mouseleave', function() {
-          tooltip.style.opacity = '0';
-      });
+      // Set a timeout to hide the tooltip after 3 seconds
+      timer = setTimeout(() => {
+        tooltip.style.opacity = "0";
+      }, 3000);
+    });
+
+    element.addEventListener("mousemove", function (event) {
+      tooltip.style.left = event.pageX + 10 + "px";
+      tooltip.style.top = event.pageY + 10 + "px";
+    });
+
+    element.addEventListener("mouseleave", function () {
+      // Clear the timeout when mouse leaves the element
+      clearTimeout(timer);
+      tooltip.style.opacity = "0";
+    });
   });
 });
 
+async function nextPokemonVersion() {
+  const pokemonData = await fetchPokemonData(currentPokemonIndex - 1); // -1 because the index is 1-based in your code
+  const pokemonType = pokemonData.types[0].type.name + '1';
+  const pokemonDataUrl = pokemonData.species.url;
+
+  // Fetch the JSON data from the pokemonDataUrl
+  const speciesData = await fetchJsonData(pokemonDataUrl);
+
+  // Safely access the previous evolution species name
+  const previousPokeGeneration = speciesData.evolves_from_species?.name ?? '';
+
+  // Find the previous Pokemon in the pokemons array
+  const previousPokemon = pokemons.find(pokemon => pokemon.name === previousPokeGeneration);
+
+  // If previous Pokemon is found, extract its image
+  let previousPokemonImg = '';
+  if (previousPokemon) {
+    const previousPokemonData = await fetchPokemonData(pokemons.indexOf(previousPokemon));
+    previousPokemonImg = previousPokemonData.sprites.other["official-artwork"]["front_default"];
+  }
+
+  let popUpCard = document.getElementById("popupCard");
+  popUpCard.innerHTML = `
+    <div class="popUp">
+      <div class="${pokemonType} background-info-div">
+        <div>${previousPokeGeneration}</div>
+        <img src="${previousPokemonImg}">
+      </div>
+    </div>
+  `;
+
+  const tooltip = document.getElementById("tooltip");
+  tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
+}
+
+// Helper function to fetch JSON data from a given URL
+async function fetchJsonData(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Network response was not ok ' + response.statusText);
+  }
+  return response.json();
+}
+
+
+{/* <div class="first-evolution">
+<div class="evolution-name">${firstEvolutionJson.name}</div>
+<img src="${firstEvolutionImg}" alt="${firstEvolutionJson.name}" />
+</div>
+<div class="second-evolution">
+<div class="evolution-name">${secondEvolutionJson.name}</div>
+<img src="${secondEvolutionImg}" alt="${secondEvolutionJson.name}" />
+</div>
+<div class="third-evolution">
+<div class="evolution-name">${thirdEvolutionJson.name}</div>
+<img src="${thirdEvolutionImg}" alt="${thirdEvolutionJson.name}" />
+</div> */}

@@ -141,6 +141,21 @@
   cursor: pointer;
 }
 
+.popUp-arrow {
+  background: none;
+  position: absolute;
+  top: 64%;
+  left: 106%;
+  cursor: pointer;
+  height: 60px;
+  width: 60px;
+  transform: translate(-50%, -50%);
+}
+
+.popUp-arrow:hover {
+  height: 62px;
+  width: 62px;
+}
 @media (max-width: 470px) {
   .popUp {
     width: 360px;
@@ -294,9 +309,6 @@
     width: 460px;
   }
 }
-
-
-
 
 @media (max-width: 2050px) and (max-height: 1100px) {
   .stats {
@@ -684,8 +696,6 @@
   }
 }
 
-
-
 @media (max-width: 800px) and (max-height: 1150px) {
   .popUp {
     height: 950px;
@@ -706,7 +716,6 @@
     left: 10%;
     width: 480px;
   }
-
 }
 
 @media (max-width: 655px) and (max-height: 1150px) {
@@ -725,7 +734,6 @@
     left: 10%;
     width: 420px;
   }
-
 }
 
 @media (max-width: 600px) and (max-height: 1150px) {
@@ -734,8 +742,6 @@
     left: 10%;
     width: 380px;
   }
-
-
 }
 
 @media (max-width: 560px) and (max-height: 800px) {
@@ -810,11 +816,31 @@
   }
 }
 
-
 @media (max-width: 600px) and (max-height: 1010px) {
   .popUp {
-      width: 520px;
-      height: 900px;
+    width: 520px;
+    height: 900px;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 850px) {
+  .popUp {
+    width: 480px;
+    height: 744px;
+  }
+
+  .background-info-div {
+    width: 480px;
+    height: 744px;
+  }
+
+  .stats {
+    width: 380px;
+    top: 58%;
+  }
+
+  .stat-name {
+    font-size: 20px;
   }
 }
 
@@ -825,8 +851,13 @@
   }
 
   .header-popup {
-    top: 18%;
+    top: 16%;
   }
+
+  .name-popup, .number-popup {
+    font-size: 48px;
+  }
+
 
   #background-info-div {
     width: 420px;
@@ -836,6 +867,7 @@
   .stats {
     left: 8%;
     top: 58%;
+    width: 380px;
   }
 
   .popUp-img {
@@ -856,12 +888,18 @@
   }
 
   .header-popup {
-    top: 18%;
+    top: 16%;
   }
 
   #background-info-div {
-    width: 480px;
+    width: 480px !important;
     height: 720px;
+  }
+
+  .popUp-arrow {
+    width: 36px;
+    height: 36px;
+    left: 104%;
   }
 
   .stats {

@@ -28,12 +28,14 @@
 
             <h1 onclick="reloadSite()">Pokedex</h1>
             <div class="search-bar">
-                <input id="searchPokemons" type="text" placeholder="Search" onkeydown="searchPokemon()">
+                <input id="searchPokemons" type="text" placeholder="Search" data-tooltip="Pokemon versions" onkeydown="searchPokemon()">
             </div>
         </div>
         <div id="shadowBox" class="d-none"></div>
         <div onclick="closeDetails()" id="popUp" class="popUpDiv d-none">
-            <div onclick="stopPropagationFunction(event)" class="popUp"></div>
+            <div onclick="stopPropagationFunction(event)" class="popUp" id="popupCard">
+                <img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">
+            </div>
         </div>
         <img id="leftArrow" class="arrow-btn-left d-none" src="src/img/arrowButtonLeft.png">
         <img id="rightArrow" class="arrow-btn-right d-none" src="src/img/arrowButtonRight.png">
@@ -43,7 +45,6 @@
             <p data-tooltip="It may take up to two minutes to load."  class="loading-sentence loading-sentence-all-pokemon">Loading ...</p>
         </div>
 
-        <!-- Tooltip-Element -->
         <div id="tooltip"></div>
 
         <div id="card-field"></div>
