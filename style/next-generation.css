@@ -1,0 +1,13 @@
+.previous-pokemon-name {
+}
+
+.previous-pokemon-img {
+  height: 128px;
+  width: 128px;
+}
+
+.first-pokemon-generation-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

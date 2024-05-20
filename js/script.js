@@ -482,10 +482,18 @@ async function nextPokemonVersion() {
   const pokemonDataUrl = pokemonData.species.url;
 
   // Fetch the JSON data from the pokemonDataUrl
-  const speciesData = await fetchJsonData(pokemonDataUrl);
+  const nextGenerPokemonUrl = await fetchJsonData(pokemonDataUrl);
+  console.log(nextGenerPokemonUrl); // Ausgabe des JSON-Objekts
+
+  // Fetch the evolution chain JSON data
+  const evolutionChainUrl = nextGenerPokemonUrl.evolution_chain.url;
+  const evolutionChain = await fetchJsonData(evolutionChainUrl);
+  const thirdGenerationPokemon = evolutionChain.chain.evolves_to[0].evolves_to[0].species.name;
+  console.log(thirdGenerationPokemon); // Ausgabe des evolutionChain JSON-Objekts
+  // console.log(evolutionChain.chain.evolves_to[0].evolves_to.species.name);
 
   // Safely access the previous evolution species name
-  const previousPokeGeneration = speciesData.evolves_from_species?.name ?? '';
+  const previousPokeGeneration = nextGenerPokemonUrl.evolves_from_species?.name ?? '';
 
   // Find the previous Pokemon in the pokemons array
   const previousPokemon = pokemons.find(pokemon => pokemon.name === previousPokeGeneration);
@@ -498,11 +506,25 @@ async function nextPokemonVersion() {
   }
 
   let popUpCard = document.getElementById("popupCard");
-  popUpCard.innerHTML = `
+  popUpCard.innerHTML = /*html*/ `
     <div class="popUp">
       <div class="${pokemonType} background-info-div">
-        <div>${previousPokeGeneration}</div>
-        <img src="${previousPokemonImg}">
+        <div class="first-pokemon-generation-div">
+          <div class="previous-pokemon-name">${previousPokeGeneration}</div>
+          <img class="previous-pokemon-img" src="${previousPokemonImg}">
+          <img src="src/img/down.png">
+        </div>
+        <div class="second-pokemon-generation-div">
+          <div class="previous-pokemon-name">${previousPokeGeneration}</div>
+          <img class="previous-pokemon-img" src="${previousPokemonImg}">
+          <img src="src/img/down.png">
+        </div>
+        <div class="third-pokemon-generation-div">
+          <div class="previous-pokemon-name">${thirdGenerationPokemon}</div>
+          <img class="previous-pokemon-img" src="${previousPokemonImg}">
+        <img src="src/img/down.png">
+      </div>
+      </div>
       </div>
     </div>
   `;
