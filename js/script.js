@@ -502,7 +502,7 @@ async function nextPokemonVersion() {
 
   // Safely access the previous evolution species name
   const previousPokeGeneration = nextGenerPokemonUrl.evolves_from_species?.name ?? '';
-  console.log(evolutionChain); // Ausgabe des evolutionChain JSON-Objekts
+  console.log(previousPokeGeneration); // Ausgabe des evolutionChain JSON-Objekts
 
   // Determine the second and third generation Pokemon
   const secondGenerationPokemon = evolutionChain.chain.evolves_to[0]?.species.name ?? '';
