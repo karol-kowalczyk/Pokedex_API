@@ -491,7 +491,7 @@ async function nextPokemonVersion() {
   const currentPokemon = pokemons[currentPokemonIndexZeroBased];
   const currentPokemonName = capitalizeFirstLetter(currentPokemon.name);
   const currentPokemonImg = pokemonData.sprites.other["official-artwork"]["front_default"];
-
+  console.log(currentPokemonImg);
   // Fetch the JSON data from the pokemonDataUrl
   const nextGenerPokemonUrl = await fetchJsonData(pokemonDataUrl);
   console.log(nextGenerPokemonUrl); // Ausgabe des JSON-Objekts
