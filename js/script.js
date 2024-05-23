@@ -538,17 +538,17 @@ async function nextPokemonVersion() {
   popUpCard.innerHTML = /*html*/ `
     <div class="popUp">
       <div class="${pokemonType} background-info-div">
-        <h3>Evolution Chain</h3>
+        <h3 id="popupCardTitle">Evolution Chain</h3>
         <div class="first-pokemon-generation-div">
           <div class="previous-pokemon-name">${previousPokeGeneration ? capitalizeFirstLetter(previousPokeGeneration) : currentPokemonName}</div>
           <img class="previous-pokemon-img" src="${previousPokemonImg ? previousPokemonImg : currentPokemonImg}">
-          ${secondGenerationPokemon ? `<img src="src/img/down.png">` : ''}
+          ${secondGenerationPokemon ? `<img class="arrow-down" src="src/img/down.png">` : ''}
         </div>
         ${secondGenerationPokemon ? `
         <div class="second-pokemon-generation-div">
           <div class="previous-pokemon-name">${capitalizeFirstLetter(secondGenerationPokemon)}</div>
           <img class="previous-pokemon-img" src="${secondGenerationPokemonImg}">
-          ${thirdGenerationPokemon ? `<img src="src/img/down.png">` : ''}
+          ${thirdGenerationPokemon ? `<img class="arrow-down" src="src/img/down.png">` : ''}
         </div>` : ''}
         ${thirdGenerationPokemon ? `
         <div class="third-pokemon-generation-div">

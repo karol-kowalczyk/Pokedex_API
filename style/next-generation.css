@@ -6,8 +6,37 @@
   width: 128px;
 }
 
-.first-pokemon-generation-div {
+.first-pokemon-generation-div, .second-pokemon-generation-div, .third-pokemon-generation-div {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: none;
+  flex-direction: column;
+  margin: 16px;
+}
+
+.previous-pokemon-name {
+  -webkit-text-stroke: 1.5px black;
+  font-family: 'pokemon';
+  color: #ffcc00;
+  font-size: 24px;
+}
+
+#popupCardTitle {
+  text-align: center;
+  font-family: "Pokemon";
+  font-size: 40px;
+  color: #ffcc00;
+  /* border: 2px solid black; */
+  -webkit-text-stroke: 1.5px black;
+  background: none;
+  margin: 16px 8px 24px 8px;
+}
+
+.previous-pokemon-img {
+  background: none;
+}
+
+.arrow-down {
+  background: none;
 }
