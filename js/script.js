@@ -251,7 +251,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
       index,
       pokemonName,
       pokemonCardClass,
-      currentPokemonIndex
+      currentPokemonIndex,
     );
   };
 
@@ -261,7 +261,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
       index,
       pokemonName,
       pokemonCardClass,
-      currentPokemonIndex
+      currentPokemonIndex,
     );
   };
 
@@ -324,7 +324,12 @@ function closeDetails() {
   let rightArrow = document.getElementById("rightArrow");
   leftArrow.classList.add("d-none");
   rightArrow.classList.add("d-none");
+  let evolutionChainCard = document.getElementById("evolutionChainCard");
+  evolutionChainCard.classList.add("d-none");
   currentPokemonIndex = 0;
+  let popupCard = document.getElementById("popupCard");
+  popupCard.innerHTML = /*html*/ `
+  <img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`
 }
 
 function stopPropagationFunction(event) {
@@ -512,6 +517,7 @@ async function nextPokemonVersion() {
       <div class="first-pokemon-generation-div">
         <div class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
         <img class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
+        <img class="popUp-arrow" onclick="disableEvolutionChainCard()" src="src/img/next.png" alt="arrow">
     `;
 
     // Add the arrow-down image only if there is a next evolution
@@ -526,7 +532,7 @@ async function nextPokemonVersion() {
 
   let popUpCard = document.getElementById("popupCard");
   popUpCard.innerHTML = /*html*/ `
-    <div class="popUp">
+    <div id="evolutionChainCard" class="popUp">
       <div class="${pokemonType} background-info-div">
         <h3 id="popupCardTitle">Evolution Chain</h3>
         ${evolutionHTML}
@@ -538,6 +544,13 @@ async function nextPokemonVersion() {
   tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
 }
 
+function disableEvolutionChainCard() {
+  let evolutionChainCard = document.getElementById('evolutionChainCard');
+  evolutionChainCard.classList.add("d-none");
+
+  let popupCard = document.getElementById("popupCard");
+  popupCard.innerHTML = /*html*/ `<img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`;
+}
 
 
 // Helper function to fetch JSON data from a given URL
@@ -548,7 +561,6 @@ async function fetchJsonData(url) {
   }
   return response.json();
 }
-
 
 // Helper function to fetch JSON data from a given URL
 async function fetchJsonData(url) {
