@@ -508,12 +508,18 @@ async function nextPokemonVersion() {
       pokemonImg = pokemonDataDetails.sprites.other["official-artwork"]["front_default"];
     }
 
-    evolutionHTML +=/*html*/ `
+    evolutionHTML += /*html*/ `
       <div class="first-pokemon-generation-div">
         <div class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
         <img class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
-      </div>
     `;
+
+    // Add the arrow-down image only if there is a next evolution
+    if (currentPokemon.evolves_to.length > 0) {
+      evolutionHTML += `<img class="arrow-down" src="src/img/down.png">`;
+    }
+
+    evolutionHTML += `</div>`;
 
     currentPokemon = currentPokemon.evolves_to[0];
   }
@@ -531,6 +537,7 @@ async function nextPokemonVersion() {
   const tooltip = document.getElementById("tooltip");
   tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
 }
+
 
 
 // Helper function to fetch JSON data from a given URL
