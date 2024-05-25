@@ -608,9 +608,20 @@ async function nextPokemonVersion() {
   const evolutionChain = await fetchJsonData(evolutionChainUrl);
 
   let evolutionHTML = "";
+  let evolutionCount = 0;
 
   let currentPokemon = evolutionChain.chain;
+  const evolutionChainList = [];
   while (currentPokemon) {
+    evolutionCount++;
+    evolutionChainList.push(currentPokemon);
+    currentPokemon = currentPokemon.evolves_to[0];
+  }
+
+  const additionalId = evolutionCount === 2 ? ' id="moreSpace"' : '';
+  const pokemonHeaderNameInfoCard = evolutionCount === 2 ? ' id="pokemonHeaderNameInfoCard"' : '';
+
+  for (const currentPokemon of evolutionChainList) {
     const pokemonName = currentPokemon.species.name;
     const pokemonData = pokemons.find(
       (pokemon) => pokemon.name === pokemonName
@@ -625,8 +636,8 @@ async function nextPokemonVersion() {
 
     evolutionHTML += /*html*/ `
       <div class="first-pokemon-generation-div">
-        <div class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
-        <img class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
+        <div ${pokemonHeaderNameInfoCard} class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
+        <img ${additionalId} class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
         <img class="popUp-returnarrow" onclick="disableEvolutionChainCard()" src="src/img/return.png" alt="arrow">
         <img class="popUp-arrow" onclick="showPokemonText()" src="src/img/next.png" alt="arrow">
     `;
@@ -637,8 +648,6 @@ async function nextPokemonVersion() {
     }
 
     evolutionHTML += `</div>`;
-
-    currentPokemon = currentPokemon.evolves_to[0];
   }
 
   let popUpCard = document.getElementById("popupCard");
@@ -654,6 +663,8 @@ async function nextPokemonVersion() {
   const tooltip = document.getElementById("tooltip");
   tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
 }
+
+
 
 function disableEvolutionChainCard() {
   let leftArrow = document.getElementById("leftArrow");
