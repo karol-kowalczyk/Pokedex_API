@@ -251,7 +251,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
       index,
       pokemonName,
       pokemonCardClass,
-      currentPokemonIndex,
+      currentPokemonIndex
     );
   };
 
@@ -261,7 +261,7 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
       index,
       pokemonName,
       pokemonCardClass,
-      currentPokemonIndex,
+      currentPokemonIndex
     );
   };
 
@@ -311,25 +311,6 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     let widthPercentage = (pokemonData.stats[i].base_stat / 200) * 100;
     progressBar.style.width = `${widthPercentage}%`;
   }
-}
-
-function closeDetails() {
-  let popUp = document.getElementById("popUp");
-  popUp.classList.add("d-none");
-  let shadowBox = document.getElementById("shadowBox");
-  shadowBox.classList.remove("d-block");
-  shadowBox.classList.add("d-none");
-  document.body.classList.remove("disable-scrolling");
-  let leftArrow = document.getElementById("leftArrow");
-  let rightArrow = document.getElementById("rightArrow");
-  leftArrow.classList.add("d-none");
-  rightArrow.classList.add("d-none");
-  let evolutionChainCard = document.getElementById("evolutionChainCard");
-  evolutionChainCard.classList.add("d-none");
-  currentPokemonIndex = 0;
-  let popupCard = document.getElementById("popupCard");
-  popupCard.innerHTML = /*html*/ `
-  <img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`
 }
 
 function stopPropagationFunction(event) {
@@ -486,38 +467,168 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+async function showPokemonText() {
+  const currentPokemonIndexZeroBased = currentPokemonIndex - 1; // just the number of the pokemon
+  const pokemonData = await fetchPokemonData(currentPokemonIndexZeroBased);
+  const pokemonsAbilitieText = pokemonData.forms[0].url;
+  const pokemonsAbilitieTextJson = await fetchJsonData(pokemonsAbilitieText);
+  const pokemonsAbilitieTextJsonName = await fetchJsonData(
+    pokemonsAbilitieTextJson.pokemon.url
+  );
+  const pokeAbilitie = await fetchJsonData(
+    pokemonsAbilitieTextJsonName.abilities[0].ability.url
+  );
+
+  // Function for language detection
+  function detectLanguage(text) {
+    const englishKeywords = ["the", "and", "is", "in", "on"];
+    const germanKeywords = [
+      "mit",
+      "dieser",
+      "der",
+      "und",
+      "ist",
+      "in",
+      "auf",
+      "wenn",
+      "Fähigkeit",
+    ];
+
+    let englishCount = 0;
+    let germanCount = 0;
+
+    const words = text.toLowerCase().split(/\W+/);
+
+    words.forEach((word) => {
+      if (englishKeywords.includes(word)) englishCount++;
+      if (germanKeywords.includes(word)) germanCount++;
+    });
+
+    if (englishCount > germanCount) {
+      return "English";
+    } else if (germanCount > englishCount) {
+      return "German";
+    } else {
+      return "Unknown";
+    }
+  }
+
+  let pokeAbilitieTxt = pokeAbilitie.effect_entries[0].effect;
+
+  // Check if the text is in German
+  if (detectLanguage(pokeAbilitieTxt) === "German") {
+    pokeAbilitieTxt = pokeAbilitie.effect_entries[1].effect;
+  }
+
+  const fullText = pokeAbilitieTxt;
+  let truncatedText = fullText;
+  let seeMoreButton = "";
+
+  if (fullText.length > 180) {
+    truncatedText = fullText.substring(0, 180) + "...";
+    seeMoreButton = `<button id="seeMoreButton" onclick="showFullText()">see more...</button>`;
+  }
+
+  const pokemonType = pokemonData.types[0].type.name + "1";
+  const backImg =
+    pokemonsAbilitieTextJsonName.sprites.other.dream_world.front_default;
+
+  let popUpCard = document.getElementById("popupCard");
+
+  popUpCard.innerHTML = /*html*/ `
+    <div id="informationText" class="popUp">
+      <div class="${pokemonType} background-info-div">
+        <h3 id="pokeAbilitieTitle">Information</h3>
+        <div class="poke-abilitie-txt">
+          <span id="truncatedText">${truncatedText}</span>
+          <span id="fullText" style="display: none;">${fullText.substring(
+            180
+          )}</span>
+          <div class="see-more-btn-div">${seeMoreButton}</div>
+        </div>
+        <div class="poke-abilitie-img-div">
+          <img id="abilityImage" class="poke-abilitie-img" src="${backImg}">
+          <img class="popUp-returnarrow" onclick="hideInfortmationText()" src="src/img/return.png" alt="arrow">
+        </div>
+      </div>
+    </div>`;
+
+  // Function to show full text and hide the image
+  window.showFullText = function () {
+    document.getElementById("fullText").style.display = "inline";
+    document.getElementById("seeMoreButton").style.display = "none";
+    document.getElementById("abilityImage").style.display = "none";
+  };
+}
+
+function hideInfortmationText() {
+  let leftArrow = document.getElementById("leftArrow");
+  let rightArrow = document.getElementById("rightArrow");
+  let informationText = document.getElementById("informationText");
+  informationText.classList.add("d-none");
+
+  leftArrow.classList.remove("d-none");
+  rightArrow.classList.remove("d-none");
+
+  let popUpCard = document.getElementById("popupCard");
+  popUpCard.innerHTML +=
+    '<img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">';
+}
+
+// Helper function to fetch JSON data from a given URL
+async function fetchJsonData(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return null;
+  }
+}
+
 async function nextPokemonVersion() {
+  let rightArrow = document.getElementById("rightArrow");
+  let leftArrow = document.getElementById("leftArrow");
+  rightArrow.classList.add("d-none");
+  leftArrow.classList.add("d-none");
+
   const currentPokemonIndexZeroBased = currentPokemonIndex - 1;
   const pokemonData = await fetchPokemonData(currentPokemonIndexZeroBased);
-  const pokemonType = pokemonData.types[0].type.name + '1';
+  const pokemonType = pokemonData.types[0].type.name + "1";
   const pokemonDataUrl = pokemonData.species.url;
 
   // Fetch the JSON data from the pokemonDataUrl
   const nextGenerPokemonUrl = await fetchJsonData(pokemonDataUrl);
-  console.log(nextGenerPokemonUrl); // Ausgabe des JSON-Objekts
 
   // Fetch the evolution chain JSON data
   const evolutionChainUrl = nextGenerPokemonUrl.evolution_chain.url;
   const evolutionChain = await fetchJsonData(evolutionChainUrl);
 
-  let evolutionHTML = '';
+  let evolutionHTML = "";
 
   let currentPokemon = evolutionChain.chain;
   while (currentPokemon) {
     const pokemonName = currentPokemon.species.name;
-    const pokemonData = pokemons.find(pokemon => pokemon.name === pokemonName);
-    let pokemonImg = '';
+    const pokemonData = pokemons.find(
+      (pokemon) => pokemon.name === pokemonName
+    );
+    let pokemonImg = "";
     if (pokemonData) {
       const pokemonDataIndex = pokemons.indexOf(pokemonData);
       const pokemonDataDetails = await fetchPokemonData(pokemonDataIndex);
-      pokemonImg = pokemonDataDetails.sprites.other["official-artwork"]["front_default"];
+      pokemonImg =
+        pokemonDataDetails.sprites.other["official-artwork"]["front_default"];
     }
 
     evolutionHTML += /*html*/ `
       <div class="first-pokemon-generation-div">
         <div class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
         <img class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
-        <img class="popUp-arrow" onclick="disableEvolutionChainCard()" src="src/img/next.png" alt="arrow">
+        <img class="popUp-returnarrow" onclick="disableEvolutionChainCard()" src="src/img/return.png" alt="arrow">
+        <img class="popUp-arrow" onclick="showPokemonText()" src="src/img/next.png" alt="arrow">
     `;
 
     // Add the arrow-down image only if there is a next evolution
@@ -545,19 +656,22 @@ async function nextPokemonVersion() {
 }
 
 function disableEvolutionChainCard() {
-  let evolutionChainCard = document.getElementById('evolutionChainCard');
+  let leftArrow = document.getElementById("leftArrow");
+  let rightArrow = document.getElementById("rightArrow");
+  leftArrow.classList.remove("d-none");
+  rightArrow.classList.remove("d-none");
+  let evolutionChainCard = document.getElementById("evolutionChainCard");
   evolutionChainCard.classList.add("d-none");
 
   let popupCard = document.getElementById("popupCard");
   popupCard.innerHTML = /*html*/ `<img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`;
 }
 
-
 // Helper function to fetch JSON data from a given URL
 async function fetchJsonData(url) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error('Network response was not ok ' + response.statusText);
+    throw new Error("Network response was not ok " + response.statusText);
   }
   return response.json();
 }
@@ -566,20 +680,24 @@ async function fetchJsonData(url) {
 async function fetchJsonData(url) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error('Network response was not ok ' + response.statusText);
+    throw new Error("Network response was not ok " + response.statusText);
   }
   return response.json();
 }
 
-{/* <div class="first-evolution">
-<div class="evolution-name">${firstEvolutionJson.name}</div>
-<img src="${firstEvolutionImg}" alt="${firstEvolutionJson.name}" />
-</div>
-<div class="second-evolution">
-<div class="evolution-name">${secondEvolutionJson.name}</div>
-<img src="${secondEvolutionImg}" alt="${secondEvolutionJson.name}" />
-</div>
-<div class="third-evolution">
-<div class="evolution-name">${thirdEvolutionJson.name}</div>
-<img src="${thirdEvolutionImg}" alt="${thirdEvolutionJson.name}" />
-</div> */}
+function closeDetails() {
+  let popUp = document.getElementById("popUp");
+  popUp.classList.add("d-none");
+  let shadowBox = document.getElementById("shadowBox");
+  shadowBox.classList.remove("d-block");
+  shadowBox.classList.add("d-none");
+  document.body.classList.remove("disable-scrolling");
+  let leftArrow = document.getElementById("leftArrow");
+  let rightArrow = document.getElementById("rightArrow");
+  leftArrow.classList.add("d-none");
+  rightArrow.classList.add("d-none");
+  currentPokemonIndex = 0;
+  let popupCard = document.getElementById("popupCard");
+  popupCard.innerHTML = /*html*/ `
+  <img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`;
+}

@@ -82,13 +82,13 @@
   background: rgb(2, 0, 36);
   background: radial-gradient(
     circle,
-    rgba(227, 98, 98, 0.927) 40%,
+    rgba(245, 0, 0, 0.927) 40%,
     #000000 100%
   );
 }
 
 .normal1 {
-  background: rgba(227, 98, 98, 0.927);
+  background: rgba(184, 53, 53, 0.927);
 }
 
 .ground1 {
