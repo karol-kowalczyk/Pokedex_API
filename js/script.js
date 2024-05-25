@@ -464,7 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Helper function to capitalize the first letter of a string
 function capitalizeFirstLetter(string) {
-  return string.charAt(1).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 async function showPokemonText() {
@@ -600,14 +600,6 @@ async function nextPokemonVersion() {
   const pokemonType = pokemonData.types[0].type.name + "1";
   const pokemonDataUrl = pokemonData.species.url;
 
-<<<<<<< HEAD
-=======
-  // Current Pokemon info
-  const currentPokemon = pokemons[currentPokemonIndexZeroBased];
-  const currentPokemonName = capitalizeFirstLetter(currentPokemon.name);
-  const currentPokemonImg = pokemonData.sprites.other["official-artwork"]["front_default"];
-  console.log(currentPokemonImg);
->>>>>>> d17556d3ade90702510bcfd589818dfc644b0a2e
   // Fetch the JSON data from the pokemonDataUrl
   const nextGenerPokemonUrl = await fetchJsonData(pokemonDataUrl);
 
@@ -615,14 +607,8 @@ async function nextPokemonVersion() {
   const evolutionChainUrl = nextGenerPokemonUrl.evolution_chain.url;
   const evolutionChain = await fetchJsonData(evolutionChainUrl);
 
-<<<<<<< HEAD
   let evolutionHTML = "";
   let evolutionCount = 0;
-=======
-  // Safely access the previous evolution species name
-  const previousPokeGeneration = nextGenerPokemonUrl.evolves_from_species?.name ?? '';
-  console.log(previousPokeGeneration); // Ausgabe des evolutionChain JSON-Objekts
->>>>>>> d17556d3ade90702510bcfd589818dfc644b0a2e
 
   let currentPokemon = evolutionChain.chain;
   const evolutionChainList = [];
@@ -710,7 +696,6 @@ async function fetchJsonData(url) {
   return response.json();
 }
 
-<<<<<<< HEAD
 function closeDetails() {
   let popUp = document.getElementById("popUp");
   popUp.classList.add("d-none");
@@ -727,17 +712,3 @@ function closeDetails() {
   popupCard.innerHTML = /*html*/ `
   <img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`;
 }
-=======
-{/* <div class="first-evolution">
-<div class="evolution-name">${firstEvolutionJson.name}</div>
-<img src="${firstEvolutionImg}" alt="${firstEvolutionJson.name}" />
-</div>
-<div class="second-evolution">
-<div class="evolution-name">${secondEvolutionJson.name}</div>
-<img src="${secondEvolutionImg}" alt="${secondEvolutionJson.name}" />
-</div>
-<div class="third-evolution">
-<div class="evolution-name">${thirdEvolutionJson.name}</div>
-<img src="${thirdEvolutionImg}" alt="${thirdEvolutionJson.name}" />
-</div> */}
->>>>>>> d17556d3ade90702510bcfd589818dfc644b0a2e
