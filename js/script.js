@@ -38,7 +38,7 @@ async function loadData() {
   let loadAllBttn = document.getElementById("loadAllButton");
   let load20Btn = document.getElementById("loadTwentyMoreButton");
   showLoading();
-  let resp = await fetch(`${POKE_API}20`);
+  let resp = await fetch(`${POKE_API}40`);
   let respAsJson = await resp.json();
   let respAsJsonResults = respAsJson.results;
 
@@ -294,11 +294,11 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   }
 
   shadowBox.innerHTML = /*html*/ `
-  <div class="header-popup">
+  <div id="header-popup" class="header-popup">
     <div class="number-popup">#${currentPokemonIndex}</div>
     <div class="name-popup">${pokemonName}</div>
   </div>
-  <img class="popUp-img" src="${pokemonImg}" />
+  <img ID="popUp-img" class="popUp-img" src="${pokemonImg}" />
   <div class="${pokemonCardClass} background-info-div" id="background-info-div">
   </label>
     <div class="stats">${statsHTML}</div>

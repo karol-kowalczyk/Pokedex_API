@@ -1,3 +1,4 @@
+
 .popUpDiv {
   height: 100%;
   width: 100%;
@@ -238,831 +239,360 @@
   align-items: center;
 }
 
-@media (max-width: 470px) {
+/*Bigger screens*/
+
+@media (min-width: 1800px) and (max-width: 2570px) {
   .popUp {
-    width: 360px;
-    border: 8px solid #ffcc00;
-  }
-
-  .background-info-div {
-    width: 360px;
-  }
-
-  .stats {
-    left: 0.5%;
-    width: 330px;
-    margin-left: 16px;
-  }
-
-  .popUp-img {
-    height: 370px;
-    width: 340px;
-  }
-}
-
-@media (max-width: 390px) {
-  .popUp {
-    width: 300px;
-    height: 600px;
-    border: 8px solid #ffcc00;
-  }
-
-  .background-info-div {
-    width: 300px;
-    height: 600px;
-  }
-
-  .stats {
-    top: 53%;
-    width: 260px;
-  }
-
-  .popUp-img {
-    height: 240px;
-    width: 240px;
+    height: 1500px;
+    width: 1100px;
   }
 
   .header-popup {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    height: 190px;
-    gap: 36px;
-    font-size: 32px;
-    position: absolute;
+    font-size: 80px;
+    top: 21%;
+  }
+
+  .popUp-img {
+    height: 420px;
+    width: 420px;
+  }
+
+  .background-info-div {
+    height: 1500px;
+    width: 1100px;
+  }
+
+  .stats {
+    width: 670px;
+    left: 20%;
+    top: 52%;
+  }
+
+  .stat-name {
+    font-size: 52px;
+  }
+
+  .progressbar {
+    height: 40px;
+  }
+
+  .popUp-arrow,
+  .popUp-returnarrow {
+    height: 120px;
+    width: 120px;
+  }
+
+  .popUp-arrow:hover,
+  .popUp-returnarrow:hover {
+    height: 140px;
+    width: 140px;
   }
 
   .arrow-btn-right,
   .arrow-btn-left {
-    height: 60px;
-    width: 60px;
+    height: 180px;
+    width: 180px;
+  }
+
+  .arrow-btn-right:hover,
+  .arrow-btn-left:hover {
+    height: 200px;
+    width: 200px;
+  }
+
+  #popupCardTitle,
+  #pokeAbilitieTitle {
+    font-size: 90px !important;
+  }
+
+  .evolution-name {
+    font-size: 60px !important;
+  }
+
+  .evolution-img {
+    height: 240px !important;
+    width: 240px !important;
+  }
+
+  .poke-abilitie-txt {
+    font-size: 48px;
+    margin: 16px 88px 100px 88px;
+  }
+
+  .poke-abilitie-img {
+    height: 640px;
+    width: 640px;
+  }
+
+  #seeMoreButton {
+    height: 80px;
+    width: 200px;
+    font-size: 32px;
+  }
+
+  #pokemonHeaderNameInfoCard {
+    font-size: 100px !important;
+  }
+
+  #moreSpace {
+    height: 320px !important;
+    width: 320px !important;
+    margin: 32px !important;
+  }
+
+  .arrow-down {
+    margin: 32px !important;
   }
 }
 
-@media (max-width: 900px) {
+
+
+/* Tablets */
+@media screen and (min-width: 486px) and (max-width: 986px) {
   .popUp {
-    height: 1000px;
-    width: 600px;
-  }
-
-  .background-info-div {
-    height: 1000px;
-    width: 600px;
-  }
-
-  .header-popup {
-    font-size: 64px;
-    top: 26%;
+    top: 42%;
+    width: 420px;
+    height: 550px;
   }
 
   .popUp-img {
-    top: 40%;
+    height: 180px;
+    width: 180px;
+    top: 28%;
+  }
+
+  .header-popup {
+    top: 12%;
+  }
+
+  .background-info-div {
+    top: 42%;
+    width: 420px;
+    height: 550px;
+  }
+
+  .stats {
+    top: 50%;
+    left: 18%;
+    width: 300px;
+  }
+
+}
+
+/* Mobile devices */
+@media (max-width: 485px) {
+  .popUp {
+    width: 360px;
+    height: 600px;
+  }
+
+  .background-info-div {
+    width: 360px;
+    height: 600px;
   }
 
   .stats {
     top: 55%;
-    left: 20%;
+    width: 300px;
   }
 
   .stat-name {
-    font-size: 30px;
-  }
-}
-
-@media (max-width: 3000px) and (max-height: 1600px) {
-  .popUp {
-    height: 1250px;
-    width: 850px;
-  }
-
-  .header-popup {
-    top: 15%;
-    font-size: 80px;
-  }
-
-  .background-info-div {
-    height: 1250px;
-    width: 850px;
-  }
-
-  .popUp-img {
-    height: 520px;
-    width: 500px;
-  }
-
-  .stats {
-    width: 510px;
-    top: 58%;
-    left: 20%;
-  }
-
-  .stat-name {
-    font-size: 36px;
-  }
-}
-
-@media (max-width: 3000px) and (max-height: 1300px) {
-  .popUp {
-    height: 950px;
-    width: 850px;
-  }
-
-  .header-popup {
-    top: 13%;
-    font-size: 64px;
-  }
-
-  .background-info-div {
-    height: 950px;
-    width: 850px;
-  }
-
-  .stat-name {
-    font-size: 24px;
-  }
-
-  .stats {
-    top: 64%;
-  }
-
-  .popUp-img {
-    top: 38%;
-    height: 460px;
-    width: 460px;
-  }
-}
-
-@media (max-width: 2050px) and (max-height: 1100px) {
-  .stats {
-    z-index: 3;
-    position: absolute;
-    margin-top: 8px;
-    top: 61%;
-    left: 10.5%;
-    width: 380px;
-  }
-
-  .stat {
-    margin-top: 16px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .stat-value {
-    display: flex;
-  }
-
-  .stat-name {
-    display: flex;
-    align-items: center;
-    font-family: "Pokemon", monospace;
-    color: white;
-    -webkit-text-stroke: 1.5px black;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .progressbar {
-    background: #333;
-    border-radius: 13px;
-    height: 20px;
-    width: 200px;
-    padding: 3px;
-  }
-
-  .progressbar:after {
-    content: "";
-    display: block;
-    /* background: #ffcc00; */
-    /* background: orange !important; */
-    background: linear-gradient(
-      45deg,
-      #ff0000,
-      #ff8000,
-      #ffff00,
-      #80ff00,
-      #00ff00,
-      #00ff80,
-      #00ffff,
-      #0080ff,
-      #0000ff,
-      #8000ff,
-      #ff00ff,
-      #ff0080,
-      #ff0000
-    );
-    background-size: 300% 300%;
-    animation: rainbowAnimation 5s infinite;
-    height: 100%;
-    border-radius: 9px;
-  }
-
-  .popUpDiv {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
-
-  .popUp {
-    cursor: pointer;
-    border: 16px solid #ffcc00;
-    border-radius: 10px;
-    width: 480px;
-    height: 860px;
-    z-index: 3;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  #shadowBox {
-    background-color: rgb(0, 0, 0, 0.8);
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
-
-  .popUp-img {
-    height: 370px;
-    width: 370px;
-    border: 3px solid black;
-    z-index: 3;
-    position: absolute;
-    margin-top: 8px;
-    top: 36%;
-    left: 50.1%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(
-      45deg,
-      #ff0000,
-      #ff8000,
-      #ffff00,
-      #80ff00,
-      #00ff00,
-      #00ff80,
-      #00ffff,
-      #0080ff,
-      #0000ff,
-      #8000ff,
-      #ff00ff,
-      #ff0080,
-      #ff0000
-    );
-    background-size: 300% 300%;
-    animation: rainbowAnimation 5s infinite;
-    object-fit: cover;
-  }
-
-  @keyframes rainbowAnimation {
-    0%,
-    100% {
-      background-position: 0% 100%;
-    }
-    50% {
-      background-position: 100% 0%;
-    }
-  }
-
-  .number-popup {
-    font-family: "Pokemon", monospace;
-    color: white;
-    z-index: 3;
-    -webkit-text-stroke: 3px black;
-  }
-
-  .name-popup {
-    font-family: "Pokemon", monospace;
-    color: white;
-    z-index: 3;
-    -webkit-text-stroke: 3px black;
-  }
-
-  .header-popup {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    top: 13%;
-    left: 50%;
-    gap: 48px;
-    position: absolute;
-    font-size: 40px;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-  }
-
-  .background-info-div {
-    width: 480px;
-    height: 860px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .arrow-btn-left {
-    top: 50%;
-    left: 14.5%;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    width: 100px;
-    background: none;
-    z-index: 4;
-    opacity: 0.8;
-    position: fixed;
-  }
-
-  .arrow-btn-right {
-    top: 50%;
-    left: 85.5%;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    width: 100px;
-    background: none;
-    z-index: 4;
-    opacity: 0.8;
-    position: fixed;
-  }
-
-  .arrow-btn-right:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  .arrow-btn-left:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-}
-
-@media (max-width: 900px) and (max-height: 1100px) {
-  .stats {
-    top: 64%;
-    left: 10%;
-    width: 600px;
-  }
-
-  .popUp-img {
-    width: 420px;
-    height: 420px;
-  }
-
-  .header-popup {
-    top: 10%;
-    font-size: 64px;
-  }
-
-  .stat-name {
-    font-size: 24px;
-  }
-}
-
-@media (max-width: 1920px) and (max-height: 850px) {
-  .popUpDiv {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
-
-  .popUp {
-    cursor: pointer;
-    border: 16px solid #ffcc00;
-    border-radius: 10px;
-    width: 480px;
-    height: 744px;
-    z-index: 3;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  #shadowBox {
-    background-color: rgb(0, 0, 0, 0.8);
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
-
-  .popUp-img {
-    height: 370px;
-    width: 370px;
-    border: 3px solid black;
-    z-index: 3;
-    position: absolute;
-    margin-top: 8px;
-    top: 36%;
-    left: 50.1%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(
-      45deg,
-      #ff0000,
-      #ff8000,
-      #ffff00,
-      #80ff00,
-      #00ff00,
-      #00ff80,
-      #00ffff,
-      #0080ff,
-      #0000ff,
-      #8000ff,
-      #ff00ff,
-      #ff0080,
-      #ff0000
-    );
-    background-size: 300% 300%;
-    animation: rainbowAnimation 5s infinite;
-    object-fit: cover;
-  }
-
-  @keyframes rainbowAnimation {
-    0%,
-    100% {
-      background-position: 0% 100%;
-    }
-    50% {
-      background-position: 100% 0%;
-    }
-  }
-
-  .number-popup {
-    font-family: "Pokemon", monospace;
-    color: white;
-    z-index: 3;
-    -webkit-text-stroke: 3px black;
-  }
-
-  .name-popup {
-    font-family: "Pokemon", monospace;
-    color: white;
-    z-index: 3;
-    -webkit-text-stroke: 3px black;
-  }
-
-  .header-popup {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    top: 11%;
-    left: 50%;
-    gap: 48px;
-    position: absolute;
-    font-size: 40px;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-  }
-
-  .background-info-div {
-    width: 480px;
-    height: 744px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .arrow-btn-left {
-    top: 50%;
-    left: 14.5%;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    width: 100px;
-    background: none;
-    z-index: 4;
-    opacity: 0.8;
-    position: fixed;
-  }
-
-  .arrow-btn-right {
-    top: 50%;
-    left: 85.5%;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    width: 100px;
-    background: none;
-    z-index: 4;
-    opacity: 0.8;
-    position: fixed;
-  }
-
-  .arrow-btn-right:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  .arrow-btn-left:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-}
-
-@media (max-width: 900px) and (max-height: 1150px) {
-  .popUp {
-    height: 950px;
-    width: 750px;
-  }
-  .background-info-div {
-    height: 950px;
-    width: 750px;
-  }
-}
-
-@media (max-width: 800px) and (max-height: 1150px) {
-  .popUp {
-    height: 950px;
-    width: 600px;
-  }
-
-  .background-info-div {
-    height: 950px;
-    width: 600px;
-  }
-
-  .stat-name {
-    font-size: 24px;
-  }
-
-  .stats {
-    top: 64%;
-    left: 10%;
-    width: 480px;
-  }
-}
-
-@media (max-width: 655px) and (max-height: 1150px) {
-  .popUp {
-    height: 950px;
-    width: 500px;
-  }
-
-  .background-info-div {
-    height: 950px;
-    width: 500px;
-  }
-
-  .stats {
-    top: 64%;
-    left: 10%;
-    width: 420px;
-  }
-}
-
-@media (max-width: 600px) and (max-height: 1150px) {
-  .stats {
-    top: 64%;
-    left: 10%;
-    width: 380px;
-  }
-}
-
-@media (max-width: 560px) and (max-height: 800px) {
-  .popUp {
-    width: 40px;
-  }
-
-  .background-info-div {
-    width: 400px;
-  }
-
-  .stats {
-    left: 3.5%;
-  }
-}
-
-@media (max-width: 800px) and (max-height: 1050px) {
-  .popUp {
-    width: 600px;
-    height: 900px;
-  }
-
-  #background-info-div {
-    width: 600px;
-    height: 900px;
-  }
-
-  .header-popup {
-    top: 12%;
-  }
-}
-
-@media (max-width: 620px) and (max-height: 1020px) {
-  .popUp {
-    width: 520px;
-  }
-
-  .stats {
-    top: 58%;
-    left: 13%;
-  }
-  .stat-name {
-    font-size: 26px;
-  }
-
-  .header-popup {
-    font-size: 48px;
-  }
-}
-
-@media (max-width: 600px) and (max-height: 1050px) {
-  .popUp {
-    width: 450px;
-    height: 900px;
-  }
-
-  #background-info-div {
-    width: 450px;
-    height: 900px;
-  }
-
-  .header-popup {
-    top: 12%;
-  }
-
-  .stat-name {
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 600px) and (max-height: 1010px) {
-  .popUp {
-    width: 520px;
-    height: 900px;
-  }
-}
-
-@media (max-width: 900px) and (max-height: 850px) {
-  .popUp {
-    width: 480px;
-    height: 744px;
-  }
-
-  .background-info-div {
-    width: 480px;
-    height: 744px;
-  }
-
-  .stats {
-    width: 380px;
-    top: 58%;
-  }
-
-  .stat-name {
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 800px) and (max-height: 950px) {
-  .header-popup {
-    top: 16%;
-  }
-
-  .name-popup, .number-popup {
-    font-size: 48px;
-  }
-
-
-  #background-info-div {
-    width: 420px;
-    height: 720px;
-  }
-
-  .stats {
-    left: 8%;
-    top: 58%;
-    width: 380px;
-  }
-
-  .popUp-img {
-    height: 320px;
-    width: 320px;
-    top: 38%;
-  }
-
-  .stat-name {
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 670px) and (max-height: 920px) {
-  .popUp {
-    width: 480px;
-  }
-
-  .header-popup {
-    top: 16%;
-  }
-
-  #background-info-div {
-    width: 480px !important;
-    height: 720px;
-  }
-
-  .popUp-arrow {
-    width: 36px;
-    height: 36px;
-    left: 104%;
-  }
-
-  .stats {
-    left: 15%;
-    top: 58%;
-  }
-
-  .stat-name {
-    font-size: 22px;
-  }
-
-  .popUp-img {
-    height: 320px;
-    width: 320px;
-    top: 38%;
-  }
-}
-
-@media (max-width: 510px) and (max-height: 900px) {
-  .header-popup {
-    top: 16%;
-  }
-}
-
-@media (max-width: 510px) and (max-height: 820px) {
-  .header-popup {
-    top: 14%;
-  }
-
-  .popUp {
-    width: 420px;
-    height: 700px;
-  }
-
-  .popUp-img {
-    height: 290px;
-    width: 290px;
-    top: 38%;
-  }
-
-  #background-info-div {
-    width: 420px;
-    height: 700px;
-  }
-
-  .stats {
-    width: 320px;
-  }
-}
-
-@media (max-width: 510px) and (max-height: 770px) {
-  .header-popup {
-    top: 11%;
-  }
-}
-
-@media (max-width: 510px) and (max-height: 740px) {
-  .popUp {
-    width: 380px;
-    height: 620px;
-  }
-
-  #background-info-div {
-    width: 380px;
-    height: 620px;
-  }
-
-  .header-popup {
-    top: 13%;
+    height: 10px;
   }
 
   .popUp-img {
     height: 260px;
     width: 260px;
-    top: 34%;
+  }
+
+  .header-popup {
+    top: 15.5%;
+  }
+
+  .evolution-name {
+    font-size: 20px !important;
+  }
+  
+  .evolution-img {
+    height: 100px !important;
+    width: 100px !important;
+  }
+
+  .arrow-down {
+    height: 32px;
+    width: 32px;
+  }
+
+  .poke-abilitie-img {
+    height: 160px;
+    width: 160px;
+  }
+}
+
+/* @media (min-width: 1600px) and (min-height: 2300px) {
+  .popUp {
+    height: 1500px;
+    width: 850px;
+  }
+
+  .popUp-img {
+    height: 420px;
+    width: 420px;
+  }
+
+  .background-info-div {
+    height: 1500px;
+    width: 850px;
   }
 
   .stats {
-    top: 55%;
-    width: 280px;
+    width: 670px;
+    left: 15%;
+    top: 52%;
   }
-  .stat-name {
-    font-size: 18px;
+
+  #popupCardTitle,
+  #pokeAbilitieTitle {
+    font-size: 80px !important;
+  }
+
+  .evolution-name {
+    font-size: 60px !important;
+  }
+
+  #pokemonHeaderNameInfoCard {
+    font-size: 80px !important;
+  }
+
+  #abilityImage {
+    height: 580px;
+    width: 580px;
   }
 }
 
-@media (max-width: 1200px) {
-  #loadTwentyMoreButton,
-  #loadAllButton {
-    height: 160px;
-    width: 140px;
-    font-size: 20px;
+@media (min-width: 1080px) and (min-height: 2300px) {
+  .arrow-btn-right,
+  .arrow-btn-left {
+    top: 40%;
+  }
+
+  .popUp {
+    width: 600px;
+    height: 1200px;
+  }
+
+  .stats {
+    width: 500px;
+    left: 10%;
+    top: 52%;
+  }
+
+  .stat-name {
+    font-size: 42px;
+  }
+
+  .background-info-div {
+    width: 600px;
+    height: 1200px;
+  }
+
+  .header-popup {
+    top: 26%;
+  }
+
+  .popUp-img {
+    height: 380px;
+    width: 380px;
+    top: 38%;
+  }
+
+  .poke-abilitie-img {
+    height: 380px;
+    width: 380px;
+  }
+
+  #popupCardTitle,
+  #pokeAbilitieTitle {
+    font-size: 60px !important;
+  }
+
+  #seeMoreButton {
+    height: 80px;
+    width: 200px;
+    font-size: 32px;
+  }
+
+  #pokemonHeaderNameInfoCard {
+    font-size: 60px !important;
+  }
+
+  .evolution-name {
+    font-size: 40px !important;
+  }
+
+  .evolution-img {
+    height: 200px !important;
+    width: 200px !important;
+  }
+
+  .poke-abilitie-txt {
+    font-size: 40px;
+  }
+
+  #abilityImage {
+    height: 310px;
+    width: 310px;
   }
 }
+
+@media (min-width: 900px) and (min-height: 2300px) {
+  .arrow-btn-right,
+  .arrow-btn-left {
+    height: 140px;
+    width: 140px;
+  }
+
+  .arrow-btn-right:hover,
+  .arrow-btn-left:hover {
+    height: 160px;
+    width: 160px;
+  }
+}
+
+@media (min-width: 750px) and (min-height: 2300px) {
+  .popUp-arrow {
+    height: 80px;
+    width: 80px;
+  }
+
+  .popUp-arrow:hover {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+@media (min-width: 750px) and (max-height: 1960px) {
+  .header-popup {
+    top: 23%;
+  }
+}
+
+@media (max-width: 750px) and (max-height: 1700px) {
+  .header-popup {
+    top: 20%;
+  }
+}
+
+@media (max-width: 750px) and (max-height: 1470px) {
+  .header-popup {
+    top: 20%;
+  }
+
+  .background-info-div, .popUp {
+    height: 1000px;
+  }
+} */
