@@ -617,11 +617,3 @@ h1:hover {
   transition: opacity 0.3s;
   z-index: 1000;
 }
-
-@media screen and (min-width: 486px) and (max-width: 986px) { 
-  /* #content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
-}
