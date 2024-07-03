@@ -1,24 +1,38 @@
+/**
+ * Event listener for window resize events.
+ * @param {Event} event - The resize event object.
+ */
 window.addEventListener("resize", handleResize);
 
+/**
+ * Event listener for when the DOM content is fully loaded.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     const tooltip = document.getElementById("tooltip");
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (!isMobile) { // Only add event listeners if the device is not mobile
+    if (!isMobile) {
         isNotMobileDevice();
     }
 });
 
+/**
+ * Function to handle operations when the device is not mobile.
+ */
 function isNotMobileDevice() {
+    // Select all elements with data-tooltip attribute and attach event listeners
     document.querySelectorAll("[data-tooltip]").forEach((element) => {
-        let timer;
-
-        mouseEnter(element, timer);
-        mouseMove(element);
-        mouseLeave(element, timer);
+        let timer; // Timer variable for tooltip timeout
+        mouseEnter(element, timer); // Attach mouseenter event listener
+        mouseMove(element); // Attach mousemove event listener
+        mouseLeave(element, timer); // Attach mouseleave event listener
     });
 }
 
+/**
+ * Function to handle mouseenter event for showing tooltip.
+ * @param {HTMLElement} element - The element triggering the event.
+ * @param {number} timer - Timer variable for tooltip timeout.
+ */
 function mouseEnter(element, timer) {
     element.addEventListener("mouseenter", function (event) {
         tooltip.innerText = event.target.getAttribute("data-tooltip");
@@ -27,12 +41,20 @@ function mouseEnter(element, timer) {
     });
 }
 
+/**
+ * Function to set a timeout to hide the tooltip.
+ * @param {number} timer - Timer variable for tooltip timeout.
+ */
 function tooltipTimeout(timer) {
     timer = setTimeout(() => {
         tooltip.style.opacity = "0";
     }, 3000);
 }
 
+/**
+ * Function to handle mousemove event for positioning tooltip.
+ * @param {HTMLElement} element - The element triggering the event.
+ */
 function mouseMove(element) {
     element.addEventListener("mousemove", function (event) {
         tooltip.style.left = event.pageX + 10 + "px";
@@ -40,9 +62,14 @@ function mouseMove(element) {
     });
 }
 
+/**
+ * Function to handle mouseleave event for hiding tooltip.
+ * @param {HTMLElement} element - The element triggering the event.
+ * @param {number} timer - Timer variable for tooltip timeout.
+ */
 function mouseLeave(element, timer) {
     element.addEventListener("mouseleave", function () {
-        clearTimeout(timer);
-        tooltip.style.opacity = "0";
+        clearTimeout(timer); // Clear the tooltip timeout
+        tooltip.style.opacity = "0"; // Hide the tooltip
     });
 }
