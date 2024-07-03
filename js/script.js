@@ -437,30 +437,35 @@ function hideButtons() {
 document.addEventListener("DOMContentLoaded", function () {
   const tooltip = document.getElementById("tooltip");
 
-  document.querySelectorAll("[data-tooltip]").forEach((element) => {
-    let timer; // Timer variable
+  // Check if the device is mobile
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    element.addEventListener("mouseenter", function (event) {
-      tooltip.innerText = event.target.getAttribute("data-tooltip");
-      tooltip.style.opacity = "1";
+  if (!isMobile) { // Only add event listeners if the device is not mobile
+    document.querySelectorAll("[data-tooltip]").forEach((element) => {
+      let timer; // Timer variable
 
-      // Set a timeout to hide the tooltip after 3 seconds
-      timer = setTimeout(() => {
+      element.addEventListener("mouseenter", function (event) {
+        tooltip.innerText = event.target.getAttribute("data-tooltip");
+        tooltip.style.opacity = "1";
+
+        // Set a timeout to hide the tooltip after 3 seconds
+        timer = setTimeout(() => {
+          tooltip.style.opacity = "0";
+        }, 3000);
+      });
+
+      element.addEventListener("mousemove", function (event) {
+        tooltip.style.left = event.pageX + 10 + "px";
+        tooltip.style.top = event.pageY + 10 + "px";
+      });
+
+      element.addEventListener("mouseleave", function () {
+        // Clear the timeout when mouse leaves the element
+        clearTimeout(timer);
         tooltip.style.opacity = "0";
-      }, 3000);
+      });
     });
-
-    element.addEventListener("mousemove", function (event) {
-      tooltip.style.left = event.pageX + 10 + "px";
-      tooltip.style.top = event.pageY + 10 + "px";
-    });
-
-    element.addEventListener("mouseleave", function () {
-      // Clear the timeout when mouse leaves the element
-      clearTimeout(timer);
-      tooltip.style.opacity = "0";
-    });
-  });
+  }
 });
 
 // Helper function to capitalize the first letter of a string
