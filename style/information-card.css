@@ -90,13 +90,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  top: 11%;
-  left: 50%;
   gap: 48px;
-  position: absolute;
   font-size: 40px;
-  transform: translate(-50%, -50%);
-  z-index: 3;
+  padding-top: 12px;
 }
 
 .background-info-div {
@@ -241,110 +237,13 @@
 
 /*Bigger screens*/
 
-@media (min-width: 1800px) and (max-width: 2570px) {
-  .popUp {
-    height: 1500px;
-    width: 1100px;
-  }
+@media (min-width: 1400px) and (max-width: 2570px) {
 
-  .header-popup {
-    font-size: 80px;
-    top: 21%;
-  }
+  /* .header-popup {
+      padding-top: 0px;
+  } */
 
-  .popUp-img {
-    height: 420px;
-    width: 420px;
-  }
-
-  .background-info-div {
-    height: 1500px;
-    width: 1100px;
-  }
-
-  .stats {
-    width: 670px;
-    left: 20%;
-    top: 52%;
-  }
-
-  .stat-name {
-    font-size: 52px;
-  }
-
-  .progressbar {
-    height: 40px;
-  }
-
-  .popUp-arrow,
-  .popUp-returnarrow {
-    height: 120px;
-    width: 120px;
-  }
-
-  .popUp-arrow:hover,
-  .popUp-returnarrow:hover {
-    height: 140px;
-    width: 140px;
-  }
-
-  .arrow-btn-right,
-  .arrow-btn-left {
-    height: 180px;
-    width: 180px;
-  }
-
-  .arrow-btn-right:hover,
-  .arrow-btn-left:hover {
-    height: 200px;
-    width: 200px;
-  }
-
-  #popupCardTitle,
-  #pokeAbilitieTitle {
-    font-size: 90px !important;
-  }
-
-  .evolution-name {
-    font-size: 60px !important;
-  }
-
-  .evolution-img {
-    height: 240px !important;
-    width: 240px !important;
-  }
-
-  .poke-abilitie-txt {
-    font-size: 48px;
-    margin: 16px 88px 100px 88px;
-  }
-
-  .poke-abilitie-img {
-    height: 640px;
-    width: 640px;
-  }
-
-  #seeMoreButton {
-    height: 80px;
-    width: 200px;
-    font-size: 32px;
-  }
-
-  #pokemonHeaderNameInfoCard {
-    font-size: 100px !important;
-  }
-
-  #moreSpace {
-    height: 320px !important;
-    width: 320px !important;
-    margin: 32px !important;
-  }
-
-  .arrow-down {
-    margin: 32px !important;
-  }
 }
-
 
 
 /* Tablets */
@@ -361,9 +260,9 @@
     top: 28%;
   }
 
-  .header-popup {
-    top: 12%;
-  }
+  /* .header-popup {
+    margin-top: 96px;
+  } */
 
   .background-info-div {
     top: 42%;
@@ -386,6 +285,11 @@
     height: 600px;
   }
 
+    .header-popup {
+      padding-top: 0px;
+  }
+
+
   .background-info-div {
     width: 360px;
     height: 600px;
@@ -407,10 +311,6 @@
   .popUp-img {
     height: 260px;
     width: 260px;
-  }
-
-  .header-popup {
-    top: 15.5%;
   }
 
   .evolution-name {
@@ -500,10 +400,6 @@
     height: 1200px;
   }
 
-  .header-popup {
-    top: 26%;
-  }
-
   .popUp-img {
     height: 380px;
     width: 380px;
@@ -576,21 +472,15 @@
 }
 
 @media (min-width: 750px) and (max-height: 1960px) {
-  .header-popup {
-    top: 23%;
-  }
+
 }
 
 @media (max-width: 750px) and (max-height: 1700px) {
-  .header-popup {
-    top: 20%;
-  }
+
 }
 
 @media (max-width: 750px) and (max-height: 1470px) {
-  .header-popup {
-    top: 20%;
-  }
+
 
   .background-info-div, .popUp {
     height: 1000px;

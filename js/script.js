@@ -77,7 +77,7 @@ function showPokemonCards(respAsJsonResults, pokemonDataArray) {
     if (pokemons.findIndex((pokemon) => pokemon.id === pokemonId) === -1) {
       const pokemonImg =
         pokemonDataArray[index].sprites.other["official-artwork"][
-          "front_default"
+        "front_default"
         ];
       pokemons.push(respAsJsonResults[index]);
       addPokemons(pokemonDataArray[index]);
@@ -161,8 +161,8 @@ function addPokemons(index, pokemonData) {
   if (
     pokemonAbilities.length === 2 &&
     pokemonAbilities[0].ability.name.length +
-      pokemonAbilities[1].ability.name.length >
-      22
+    pokemonAbilities[1].ability.name.length >
+    22
   ) {
     abilitiesHTML = `<div class="abilities">${pokemonAbilities[0].ability.name}</div>`;
   }
@@ -294,13 +294,14 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
   }
 
   shadowBox.innerHTML = /*html*/ `
-  <div id="header-popup" class="header-popup">
-    <div class="number-popup">#${currentPokemonIndex}</div>
-    <div class="name-popup">${pokemonName}</div>
-  </div>
+
   <img ID="popUp-img" class="popUp-img" src="${pokemonImg}" />
   <div class="${pokemonCardClass} background-info-div" id="background-info-div">
   </label>
+  <div id="header-popup" class="header-popup">
+      <div class="number-popup">#${currentPokemonIndex}</div>
+      <div class="name-popup">${pokemonName}</div>
+  </div>
     <div class="stats">${statsHTML}</div>
   </div>
   `;
@@ -542,8 +543,8 @@ async function showPokemonText() {
         <div class="poke-abilitie-txt">
           <span id="truncatedText">${truncatedText}</span>
           <span id="fullText" style="display: none;">${fullText.substring(
-            180
-          )}</span>
+    180
+  )}</span>
           <div class="see-more-btn-div">${seeMoreButton}</div>
         </div>
         <div class="poke-abilitie-img-div">
