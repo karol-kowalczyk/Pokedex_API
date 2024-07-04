@@ -5,8 +5,20 @@ function capitalizeFirstLetter(str) {
 // Helper function to capitalize the first letter of a string
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
+}
+
+let englishKeywords = ["the", "and", "is", "in", "on"];
+let germanKeywords = [
+  "mit",
+  "dieser",
+  "der",
+  "und",
+  "ist",
+  "in",
+  "auf",
+  "wenn",
+  "Fähigkeit",
+];
 
 let typeImg = {
     box: "box",

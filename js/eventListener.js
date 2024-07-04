@@ -73,3 +73,12 @@ function mouseLeave(element, timer) {
         tooltip.style.opacity = "0"; // Hide the tooltip
     });
 }
+
+/**
+ * Function to show full text and hide specific elements.
+ */
+window.showFullText = function () {
+    document.getElementById("fullText").style.display = "inline";
+    document.getElementById("seeMoreButton").style.display = "none";
+    document.getElementById("abilityImage").style.display = "none";
+};
