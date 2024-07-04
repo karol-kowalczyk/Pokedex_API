@@ -3,23 +3,36 @@ const POKE_API = "https://pokeapi.co/api/v2/pokemon?limit=";
 let pokemons = [];
 let currentOffset = 0;
 let currentPokemonIndex = 0;
+let loadingAllPokemon = document.getElementById("loadingAllPokemon");
+let scrollBar = document.body;
 
 async function loadAllPokemons() {
-    hideButtons();
-    let loadingAllPokemon = document.getElementById("loadingAllPokemon");
-    loadingAllPokemon.classList.remove("d-none");
-    let scrollBar = document.body;
-    scrollBar.classList.add("overflow-hidden");
     const numLoadedPokemons = pokemons.length;
     currentOffset = numLoadedPokemons;
     const remainingPokemons = 800 - numLoadedPokemons;
+
+    hideButtons();
+    disablesCrollBar();
+    await checkRemainingPokemons(remainingPokemons);
+}
+
+async function checkRemainingPokemons(remainingPokemons) {
     if (remainingPokemons > 0) {
         await fetchAdditionalPokemon(remainingPokemons);
         loadAllPokemons();
     } else {
-        loadingAllPokemon.classList.add("d-none");
-        scrollBar.classList.remove("overflow-hidden");
+        enableScrollBar();
     }
+}
+
+function enableScrollBar() {
+    loadingAllPokemon.classList.add("d-none");
+    scrollBar.classList.remove("overflow-hidden");
+}
+
+function disablesCrollBar() {
+    loadingAllPokemon.classList.remove("d-none");
+    scrollBar.classList.add("overflow-hidden");
 }
 
 function loadTwentyMore() {
@@ -31,51 +44,67 @@ function loadTwentyMore() {
 }
 
 async function loadData() {
-    let loadAllBttn = document.getElementById("loadAllButton");
-    let load20Btn = document.getElementById("loadTwentyMoreButton");
-    showLoading();
     let resp = await fetch(`${POKE_API}40`);
     let respAsJson = await resp.json();
     let respAsJsonResults = respAsJson.results;
-
     let temporaryPokemonDataArray = [];
+    showLoading();
 
     for (let index = 0; index < respAsJsonResults.length; index++) {
         let pokemonUrl = respAsJsonResults[index].url;
         if (!pokemons.some((pokemon) => pokemon.url === pokemonUrl)) {
-            let pokemonResp = await fetch(pokemonUrl);
-            let pokemonData = await pokemonResp.json();
-            pokemons.push(respAsJsonResults[index]);
-            temporaryPokemonDataArray.push(pokemonData);
+            await loadPoekmonProcessData(pokemonUrl, respAsJsonResults, index, temporaryPokemonDataArray);
         }
     }
 
-    // Now render all Pokémon cards at once
-    temporaryPokemonDataArray.forEach((pokemonData, index) => {
+    activateRenderingFunctions(temporaryPokemonDataArray);
+}
+
+async function loadPoekmonProcessData(pokemonUrl, respAsJsonResults, index, temporaryPokemonDataArray) {
+    let pokemonData = await fetchAndProcessPokemon(pokemonUrl, respAsJsonResults[index]);
+    temporaryPokemonDataArray.push(pokemonData);
+}
+
+function activateRenderingFunctions(temporaryPokemonDataArray) {
+    renderPokemonCards(temporaryPokemonDataArray);
+    hideLoading();
+    hideLoadMorePokemonsBtns();
+}
+
+async function fetchAndProcessPokemon(pokemonUrl, respAsJsonResult) {
+    let pokemonResp = await fetch(pokemonUrl);
+    let pokemonData = await pokemonResp.json();
+    pokemons.push(respAsJsonResult);
+    return pokemonData;
+}
+
+function renderPokemonCards(pokemonDataArray) {
+    pokemonDataArray.forEach((pokemonData, index) => {
         addPokemons(
-            pokemons.length - temporaryPokemonDataArray.length + index,
+            pokemons.length - pokemonDataArray.length + index,
             pokemonData
         );
     });
+}
 
-    hideLoading();
+function hideLoadMorePokemonsBtns() {
+    let loadAllBttn = document.getElementById("loadAllButton");
+    let load20Btn = document.getElementById("loadTwentyMoreButton");
     loadAllBttn.classList.remove("d-none");
     load20Btn.classList.remove("d-none");
 }
 
 async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     let indexNum = parseInt(index);
-    currentPokemonIndex = indexNum + 1;
     let popUp = document.getElementById("popUp");
-    popUp.classList.remove("d-none");
     let shadowBox = document.getElementById("shadowBox");
-    shadowBox.classList.remove("d-none");
-    shadowBox.classList.add("d-block");
-    document.body.classList.add("disable-scrolling");
     let leftArrow = document.getElementById("leftArrow");
     let rightArrow = document.getElementById("rightArrow");
-    leftArrow.classList.remove("d-none");
-    rightArrow.classList.remove("d-none");
+
+    currentPokemonIndex = indexNum + 1;
+
+    hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow);
+
     rightArrow.onclick = function () {
         nextPokemon(
             pokemonImg,
@@ -137,6 +166,19 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     </div>
     `;
 
+    setWidthOfProgressBar(pokemonData);
+}
+
+function hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow) {
+    popUp.classList.remove("d-none");
+    shadowBox.classList.remove("d-none");
+    shadowBox.classList.add("d-block");
+    document.body.classList.add("disable-scrolling");
+    leftArrow.classList.remove("d-none");
+    rightArrow.classList.remove("d-none");
+}
+
+function setWidthOfProgressBar(pokemonData) {
     // Set the width of the progress bars
     for (let i = 0; i < pokemonData.stats.length; i++) {
         let progressBar = document.getElementById(`progressbar-${i}`);
