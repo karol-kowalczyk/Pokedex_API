@@ -1,25 +1,40 @@
+/**
+ * Capitalizes the first letter of a string.
+ *
+ * @param {string} str - The input string.
+ * @returns {string} The string with the first letter capitalized.
+ */
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Helper function to capitalize the first letter of a string
+/**
+ * Capitalizes the first letter of a string.
+ *
+ * @param {string} string - The input string.
+ * @returns {string} The string with the first letter capitalized.
+ */
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+// English keywords used for filtering
 let englishKeywords = ["the", "and", "is", "in", "on"];
+
+// German keywords used for filtering
 let germanKeywords = [
-  "mit",
-  "dieser",
-  "der",
-  "und",
-  "ist",
-  "in",
-  "auf",
-  "wenn",
-  "Fähigkeit",
+    "mit",
+    "dieser",
+    "der",
+    "und",
+    "ist",
+    "in",
+    "auf",
+    "wenn",
+    "Fähigkeit",
 ];
 
+// Mapping of Pokemon types to their respective image names
 let typeImg = {
     box: "box",
     bug: "bug",
