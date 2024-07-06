@@ -11,8 +11,8 @@
   cursor: pointer;
   border: 16px solid #ffcc00;
   border-radius: 10px;
-  width: 480px;
-  height: 744px;
+  width: 440px;
+  height: 680px;
   z-index: 3;
   position: absolute;
   top: 50%;
@@ -31,8 +31,8 @@
 }
 
 .popUp-img {
-  height: 370px;
-  width: 370px;
+  height: 320px;
+  width: 350px;
   border: 3px solid black;
   z-index: 3;
   position: absolute;
@@ -90,13 +90,13 @@
   justify-content: center;
   align-items: flex-end;
   gap: 48px;
-  font-size: 40px;
-  padding-top: 12px;
+  font-size: 36px;
+  padding-top: 24px;
 }
 
 .background-info-div {
-  width: 480px;
-  height: 744px;
+  width: 440px;
+  height: 700px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -135,6 +135,14 @@
 .arrow-btn-left:hover {
   opacity: 1;
   cursor: pointer;
+}
+
+.stats {
+  z-index: 3;
+  position: absolute;
+  top: 61%;
+  left: 10.5%;
+  width: 350px;
 }
 
 .popUp-arrow {
@@ -234,39 +242,12 @@
   align-items: center;
 }
 
-/* Tablets */
-@media screen and (min-width: 486px) and (max-width: 986px) {
-  .popUp {
-    top: 42%;
-    width: 420px;
-    height: 550px;
-  }
-
-  .popUp-img {
-    height: 180px;
-    width: 180px;
-    top: 28%;
-  }
-
-  .background-info-div {
-    top: 42%;
-    width: 420px;
-    height: 550px;
-  }
-
-  .stats {
-    top: 50%;
-    left: 18%;
-    width: 300px;
-  }
-
-}
-
 /* Mobile devices */
 @media (max-width: 485px) {
   .popUp {
-    width: 360px;
+    width: 280px;
     height: 600px;
+    border: 8px solid #ffcc00;
   }
 
   #tooltip {
@@ -282,17 +263,18 @@
   }
 
   .header-popup {
-    padding-top: 0px;
+    padding-top: 8px;
   }
 
   .background-info-div {
-    width: 360px;
+    width: 280px;
     height: 600px;
   }
 
   .stats {
     top: 55%;
-    width: 300px;
+    width: 260px;
+    left: 5%;
   }
 
   .stat-name {
@@ -330,9 +312,19 @@
   .popUp-arrow {
     top: 30%;
     left: 95%;
+    height: 45px;
+    width: 45px;
   }
 
   .popUp-returnarrow {
     left: 5%;
+    top: 90%;
+    height: 45px;
+    width: 45px;
+  }
+
+  .arrow-btn-right, .arrow-btn-left {
+    height: 60px;
+    width: 60px;
   }
 }

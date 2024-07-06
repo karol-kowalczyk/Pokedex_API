@@ -208,15 +208,6 @@ input:focus {
   overflow: hidden; /* Hide scrollbars */
 }
 
-.stats {
-  z-index: 3;
-  position: absolute;
-  margin-top: 8px;
-  top: 61%;
-  left: 10.5%;
-  width: 380px;
-}
-
 .stat {
   margin-top: 16px;
   display: flex;
