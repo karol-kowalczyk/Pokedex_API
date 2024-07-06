@@ -49,15 +49,17 @@ async function loadData() {
     let respAsJsonResults = respAsJson.results;
     let temporaryPokemonDataArray = [];
     showLoading();
+    await forLoopLoadData(respAsJsonResults, temporaryPokemonDataArray);
+    activateRenderingFunctions(temporaryPokemonDataArray);
+}
 
+async function forLoopLoadData(respAsJsonResults, temporaryPokemonDataArray) {
     for (let index = 0; index < respAsJsonResults.length; index++) {
         let pokemonUrl = respAsJsonResults[index].url;
         if (!pokemons.some((pokemon) => pokemon.url === pokemonUrl)) {
             await loadPoekmonProcessData(pokemonUrl, respAsJsonResults, index, temporaryPokemonDataArray);
         }
     }
-
-    activateRenderingFunctions(temporaryPokemonDataArray);
 }
 
 async function loadPoekmonProcessData(pokemonUrl, respAsJsonResults, index, temporaryPokemonDataArray) {
@@ -128,33 +130,54 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     // Fetch Pokemon data for the selected Pokemon
     let pokemonData = await fetchPokemonData(indexNum);
 
-    // Generate stats HTML
-    let statsHTML = "";
-    for (let i = 0; i < pokemonData.stats.length; i++) {
-        let pokemonStatsName = capitalizeFirstLetter(
-            pokemonData.stats[i].stat.name
-        );
+    // Generate stats HTML and then show the shadow box and set progress bar widths
+    await generateStatsHtml(pokemonData, pokemonCardClass)
+        .then(statsHTML => {
+            showShadowBox(shadowBox, pokemonImg, pokemonCardClass, currentPokemonIndex, pokemonName, statsHTML);
+            setWidthOfProgressBar(pokemonData);
+        });
+}
 
-        // Replace "special" with "spec"
-        pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
+function generateStatsHtml(pokemonData, pokemonCardClass) {
+    return new Promise((resolve) => {
+        let statsHTML = "";
+        for (let i = 0; i < pokemonData.stats.length; i++) {
+            let pokemonStatsName = capitalizeFirstLetter(
+                pokemonData.stats[i].stat.name
+            );
 
-        // Abbreviate "attack" and "defense" only if "spec" is before them
-        if (pokemonStatsName.includes("Spec")) {
-            pokemonStatsName = pokemonStatsName.replace(/Attack/i, "Atk.");
-            pokemonStatsName = pokemonStatsName.replace(/Defense/i, "Def.");
+            // Replace "special" with "spec"
+            pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
+
+            // Abbreviate "attack" and "defense" only if "spec" is before them
+            if (pokemonStatsName.includes("Spec")) {
+                pokemonStatsName = pokemonStatsName.replace(/Attack/i, "Atk.");
+                pokemonStatsName = pokemonStatsName.replace(/Defense/i, "Def.");
+            }
+
+            let pokemonStats = pokemonData.stats[i].base_stat;
+            let progressBarId = `progressbar-${i}`;
+            statsHTML += /*html*/ `
+              <div class="${pokemonCardClass} stat">
+                <span class="${pokemonCardClass} stat-name">${pokemonStatsName}: ${pokemonStats}</span>
+                <span id="${progressBarId}" class="progressbar"></span>
+              </div>`;
         }
+        resolve(statsHTML);
+    });
+}
 
-        let pokemonStats = pokemonData.stats[i].base_stat;
-        let progressBarId = `progressbar-${i}`;
-        statsHTML += /*html*/ `
-      <div class="${pokemonCardClass} stat">
-        <span class="${pokemonCardClass} stat-name">${pokemonStatsName}: ${pokemonStats}</span>
-        <span id="${progressBarId}" class="progressbar"></span>
-      </div>`;
-    }
+function hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow) {
+    popUp.classList.remove("d-none");
+    shadowBox.classList.remove("d-none");
+    shadowBox.classList.add("d-block");
+    document.body.classList.add("disable-scrolling");
+    leftArrow.classList.remove("d-none");
+    rightArrow.classList.remove("d-none");
+}
 
+function showShadowBox(shadowBox, pokemonImg, pokemonCardClass, currentPokemonIndex, pokemonName, statsHTML) {
     shadowBox.innerHTML = /*html*/ `
-  
     <img ID="popUp-img" class="popUp-img" src="${pokemonImg}" />
     <div class="${pokemonCardClass} background-info-div" id="background-info-div">
     </label>
@@ -165,17 +188,6 @@ async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
       <div class="stats">${statsHTML}</div>
     </div>
     `;
-
-    setWidthOfProgressBar(pokemonData);
-}
-
-function hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow) {
-    popUp.classList.remove("d-none");
-    shadowBox.classList.remove("d-none");
-    shadowBox.classList.add("d-block");
-    document.body.classList.add("disable-scrolling");
-    leftArrow.classList.remove("d-none");
-    rightArrow.classList.remove("d-none");
 }
 
 function setWidthOfProgressBar(pokemonData) {
