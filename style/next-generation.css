@@ -3,7 +3,9 @@
   width: 128px;
 }
 
-.first-pokemon-generation-div, .second-pokemon-generation-div, .third-pokemon-generation-div {
+.first-pokemon-generation-div,
+.second-pokemon-generation-div,
+.third-pokemon-generation-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +32,7 @@
   margin: 16px 8px 16px 8px;
 }
 
-.evolution-img{
+.evolution-img {
   background: none;
   height: 116px;
   width: 116px;
@@ -51,16 +53,22 @@
   font-size: 32px;
 }
 
-@media (max-width: 900px) and (max-height: 850px) {
+@media (max-width: 485px) {
   #popupCardTitle {
-    margin-bottom: 4px;
+    font-size: 32px;
   }
 
-  .first-pokemon-generation-div, .second-pokemon-generation-div {
-    margin-bottom: 4px;
+  .arrow-down {
+    background: none;
+    width: 32px;
+    height: 32px;
   }
 
-  .third-pokemon-generation-div, .second-pokemon-generation-div {
-    margin-top: 0;
+  #pokeAbilitieTitle {
+    font-size: 32px;
+  }
+
+  .poke-abilitie-txt {
+    font-size: 20px;
   }
 }

@@ -307,15 +307,30 @@ function decideLanguage(englishCount, germanCount) {
  * @param {string} backImg - URL of the Pokémon's background image.
  */
 function renderPopupCard(truncatedText, fullText, seeMoreButton, pokemonType, backImg) {
-  const popUpCard = document.getElementById("popupCard");
+  const adjustedFullText = adjustFullText(fullText);
 
-  popUpCard.innerHTML = /*html*/ `
+  const popupCardHTML = generatePopupCardHTML(truncatedText, adjustedFullText, seeMoreButton, pokemonType, backImg);
+
+  renderCard(popupCardHTML);
+}
+
+/**
+ * Generates the HTML for the popup card based on provided data.
+ * @param {string} truncatedText - Truncated text to display.
+ * @param {string} adjustedFullText - Adjusted full text to display.
+ * @param {string} seeMoreButton - Button HTML to show full text.
+ * @param {string} pokemonType - Pokémon's type.
+ * @param {string} backImg - URL of the Pokémon's background image.
+ * @returns {string} Generated HTML for the popup card.
+ */
+function generatePopupCardHTML(truncatedText, adjustedFullText, seeMoreButton, pokemonType, backImg) {
+  return /*html*/ `
     <div id="informationText" class="popUp">
       <div class="${pokemonType} background-info-div">
         <h3 id="pokeAbilitieTitle">Information</h3>
         <div class="poke-abilitie-txt">
           <span id="truncatedText">${truncatedText}</span>
-          <span id="fullText" style="display: none;">${fullText.substring(180)}</span>
+          <span id="fullText" style="display: none;">${adjustedFullText}</span>
           <div class="see-more-btn-div">${seeMoreButton}</div>
         </div>
         <div class="poke-abilitie-img-div">
@@ -325,6 +340,56 @@ function renderPopupCard(truncatedText, fullText, seeMoreButton, pokemonType, ba
       </div>
     </div>`;
 }
+
+/**
+ * Adjusts the full text based on screen width.
+ * @param {string} fullText - Full text to potentially adjust.
+ * @returns {string} Adjusted full text.
+ */
+function adjustFullText(fullText) {
+  if (window.innerWidth < 425) {
+    return truncateTextToWordCount(fullText, 100);
+  }
+  return fullText;
+}
+
+/**
+ * Truncates text to a specified word count.
+ * @param {string} text - The text to truncate.
+ * @param {number} maxWords - Maximum number of words.
+ * @returns {string} Truncated text.
+ */
+function truncateTextToWordCount(text, maxWords) {
+  const words = text.split(' ');
+  if (words.length > maxWords) {
+    return words.slice(0, maxWords).join(' ') + '...';
+  }
+  return text;
+}
+
+/**
+ * Renders the generated HTML into the popup card element.
+ * @param {string} html - HTML content to render.
+ */
+function renderCard(html) {
+  const popUpCard = document.getElementById("popupCard");
+  popUpCard.innerHTML = html;
+}
+
+/**
+ * Truncates text to a specified word count.
+ * @param {string} text - The text to truncate.
+ * @param {number} maxWords - Maximum number of words.
+ * @returns {string} Truncated text.
+ */
+function truncateTextToWordCount(text, maxWords) {
+  const words = text.split(' ');
+  if (words.length > maxWords) {
+    return words.slice(0, maxWords).join(' ') + '...';
+  }
+  return text;
+}
+
 
 /**
  * Hides Pokémon information text.
