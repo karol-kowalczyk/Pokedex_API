@@ -98,73 +98,115 @@ function hideLoadMorePokemonsBtns() {
 
 async function showDetails(pokemonImg, index, pokemonName, pokemonCardClass) {
     let indexNum = parseInt(index);
+    currentPokemonIndex = indexNum + 1;
     let popUp = document.getElementById("popUp");
     let shadowBox = document.getElementById("shadowBox");
     let leftArrow = document.getElementById("leftArrow");
     let rightArrow = document.getElementById("rightArrow");
-
-    currentPokemonIndex = indexNum + 1;
-
     hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow);
+    setArrowEventHandlers(pokemonImg, index, pokemonName, pokemonCardClass);
+    let pokemonData = await fetchPokemonData(indexNum);
+    let statsHTML = await generateStatsHtml(pokemonData, pokemonCardClass);
+    showShadowBox(shadowBox, pokemonImg, pokemonCardClass, currentPokemonIndex, pokemonName, statsHTML);
+    setWidthOfProgressBar(pokemonData);
+}
+
+function setArrowEventHandlers(pokemonImg, index, pokemonName, pokemonCardClass) {
+    let rightArrow = document.getElementById("rightArrow");
+    let leftArrow = document.getElementById("leftArrow");
 
     rightArrow.onclick = function () {
-        nextPokemon(
-            pokemonImg,
-            index,
-            pokemonName,
-            pokemonCardClass,
-            currentPokemonIndex
-        );
+        nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
     };
 
     leftArrow.onclick = function () {
-        previousPokemon(
-            pokemonImg,
-            index,
-            pokemonName,
-            pokemonCardClass,
-            currentPokemonIndex
-        );
+        previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex);
     };
+}
 
-    // Fetch Pokemon data for the selected Pokemon
-    let pokemonData = await fetchPokemonData(indexNum);
+async function fetchPokemonData(index) {
+    let pokemonUrl = pokemons[index].url;
+    let pokemonResp = await fetch(pokemonUrl);
+    return await pokemonResp.json();
+}
 
-    // Generate stats HTML and then show the shadow box and set progress bar widths
-    await generateStatsHtml(pokemonData, pokemonCardClass)
-        .then(statsHTML => {
-            showShadowBox(shadowBox, pokemonImg, pokemonCardClass, currentPokemonIndex, pokemonName, statsHTML);
-            setWidthOfProgressBar(pokemonData);
-        });
+async function generateStatsHtml(pokemonData, pokemonCardClass) {
+    let statsHTML = "";
+    for (let i = 0; i < pokemonData.stats.length; i++) {
+        let pokemonStatsName = capitalizeFirstLetter(pokemonData.stats[i].stat.name).replace(/Special/i, "Spec.").replace(/Attack/i, "Atk.").replace(/Defense/i, "Def.");
+        let pokemonStats = pokemonData.stats[i].base_stat;
+        let progressBarId = `progressbar-${i}`;
+        statsHTML += `
+            <div class="${pokemonCardClass} stat">
+                <span class="${pokemonCardClass} stat-name">${pokemonStatsName}: ${pokemonStats}</span>
+                <span id="${progressBarId}" class="progressbar"></span>
+            </div>`;
+    }
+    return statsHTML;
+}
+
+function showShadowBox(shadowBox, pokemonImg, pokemonCardClass, currentPokemonIndex, pokemonName, statsHTML) {
+    shadowBox.innerHTML = `
+        <img ID="popUp-img" class="popUp-img" src="${pokemonImg}" />
+        <div class="${pokemonCardClass} background-info-div" id="background-info-div">
+            <div id="header-popup" class="header-popup">
+                <div class="number-popup">#${currentPokemonIndex}</div>
+                <div class="name-popup">${pokemonName}</div>
+            </div>
+            <div class="stats">${statsHTML}</div>
+        </div>
+    `;
+}
+
+function hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow) {
+    popUp.classList.remove("d-none");
+    shadowBox.classList.remove("d-none");
+    shadowBox.classList.add("d-block");
+    document.body.classList.add("disable-scrolling");
+    leftArrow.classList.remove("d-none");
+    rightArrow.classList.remove("d-none");
+}
+
+function setWidthOfProgressBar(pokemonData) {
+    for (let i = 0; i < pokemonData.stats.length; i++) {
+        let progressBar = document.getElementById(`progressbar-${i}`);
+        let widthPercentage = (pokemonData.stats[i].base_stat / 200) * 100;
+        progressBar.style.width = `${widthPercentage}%`;
+    }
 }
 
 function generateStatsHtml(pokemonData, pokemonCardClass) {
     return new Promise((resolve) => {
-        let statsHTML = "";
-        for (let i = 0; i < pokemonData.stats.length; i++) {
-            let pokemonStatsName = capitalizeFirstLetter(
-                pokemonData.stats[i].stat.name
-            );
-
-            // Replace "special" with "spec"
-            pokemonStatsName = pokemonStatsName.replace(/Special/i, "Spec.");
-
-            // Abbreviate "attack" and "defense" only if "spec" is before them
-            if (pokemonStatsName.includes("Spec")) {
-                pokemonStatsName = pokemonStatsName.replace(/Attack/i, "Atk.");
-                pokemonStatsName = pokemonStatsName.replace(/Defense/i, "Def.");
-            }
-
-            let pokemonStats = pokemonData.stats[i].base_stat;
-            let progressBarId = `progressbar-${i}`;
-            statsHTML += /*html*/ `
-              <div class="${pokemonCardClass} stat">
-                <span class="${pokemonCardClass} stat-name">${pokemonStatsName}: ${pokemonStats}</span>
-                <span id="${progressBarId}" class="progressbar"></span>
-              </div>`;
-        }
+        let statsHTML = pokemonData.stats.map((stat, index) => {
+            let pokemonStatsName = formatStatName(stat.stat.name);
+            let pokemonStats = stat.base_stat;
+            let progressBarId = `progressbar-${index}`;
+            return createStatHtml(pokemonCardClass, pokemonStatsName, pokemonStats, progressBarId);
+        }).join("");
         resolve(statsHTML);
     });
+}
+
+function formatStatName(statName) {
+    let formattedName = capitalizeFirstLetter(statName);
+    formattedName = formattedName.replace(/Special/i, "Spec.");
+    if (formattedName.includes("Spec")) {
+        formattedName = formattedName.replace(/Attack/i, "Atk.");
+        formattedName = formattedName.replace(/Defense/i, "Def.");
+    }
+    return formattedName;
+}
+
+function createStatHtml(pokemonCardClass, statName, statValue, progressBarId) {
+    return `
+        <div class="${pokemonCardClass} stat">
+            <span class="${pokemonCardClass} stat-name">${statName}: ${statValue}</span>
+            <span id="${progressBarId}" class="progressbar"></span>
+        </div>`;
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function hidePopUpAndScrollbar(popUp, shadowBox, leftArrow, rightArrow) {
@@ -199,44 +241,32 @@ function setWidthOfProgressBar(pokemonData) {
     }
 }
 
-async function nextPokemon(
-    pokemonImg,
-    index,
-    pokemonName,
-    pokemonCardClass,
-    currentPokemonIndex
-) {
+async function nextPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
     if (currentPokemonIndex < pokemons.length) {
         let nextPokemonIndex = currentPokemonIndex;
         let nextPokemonData = await fetchPokemonData(nextPokemonIndex);
-        let nextPokemonCardClass = nextPokemonData.types[0].type.name + "1";
-        showDetails(
-            nextPokemonData.sprites.other["official-artwork"]["front_default"],
-            nextPokemonIndex,
-            capitalizeFirstLetter(nextPokemonData.name),
-            nextPokemonCardClass
-        );
+        let nextPokemonCardClass = getPokemonCardClass(nextPokemonData);
+        showNextOrPreviousPokemon(nextPokemonData, nextPokemonIndex, nextPokemonCardClass);
     }
 }
 
-async function previousPokemon(
-    pokemonImg,
-    index,
-    pokemonName,
-    pokemonCardClass,
-    currentPokemonIndex
-) {
+async function previousPokemon(pokemonImg, index, pokemonName, pokemonCardClass, currentPokemonIndex) {
     if (currentPokemonIndex > 1) {
         let previousPokemonIndex = currentPokemonIndex - 2;
         let previousPokemonData = await fetchPokemonData(previousPokemonIndex);
-        let previousPokemonCardClass = previousPokemonData.types[0].type.name + "1";
-        showDetails(
-            previousPokemonData.sprites.other["official-artwork"]["front_default"],
-            previousPokemonIndex,
-            capitalizeFirstLetter(previousPokemonData.name),
-            previousPokemonCardClass
-        );
+        let previousPokemonCardClass = getPokemonCardClass(previousPokemonData);
+        showNextOrPreviousPokemon(previousPokemonData, previousPokemonIndex, previousPokemonCardClass);
     }
+}
+
+function getPokemonCardClass(pokemonData) {
+    return pokemonData.types[0].type.name + "1";
+}
+
+async function showNextOrPreviousPokemon(pokemonData, pokemonIndex, pokemonCardClass) {
+    let pokemonImg = pokemonData.sprites.other["official-artwork"]["front_default"];
+    let pokemonName = capitalizeFirstLetter(pokemonData.name);
+    showDetails(pokemonImg, pokemonIndex, pokemonName, pokemonCardClass);
 }
 
 async function fetchPokemonData(index) {
@@ -245,6 +275,15 @@ async function fetchPokemonData(index) {
     return await pokemonResp.json();
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+async function fetchPokemonData(index) {
+    let pokemonUrl = pokemons[index].url;
+    let pokemonResp = await fetch(pokemonUrl);
+    return await pokemonResp.json();
+}
 
 // Helper function to fetch JSON data from a given URL
 async function fetchJsonData(url) {
@@ -261,92 +300,151 @@ async function fetchJsonData(url) {
 }
 
 async function nextPokemonVersion() {
-    let rightArrow = document.getElementById("rightArrow");
-    let leftArrow = document.getElementById("leftArrow");
-    rightArrow.classList.add("d-none");
-    leftArrow.classList.add("d-none");
-
+    hideArrows();
+    
     const currentPokemonIndexZeroBased = currentPokemonIndex - 1;
     const pokemonData = await fetchPokemonData(currentPokemonIndexZeroBased);
-    const pokemonType = pokemonData.types[0].type.name + "1";
-    const pokemonDataUrl = pokemonData.species.url;
+    const pokemonType = getPokemonType(pokemonData);
+    const evolutionChain = await fetchEvolutionChain(pokemonData.species.url);
+    
+    const evolutionHTML = await generateEvolutionHtml(evolutionChain);
+    renderEvolutionChain(evolutionHTML, pokemonType);
+    hideTooltip();
+}
 
-    // Fetch the JSON data from the pokemonDataUrl
-    const nextGenerPokemonUrl = await fetchJsonData(pokemonDataUrl);
+function hideArrows() {
+    document.getElementById("rightArrow").classList.add("d-none");
+    document.getElementById("leftArrow").classList.add("d-none");
+}
 
-    // Fetch the evolution chain JSON data
+async function fetchEvolutionChain(speciesUrl) {
+    const nextGenerPokemonUrl = await fetchJsonData(speciesUrl);
     const evolutionChainUrl = nextGenerPokemonUrl.evolution_chain.url;
-    const evolutionChain = await fetchJsonData(evolutionChainUrl);
+    return await fetchJsonData(evolutionChainUrl);
+}
 
+function getPokemonType(pokemonData) {
+    return pokemonData.types[0].type.name + "1";
+}
+
+async function generateEvolutionHtml(evolutionChain) {
     let evolutionHTML = "";
     let evolutionCount = 0;
+    const evolutionChainList = buildEvolutionChainList(evolutionChain);
 
+    for (const currentPokemon of evolutionChainList) {
+        const { pokemonName, pokemonImg } = await getPokemonDetails(currentPokemon);
+        const { additionalId, pokemonHeaderNameInfoCard } = getEvolutionCssIds(evolutionCount);
+
+        evolutionHTML += createEvolutionHtml(pokemonName, pokemonImg, additionalId, pokemonHeaderNameInfoCard, currentPokemon);
+    }
+
+    return evolutionHTML;
+}
+
+function buildEvolutionChainList(evolutionChain) {
+    let evolutionCount = 0;
     let currentPokemon = evolutionChain.chain;
     const evolutionChainList = [];
+
     while (currentPokemon) {
         evolutionCount++;
         evolutionChainList.push(currentPokemon);
         currentPokemon = currentPokemon.evolves_to[0];
     }
 
-    const additionalId = evolutionCount === 2 ? ' id="moreSpace"' : '';
-    const pokemonHeaderNameInfoCard = evolutionCount === 2 ? ' id="pokemonHeaderNameInfoCard"' : '';
-
-    for (const currentPokemon of evolutionChainList) {
-        const pokemonName = currentPokemon.species.name;
-        const pokemonData = pokemons.find(
-            (pokemon) => pokemon.name === pokemonName
-        );
-        let pokemonImg = "";
-        if (pokemonData) {
-            const pokemonDataIndex = pokemons.indexOf(pokemonData);
-            const pokemonDataDetails = await fetchPokemonData(pokemonDataIndex);
-            pokemonImg =
-                pokemonDataDetails.sprites.other["official-artwork"]["front_default"];
-        }
-
-        evolutionHTML += /*html*/ `
-        <div class="first-pokemon-generation-div">
-          <div ${pokemonHeaderNameInfoCard} class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
-          <img ${additionalId} class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
-          <img class="popUp-returnarrow" onclick="disableEvolutionChainCard()" src="src/img/return.png" alt="arrow">
-          <img class="popUp-arrow" onclick="showPokemonText()" src="src/img/next.png" alt="arrow">
-      `;
-
-        // Add the arrow-down image only if there is a next evolution
-        if (currentPokemon.evolves_to.length > 0) {
-            evolutionHTML += `<img class="arrow-down" src="src/img/down.png">`;
-        }
-
-        evolutionHTML += `</div>`;
-    }
-
-    let popUpCard = document.getElementById("popupCard");
-    popUpCard.innerHTML = /*html*/ `
-      <div id="evolutionChainCard" class="popUp">
-        <div class="${pokemonType} background-info-div">
-          <h3 id="popupCardTitle">Evolution Chain</h3>
-          ${evolutionHTML}
-        </div>
-      </div>
-    `;
-
-    const tooltip = document.getElementById("tooltip");
-    tooltip.style.opacity = "0"; // Set opacity to 0 to hide the tooltip
+    return evolutionChainList;
 }
 
+async function getPokemonDetails(currentPokemon) {
+    const pokemonName = currentPokemon.species.name;
+    const pokemonData = pokemons.find((pokemon) => pokemon.name === pokemonName);
+    let pokemonImg = "";
 
+    if (pokemonData) {
+        const pokemonDataIndex = pokemons.indexOf(pokemonData);
+        const pokemonDataDetails = await fetchPokemonData(pokemonDataIndex);
+        pokemonImg = pokemonDataDetails.sprites.other["official-artwork"]["front_default"];
+    }
+
+    return { pokemonName, pokemonImg };
+}
+
+function getEvolutionCssIds(evolutionCount) {
+    return {
+        additionalId: evolutionCount === 2 ? ' id="moreSpace"' : '',
+        pokemonHeaderNameInfoCard: evolutionCount === 2 ? ' id="pokemonHeaderNameInfoCard"' : ''
+    };
+}
+
+function createEvolutionHtml(pokemonName, pokemonImg, additionalId, pokemonHeaderNameInfoCard, currentPokemon) {
+    let html = `
+        <div class="first-pokemon-generation-div">
+            <div ${pokemonHeaderNameInfoCard} class="evolution-name">${capitalizeFirstLetter(pokemonName)}</div>
+            <img ${additionalId} class="evolution-img" src="${pokemonImg}" alt="${pokemonName}" />
+            <img class="popUp-returnarrow" onclick="disableEvolutionChainCard()" src="src/img/return.png" alt="arrow">
+            <img class="popUp-arrow" onclick="showPokemonText()" src="src/img/next.png" alt="arrow">`;
+
+    if (currentPokemon.evolves_to.length > 0) {
+        html += `<img class="arrow-down" src="src/img/down.png">`;
+    }
+
+    html += `</div>`;
+    return html;
+}
+
+function renderEvolutionChain(evolutionHTML, pokemonType) {
+    let popUpCard = document.getElementById("popupCard");
+    popUpCard.innerHTML = `
+        <div id="evolutionChainCard" class="popUp">
+            <div class="${pokemonType} background-info-div">
+                <h3 id="popupCardTitle">Evolution Chain</h3>
+                ${evolutionHTML}
+            </div>
+        </div>`;
+}
+
+function hideTooltip() {
+    document.getElementById("tooltip").style.opacity = "0";
+}
+
+async function fetchPokemonData(index) {
+    let pokemonUrl = pokemons[index].url;
+    let pokemonResp = await fetch(pokemonUrl);
+    return await pokemonResp.json();
+}
+
+async function fetchJsonData(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText);
+    }
+    return response.json();
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 function disableEvolutionChainCard() {
-    let leftArrow = document.getElementById("leftArrow");
-    let rightArrow = document.getElementById("rightArrow");
-    leftArrow.classList.remove("d-none");
-    rightArrow.classList.remove("d-none");
-    let evolutionChainCard = document.getElementById("evolutionChainCard");
-    evolutionChainCard.classList.add("d-none");
+    showArrows();
+    hideEvolutionChainCard();
+    resetPopupCard();
+}
 
-    let popupCard = document.getElementById("popupCard");
-    popupCard.innerHTML = /*html*/ `<img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">`;
+function showArrows() {
+    document.getElementById("leftArrow").classList.remove("d-none");
+    document.getElementById("rightArrow").classList.remove("d-none");
+}
+
+function hideEvolutionChainCard() {
+    document.getElementById("evolutionChainCard").classList.add("d-none");
+}
+
+function resetPopupCard() {
+    document.getElementById("popupCard").innerHTML = `
+        <img class="popUp-arrow" onclick="nextPokemonVersion(event)" data-tooltip="see pokemon version" src="src/img/next.png" alt="arrow">
+    `;
 }
 
 // Helper function to fetch JSON data from a given URL
