@@ -304,6 +304,8 @@ button:hover {
   background-color: yellow;
 }
 
+.pokemon-images:hover { filter: brightness(110%); }
+
 .card:hover {
   border-color: yellow;
 }

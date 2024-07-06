@@ -91,7 +91,7 @@
   align-items: flex-end;
   gap: 48px;
   font-size: 36px;
-  padding-top: 24px;
+  margin: 12px;
 }
 
 .background-info-div {
