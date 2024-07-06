@@ -96,7 +96,7 @@
 
 .background-info-div {
   width: 440px;
-  height: 700px;
+  height: 680px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -202,8 +202,8 @@
 
 .poke-abilitie-img {
   background: none;
-  height: 320px;
-  width: 320px;
+  height: 230px;
+  width: 230px;
 }
 
 .poke-abilitie-img-div {

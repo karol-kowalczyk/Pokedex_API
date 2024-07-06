@@ -9,7 +9,7 @@
   align-items: center;
   background: none;
   flex-direction: column;
-  margin: 16px;
+  margin: 12px 12px 24px 12px;
 }
 
 .evolution-name {
@@ -27,17 +27,19 @@
   /* border: 2px solid black; */
   -webkit-text-stroke: 1.5px black;
   background: none;
-  margin: 16px 8px 24px 8px;
+  margin: 16px 8px 16px 8px;
 }
 
 .evolution-img{
   background: none;
-  height: 132px;
-  width: 132px;
+  height: 116px;
+  width: 116px;
 }
 
 .arrow-down {
   background: none;
+  width: 48px;
+  height: 48px;
 }
 
 #moreSpace {
