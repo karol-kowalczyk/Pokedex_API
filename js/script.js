@@ -397,30 +397,34 @@ function truncateTextToWordCount(text, maxWords) {
 function hideInfortmationText() {
   let leftArrow = document.getElementById("leftArrow");
   let rightArrow = document.getElementById("rightArrow");
-  let informationText = document.getElementById("informationText");
   let popUpCard = document.getElementById("popupCard");
 
-  informationText.classList.add("d-none");
-  leftArrow.classList.remove("d-none");
-  rightArrow.classList.remove("d-none");
-
-  borderStylePropertie(popUpCard);
-
-  popUpCard.style.borderRadius = "10px";
-  addPopUpCardIntoHtml(popUpCard);
+  adjustPopupCardStyle(popUpCard);
+  showArrows(leftArrow, rightArrow);
 }
 
 /**
- * Adjusts the border style of the popup card based on the screen width.
- * 
- * @param {HTMLElement} popUpCard - The popup card element to be styled.
+ * Adjusts the style of the popup card based on window width.
+ * @param {HTMLElement} popUpCard - The popup card element.
  */
-function borderStylePropertie(popUpCard) {
+function adjustPopupCardStyle(popUpCard) {
   if (window.innerWidth <= 485) {
     popUpCard.style.border = "8px solid #ffcc00";
   } else {
     popUpCard.style.border = "16px solid #ffcc00";
   }
+  popUpCard.style.borderRadius = "10px";
+}
+
+/**
+ * Shows the left and right arrows.
+ * @param {HTMLElement} leftArrow - The left arrow element.
+ * @param {HTMLElement} rightArrow - The right arrow element.
+ */
+function showArrows(leftArrow, rightArrow) {
+  leftArrow.classList.remove("d-none");
+  rightArrow.classList.remove("d-none");
+  addPopUpCardIntoHtml(document.getElementById("popupCard"));
 }
 
 /**
@@ -437,6 +441,7 @@ function closeDetails() {
   addDisplayNone(popUp, leftArrow, rightArrow);
   removeFromClasslist(shadowBox);
   addPopUpCardIntoHtml(popUpCard);
+  adjustPopupCardStyle(popUpCard)
 }
 
 /**

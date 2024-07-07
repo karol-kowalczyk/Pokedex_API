@@ -242,6 +242,11 @@
   align-items: center;
 }
 
+.two-pokemons .evolution-img {
+  height: 170px;
+  width: 170px;
+}
+
 /* Mobile devices */
 @media (max-width: 485px) {
   .popUp {
