@@ -397,10 +397,15 @@ function truncateTextToWordCount(text, maxWords) {
 function hideInfortmationText() {
   let leftArrow = document.getElementById("leftArrow");
   let rightArrow = document.getElementById("rightArrow");
+  let informationText = document.getElementById("informationText");
   let popUpCard = document.getElementById("popupCard");
 
+  informationText.classList.add("d-none");
+  leftArrow.classList.remove("d-none");
+  rightArrow.classList.remove("d-none");
+
+  addPopUpCardIntoHtml(popUpCard);
   adjustPopupCardStyle(popUpCard);
-  showArrows(leftArrow, rightArrow);
 }
 
 /**
@@ -414,17 +419,6 @@ function adjustPopupCardStyle(popUpCard) {
     popUpCard.style.border = "16px solid #ffcc00";
   }
   popUpCard.style.borderRadius = "10px";
-}
-
-/**
- * Shows the left and right arrows.
- * @param {HTMLElement} leftArrow - The left arrow element.
- * @param {HTMLElement} rightArrow - The right arrow element.
- */
-function showArrows(leftArrow, rightArrow) {
-  leftArrow.classList.remove("d-none");
-  rightArrow.classList.remove("d-none");
-  addPopUpCardIntoHtml(document.getElementById("popupCard"));
 }
 
 /**

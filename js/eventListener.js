@@ -76,22 +76,32 @@ function mouseLeave(element, timer) {
 
 /**
  * Function to show full text and hide specific elements.
+ * - Shows the fullText span and hides the truncatedText span.
+ * - Hides the seeMoreButton and abilityImage elements.
+ * - Adjusts styling of informationText and backgroundInfoDiv.
  */
 window.showFullText = function () {
     document.getElementById("fullText").style.display = "inline";
     document.getElementById("seeMoreButton").style.display = "none";
     document.getElementById("abilityImage").style.display = "none";
     document.getElementById("informationText").style.border = "none";
-    let popUpCard = document.getElementById("popupCard").style.border = "none";
+    document.getElementById("popupCard").style.border = "none";
     document.getElementById("informationText").style.height = "680px";
-    document.getElementById("backgroundInfoDiv").style.height = "680px";
-    if (window.innerWidth <= 485) {
-        document.getElementById("backgroundInfoDiv").style.border = "8px solid #ffcc00";
-    } else {
-        document.getElementById("backgroundInfoDiv").style.border = "16px solid #ffcc00";
-    }
+    let infoDiv = document.getElementById("backgroundInfoDiv");
+    infoDiv.style.height = "680px";
+    setBorderForInfoDiv(infoDiv);
     document.getElementById("backgroundInfoDiv").style.borderRadius = "10px";
+    document.getElementById("truncatedText").classList.add("d-none");
 };
 
-
-
+/**
+ * Sets border style for infoDiv based on window width.
+ * @param {HTMLElement} infoDiv - The HTML element to set border for.
+ */
+function setBorderForInfoDiv(infoDiv) {
+    if (window.innerWidth <= 485) {
+        infoDiv.style.border = "8px solid #ffcc00";
+    } else {
+        infoDiv.style.border = "16px solid #ffcc00";
+    }
+}
