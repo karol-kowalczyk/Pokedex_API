@@ -24,13 +24,6 @@
         margin: 16px 32px 32px;
     }
 
-    input {
-        height: 48px;
-        width: 288px;
-        font-size: 40px;
-        border: 8px solid #ffcc00;
-    }
-
     button {
         height: 80px;
         width: 152px;
