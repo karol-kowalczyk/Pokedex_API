@@ -266,8 +266,9 @@ async function generateStatsHtml(pokemonData, pokemonCardClass) {
  */
 function showShadowBox(shadowBox, pokemonImg, pokemonCardClass, currentPokemonIndex, pokemonName, statsHTML) {
     shadowBox.innerHTML = `
-        <img ID="popUp-img" class="popUp-img" src="${pokemonImg}" />
+
         <div class="${pokemonCardClass} background-info-div" id="background-info-div">
+            <img ID="popUp-img" class="popUp-img" src="${pokemonImg}" />
             <div id="header-popup" class="header-popup">
                 <div class="number-popup">#${currentPokemonIndex}</div>
                 <div class="name-popup">${pokemonName}</div>

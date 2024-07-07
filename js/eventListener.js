@@ -81,4 +81,10 @@ window.showFullText = function () {
     document.getElementById("fullText").style.display = "inline";
     document.getElementById("seeMoreButton").style.display = "none";
     document.getElementById("abilityImage").style.display = "none";
+    document.getElementById("informationText").style.border = "none";
+    document.getElementById("popupCard").style.border = "none";
+    document.getElementById("informationText").style.height = "680px";
+    document.getElementById("backgroundInfoDiv").style.height = "680px";
+    document.getElementById("backgroundInfoDiv").style.border = "16px solid #ffcc00";
+    document.getElementById("backgroundInfoDiv").style.borderRadius = "10px";
 };

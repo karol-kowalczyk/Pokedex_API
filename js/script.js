@@ -214,7 +214,7 @@ function getPokemonAbilityText(pokeAbilitie) {
  * @returns {boolean} True if text should be truncated, false otherwise.
  */
 function shouldTruncateText(fullText) {
-  return fullText.length > 180;
+  return fullText.length > 100;
 }
 
 /**
@@ -223,7 +223,7 @@ function shouldTruncateText(fullText) {
  * @returns {string} Truncated text with "..." at the end.
  */
 function truncateText(fullText) {
-  return fullText.substring(0, 180) + "...";
+  return fullText.substring(0, 100) + "...";
 }
 
 /**
@@ -326,7 +326,7 @@ function renderPopupCard(truncatedText, fullText, seeMoreButton, pokemonType, ba
 function generatePopupCardHTML(truncatedText, adjustedFullText, seeMoreButton, pokemonType, backImg) {
   return /*html*/ `
     <div id="informationText" class="popUp">
-      <div class="${pokemonType} background-info-div">
+      <div class="${pokemonType} background-info-div" id="backgroundInfoDiv">
         <h3 id="pokeAbilitieTitle">Information</h3>
         <div class="poke-abilitie-txt">
           <span id="truncatedText">${truncatedText}</span>
@@ -398,13 +398,29 @@ function hideInfortmationText() {
   let leftArrow = document.getElementById("leftArrow");
   let rightArrow = document.getElementById("rightArrow");
   let informationText = document.getElementById("informationText");
-  informationText.classList.add("d-none");
+  let popUpCard = document.getElementById("popupCard");
 
+  informationText.classList.add("d-none");
   leftArrow.classList.remove("d-none");
   rightArrow.classList.remove("d-none");
 
-  let popUpCard = document.getElementById("popupCard");
+  borderStylePropertie(popUpCard);
+
+  popUpCard.style.borderRadius = "10px";
   addPopUpCardIntoHtml(popUpCard);
+}
+
+/**
+ * Adjusts the border style of the popup card based on the screen width.
+ * 
+ * @param {HTMLElement} popUpCard - The popup card element to be styled.
+ */
+function borderStylePropertie(popUpCard) {
+  if (window.innerWidth <= 485) {
+    popUpCard.style.border = "8px solid #ffcc00";
+  } else {
+    popUpCard.style.border = "16px solid #ffcc00";
+  }
 }
 
 /**

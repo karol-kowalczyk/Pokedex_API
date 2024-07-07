@@ -34,14 +34,15 @@
 
 .evolution-img {
   background: none;
-  height: 116px;
-  width: 116px;
+  height: 90px;
+  width: 90px;
+  font-size: 20px;
 }
 
 .arrow-down {
   background: none;
-  width: 48px;
-  height: 48px;
+  height: 32px;
+  width: 32px;
 }
 
 #moreSpace {

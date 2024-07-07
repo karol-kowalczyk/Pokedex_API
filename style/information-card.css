@@ -37,7 +37,7 @@
   z-index: 3;
   position: absolute;
   margin-top: 8px;
-  top: 36%;
+  top: 33%;
   left: 50.1%;
   transform: translate(-50%, -50%);
   background: linear-gradient(45deg,
@@ -117,7 +117,7 @@
 
 .arrow-btn-right {
   top: 50%;
-  left: 85.5%;
+  left: 83.5%;
   transform: translate(-50%, -50%);
   height: 100px;
   width: 100px;
@@ -292,20 +292,6 @@
     height: 220px;
     width: 230px;
     top: 35%;
-  }
-
-  .evolution-name {
-    font-size: 20px !important;
-  }
-
-  .evolution-img {
-    height: 90px !important;
-    width: 90px !important;
-  }
-
-  .arrow-down {
-    height: 32px;
-    width: 32px;
   }
 
   .poke-abilitie-img {
