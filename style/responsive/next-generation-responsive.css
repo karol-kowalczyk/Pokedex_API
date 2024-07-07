@@ -1,0 +1,19 @@
+@media (max-width: 485px) {
+    #popupCardTitle {
+        font-size: 32px;
+    }
+
+    .arrow-down {
+        background: none;
+        width: 32px;
+        height: 32px;
+    }
+
+    #pokeAbilitieTitle {
+        font-size: 32px;
+    }
+
+    .poke-abilitie-txt {
+        font-size: 20px;
+    }
+}

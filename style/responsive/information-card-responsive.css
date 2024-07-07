@@ -1,0 +1,78 @@
+/* Mobile devices */
+@media (max-width: 485px) {
+    .popUp {
+        width: 280px;
+        height: 560px;
+        border: 8px solid #ffcc00;
+    }
+
+    #tooltip {
+        left: 200px !important;
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1000;
+    }
+
+    .header-popup {
+        gap: 20px;
+        font-size: 32px;
+        margin: 12px;
+        margin-top: 20px;
+    }
+
+    .background-info-div {
+        width: 280px;
+        height: 560px;
+    }
+
+    .stats {
+        top: 60%;
+        width: 260px;
+        left: 5%;
+    }
+
+    .stat-name {
+        font-size: 16px;
+    }
+
+    .progressbar {
+        height: 10px;
+    }
+
+    .popUp-img {
+        height: 220px;
+        width: 230px;
+        top: 35%;
+    }
+
+    .poke-abilitie-img {
+        height: 160px;
+        width: 160px;
+    }
+
+    .popUp-arrow {
+        top: 30%;
+        left: 95%;
+        height: 45px;
+        width: 45px;
+    }
+
+    .popUp-returnarrow {
+        left: 5%;
+        top: 90%;
+        height: 45px;
+        width: 45px;
+    }
+
+    .arrow-btn-right,
+    .arrow-btn-left {
+        height: 60px;
+        width: 60px;
+    }
+}
