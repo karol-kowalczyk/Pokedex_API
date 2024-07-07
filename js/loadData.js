@@ -561,11 +561,21 @@ function createEvolutionHtml(pokemonName, pokemonImg, additionalId, pokemonHeade
 }
 
 /**
- * Renders the evolution chain HTML on the popup card.
+ * Renders the evolution chain HTML on the popup card and adjusts image sizes if necessary.
  * @param {string} evolutionHTML - HTML string representing the evolution chain.
  * @param {string} pokemonType - Type of the Pokemon.
  */
 function renderEvolutionChain(evolutionHTML, pokemonType) {
+    renderEvolutionCard(evolutionHTML, pokemonType);
+    adjustImageSizes();
+}
+
+/**
+ * Renders the evolution chain card HTML on the popup card.
+ * @param {string} evolutionHTML - HTML string representing the evolution chain.
+ * @param {string} pokemonType - Type of the Pokemon.
+ */
+function renderEvolutionCard(evolutionHTML, pokemonType) {
     let popUpCard = document.getElementById("popupCard");
     popUpCard.innerHTML = `
         <div id="evolutionChainCard" class="popUp">
@@ -574,11 +584,13 @@ function renderEvolutionChain(evolutionHTML, pokemonType) {
                 ${evolutionHTML}
             </div>
         </div>`;
+}
 
-    // Check the number of elements with class 'first-pokemon-generation-div'
+/**
+ * Adjusts the size of evolution images based on the number of elements in the evolution chain.
+ */
+function adjustImageSizes() {
     let elementsCount = document.getElementsByClassName('first-pokemon-generation-div').length;
-
-    // If less than three elements, adjust image size
     if (elementsCount < 3) {
         let evolutionImages = document.getElementsByClassName('evolution-img');
         for (let i = 0; i < evolutionImages.length; i++) {
