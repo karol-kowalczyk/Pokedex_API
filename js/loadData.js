@@ -574,6 +574,18 @@ function renderEvolutionChain(evolutionHTML, pokemonType) {
                 ${evolutionHTML}
             </div>
         </div>`;
+
+    // Check the number of elements with class 'first-pokemon-generation-div'
+    let elementsCount = document.getElementsByClassName('first-pokemon-generation-div').length;
+
+    // If less than three elements, adjust image size
+    if (elementsCount < 3) {
+        let evolutionImages = document.getElementsByClassName('evolution-img');
+        for (let i = 0; i < evolutionImages.length; i++) {
+            evolutionImages[i].style.height = '170px';
+            evolutionImages[i].style.width = '170px';
+        }
+    }
 }
 
 /**
